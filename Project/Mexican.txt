@@ -1,0 +1,13 @@
+//in this file the tokens are # and : and ,
+Breakfest#2
+Eggs_&_Chorizo_Wraps:6
+12_oz_chorizo,6_eggs,2_tablespoons_milk,1_cup_chedder_cheese,6_flour_tortillas,1_bunch_scallions
+Huevos_Rancheros:16
+2_medium_ripe_tomatoes,1_white_onion,1_bunch_fresh_cilantro,2_lime(s),.25_teaspoon_salt,2_teaspoons_extra-virgin_olive_oil,1_white_onion,1_teaspoon_ground_cumin,1_can_(15 ounces)_black_beans,1.5_cup(s)_of_red_salsa,4 _teaspoons_cooking_oil,4_eggs,4_corn_tortillas,.5_cup_monterey_jack_cheese
+Lunch#1
+Pozole:10
+1 pound_chicken_thighs,1_cabbage,1_radish,1(32 ounce)can_hominy,7_tablespoon_chile_powder,4_cup_chicken_broth, 5_cloves_garlic,1_bay_leaf,3_teaspoon_cumin,2_limes
+Dinner#0
+Dessert#1
+Flan:4
+.33_cup_white_sugar,3_eggs,1_teaspoon_vanilla_extract,1(12 ounce)_can_evaporated_milk
