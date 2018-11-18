@@ -1,3 +1,5 @@
+Token is  ':'
+
 Nationality:Food type:recipe name:recipe
 Mexican:Breakfast:Eggs_&_Chorizo_Wraps:12oz chorizo, 6 eggs,2 tablespoons milk, 1 cup cheddar cheese, 6 flour tortillas, 1 bunch scallions
 Mexican:Breakfast:Huevos_Rancheros:2 medium ripe tomatoes, 1 white onion, 1 bunch fresh cilantro, 2 lime(s), .25 teaspoon salt, 2 teaspoons extra virgin olive oil,1 white onion, 1 teaspoon ground cumin, 1 can (15 ounces) black beans, 1.5 cup(s) of red salsa, 4 teaspoons cooking oil 4 eggs, 4 corn tortillas, .5 cup monterey jack cheese
