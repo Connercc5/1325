@@ -7,9 +7,11 @@ using namespace std;
 class ingredient
 {
         public:
-        string name//name of the ingredient
-	int quantity//amount of each ingredent
-        void add_ingredient();
+        string name;//name of the ingredient
+	ingredient(double amount,string unit,string ingre_name);
+	int quantity;//amount of each ingredent
+        string unit;
+	void add_ingredient();
         void modify_ingredient();
         void delete_ingredient();
 
