@@ -10,19 +10,17 @@
 #include"ingredient.h"
 #include"recipe.h"
 using namespace std;
-Recipe::Recipe(string recipe_name ,vector <ingredient> ingr,int num_of_ingredients)
+	Recipe::Recipe(string recipe_name ,vector <ingredient> ingr,int num_of_ingredients)
 {
-this->recipe_name=recipe_name;
-this->ingr=ingr;
-this->num_of_ingredients=num_of_ingredients;
+	this->recipe_name=recipe_name;
+	this->ingr=ingr;
+	this->num_of_ingredients=num_of_ingredients;
 }
 ingredient::ingredient(double amount,string unit,string ingre_name)
 {
-this->quantity=amount;
-this->unit=unit;
-this->name=ingre_name;
-
-
+	this->quantity=amount;
+	this->unit=unit;
+	this->name=ingre_name;
 
 }
 
@@ -32,11 +30,11 @@ class File
 {
 	public:
 		string nationality;
-		vector<Recipe> L1;
-		vector<Recipe> D1;
-		vector<Recipe> B1;
-		vector<Recipe> E1;
-		vector<Recipe> S1;
+		vector<Recipe> L1;//LUNCH RECIPES
+		vector<Recipe> D1;//DINNER RECIPES
+		vector<Recipe> B1;//BREAKFEST RECIPES
+		vector<Recipe> E1;//DESSERT RECIPES
+		vector<Recipe> S1;//SNACK RECIPES
 
 
 };
@@ -79,7 +77,7 @@ int main(int argc,char**argv)
 	int g =N1.get_filename().length();
 	char file[g+1];
 	strcpy(file,N1.get_filename().c_str());
-	inFile.open(file);
+	inFile.open(file);//opens AllFile.txt
 
 	if(!inFile.is_open())
 	{
@@ -105,16 +103,15 @@ int main(int argc,char**argv)
 		BlankC(token);
 		string Nation(token);
 		F1.nationality=Nation;
-		cout<<"Nationality: "<<Nation<<" "<<endl;
+	//	cout<<"Nationality: "<<Nation<<" "<<endl;
 		while(fi<5)
 		{
 			inFile >> rope;
-			//cout<<"Rope:"<<rope<<" "<<endl;
 			token=strtok(rope,"#");
 			string t_name(token);
 			token=strtok(NULL,"\n");
 			int Num=atoi(token);
-			cout<<"TIME: "<<t_name<<"NUM: "<<Num<<endl;
+			//cout<<"TIME: "<<t_name<<"NUM: "<<Num<<endl;
 			while(s<Num)
 			{
 				inFile >> rope;
@@ -126,7 +123,7 @@ int main(int argc,char**argv)
 				int Rep_num=atoi(token);
 				//cout<<"RECIPE NAME:"<<Rep_name<<" RECIPE INGERDENT NUMBER: "<<Rep_num<<endl;
 				inFile >> rope;
-				//cout<<"Rope:"<<rope<<" "<<endl;
+
 				token=strtok(rope,"_");
 				while(i<Rep_num)
 				{	
@@ -144,6 +141,7 @@ int main(int argc,char**argv)
 					i++;
 				}
 				i=0;
+				//PUSHES RECIPES INTO THE BREAKFEST-DESSERT CATAGORIES
 				if(fi==0)
 					F1.B1.push_back(Recipe(Rep_name,G,Rep_num));
 				else if(fi==1)
@@ -178,11 +176,11 @@ int main(int argc,char**argv)
 	{
 		cout<<N1.Foo[g].nationality<<endl;
 		int jk=0;
-		//cout<<"Dinner SIZE: "<<N1.Foo[g].D1.size()<<endl;
+	
 		while(jk<N1.Foo[g].L1.size())
 		{
 			cout<<N1.Foo[g].L1[jk].recipe_name<<endl;
-			cout<<"jk= "<<jk<<endl;
+	
 			int kp=0;
 			while(kp<N1.Foo[g].L1[jk].ingr.size())
 			{
