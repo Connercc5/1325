@@ -44,7 +44,7 @@ protected:
     Gtk::Entry nationality_entry;
     Gtk::Button nationality_button;
     Gtk::Button back_button;
-     Gtk::Box box;
+    Gtk::Box box;
 
 };
 
