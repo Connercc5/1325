@@ -31,11 +31,12 @@ Menuwindow::Menuwindow():box(Gtk::ORIENTATION_VERTICAL)
     box.pack_start(case3);
     box.pack_start(case4);
     show_all_children();
-    
-    
+
+
     case1.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case1_clicked));
-    box.pack_start(case1);
-    
+    case4.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case4_clicked));
+
+
 }
 Menuwindow::~Menuwindow()
 {
@@ -47,27 +48,39 @@ void Menuwindow::case1_clicked() {
     Modify_window w;
     Gtk::Main::run(w);
 }
+void Menuwindow::case4_clicked() {
+    Gtk::Main::quit();
+}
 
-Modify_window::Modify_window():box(Gtk::ORIENTATION_VERTICAL), nationality_button("Enter") {
+Modify_window::Modify_window():box(Gtk::ORIENTATION_VERTICAL), nationality_button("Enter") ,back_button("Back to main menu"){
     set_size_request(400,200);
     set_title("Modify a recipe");
     add(box);
-    
+
     nationality_label.set_text ("Enter a nationality: ");
     box.pack_start (nationality_label);
-    
+
     nationality_entry.set_max_length (50);
     nationality_entry.set_text("Enter nationality");
     nationality_entry.select_region(0, nationality_entry.get_text_length());
     box.pack_start(nationality_entry);
-    
+
+
+
     nationality_button.signal_clicked().connect(sigc::mem_fun(*this, &Modify_window::Nationality));
     box.pack_start(nationality_button);
-    
+    back_button.signal_clicked().connect(sigc::mem_fun(*this, &Modify_window::back_button_clicked));
+    box.pack_start(back_button);
+
      show_all_children();
-    
+
 }
 
 
 void Modify_window::Nationality() {}
 Modify_window::~Modify_window(){}
+void Modify_window::back_button_clicked(){
+hide ();
+Menuwindow w;
+Gtk::Main::run(w);
+}
