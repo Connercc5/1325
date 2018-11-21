@@ -5,9 +5,13 @@
 #include<string>
 #include<iostream>
 using namespace std;
-
+//#include"file.h"
 class Menuwindow: public Gtk::Window
 {
+//	 static void File_write(File N1)
+  //      static void get_blank(char*token);
+      //  static string get_underscore(string s);
+        //static void File_read(File N1);
 
 public:
     Menuwindow();

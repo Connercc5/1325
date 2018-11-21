@@ -38,7 +38,7 @@ public:
 	int Brep_num;//num of Breakfest recipes
 	int Lrep_num;//num of Lunch recipes
 	int Drep_num;//num of Dinner recipes
-	int Sre_num;//num of Snack recipes	
+	int Srep_num;//num of Snack recipes	
 	int Erep_num;//num of Dessert recipes
 };
 class File
@@ -144,7 +144,7 @@ void File_write(File N1)
 			string name = get_underscore(N1.Nationality[g].snack[j].recipe_name);
 			if (name.compare("DELETE") == 0)
 			{
-				N1.Nationality[g].Sre_num--;
+				N1.Nationality[g].Srep_num--;
 			}
 			j++;
 
@@ -228,7 +228,7 @@ void File_write(File N1)
 		}
 
 		j = 0;
-		outFile << "Snack#" << N1.Nationality[g].Sre_num << endl;
+		outFile << "Snack#" << N1.Nationality[g].Srep_num << endl;
 		while (j < N1.Nationality[g].snack.size())
 		{
 			int b = 0;
@@ -304,7 +304,7 @@ int main(int argc, char**argv)
 	F1.Brep_num = 0;//number of Breakfest recipes
 	F1.Lrep_num = 0;//number of Lunch recipes
 	F1.Drep_num = 0;//number of Dinner recipes
-	F1.Sre_num = 0;//number of Snack recipes
+	F1.Srep_num = 0;//number of Snack recipes
 	F1.Erep_num = 0;//number of Dessert recipes
 	//File read
 	while (!inFile.eof())
@@ -330,7 +330,7 @@ int main(int argc, char**argv)
 			else if (fi == 2)
 				F1.Drep_num = Num;
 			else if (fi == 3)
-				F1.Sre_num = Num;
+				F1.Srep_num = Num;
 			else if (fi == 4)
 				F1.Erep_num = Num;
 			while (s < Num)

@@ -7,9 +7,11 @@ using namespace std;
 
 
 
-void ingredient::add_ingredient()
-{}
-void ingredient::modify_ingredient()
-{}
-void ingredient::delete_ingredient()
-{}
+ingredient::ingredient(double amount, string unit, string ingre_name)
+{
+        this->quantity = amount;
+        this->unit = unit;
+        this->name = ingre_name;
+
+}
+
