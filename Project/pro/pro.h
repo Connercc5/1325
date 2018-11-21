@@ -22,16 +22,18 @@ class Menuwindow: public Gtk::Window
         static void get_blank(char*token);
         static string get_underscore(string s);
         static void File_read(File N1);
-        static File N1;
+   static  File N1;
+
  //END:FUNCTIONS THAT ARE USED FOR FILE INTERACTIONS*/
 
 public:
-   // static  File N1;
+
     Menuwindow();
     virtual ~Menuwindow();
 protected:
     void case1_clicked();
     void case2_clicked();
+    //void case2_clicked(File N1);
     void case3_clicked();
     void case4_clicked();
 
@@ -41,16 +43,6 @@ protected:
     Gtk::Button case3;
     Gtk::Button case4;
     Gtk::Box box;
-//private:
- //START:FUNCTIONS THAT ARE USED FOR FILE INTERACTIONS
-/*        
-        static void File_write(File N1);
-        static void get_blank(char*token);
-        static string get_underscore(string s);
-        static void File_read(File N1);
-        static File file;
- *///END:FUNCTIONS THAT ARE USED FOR FILE INTERACTIONS*/
-
 
 };
 

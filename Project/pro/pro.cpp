@@ -345,6 +345,7 @@ void Menuwindow::File_write(File N1)
 
 
 
+
 string Menuwindow::get_underscore(string s)
 {
 	int f = s.length();
@@ -391,6 +392,7 @@ void Menuwindow::get_blank(char*token)
 
 
 
+File Menuwindow::N1;
 Menuwindow::Menuwindow():box(Gtk::ORIENTATION_VERTICAL)
 ,case1("Modify Recipes"),case2("Create Meal Plan Shopping List",2),case3("Choose Old Shopping list"),case4("Exit",3)
 {
@@ -409,7 +411,10 @@ Menuwindow::Menuwindow():box(Gtk::ORIENTATION_VERTICAL)
 
 
     case1.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case1_clicked));
+
+    case2.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case2_clicked));
     case4.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case4_clicked));
+
 
 
 }
@@ -423,6 +428,37 @@ void Menuwindow::case1_clicked() {
     Modify_window w;
     Gtk::Main::run(w);
 }
+
+void Menuwindow::case2_clicked() 
+{
+	File_read(N1);//gives access to data from valid
+	//setting up the dialog box for random option 
+	Gtk::Dialog dialog =Gtk::Dialog();
+	dialog.add_button("Yes",1);
+	dialog.add_button("No",0);
+	dialog.set_transient_for(*this);
+	dialog.set_title("-Selection Option-");
+        dialog.set_size_request(300,100);
+	Gtk::Label label= Gtk::Label();
+        label.show();
+	dialog.get_content_area()->pack_start(label);	
+	label.set_text("Random Selction");
+	int choice=dialog.run();
+	if(choice ==1)
+	{
+	//We randomaly choose
+	}
+	else
+	{
+	//User chooses
+	
+	
+	}
+	
+
+}
+
+
 void Menuwindow::case4_clicked() {
     Gtk::Main::quit();
 }
