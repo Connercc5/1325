@@ -214,7 +214,7 @@ void Menuwindow::File_write(File N1)
 			string name = get_underscore(N1.Nationality[g].snack[j].recipe_name);
 			if (name.compare("DELETE") == 0)
 			{
-				N1.Nationality[g].Sre_num--;
+				N1.Nationality[g].Srep_num--;
 			}
 			j++;
 
@@ -298,7 +298,7 @@ void Menuwindow::File_write(File N1)
 		}
 
 		j = 0;
-		outFile << "Snack#" << N1.Nationality[g].Sre_num << endl;
+		outFile << "Snack#" << N1.Nationality[g].Srep_num << endl;
 		while (j < N1.Nationality[g].snack.size())
 		{
 			int b = 0;

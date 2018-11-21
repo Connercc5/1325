@@ -9,11 +9,11 @@ class Days
 {
         public:
 		string name;
-		Breakfest B1;
-		Lunch L1;
-		Dinner D1;
-		Snack S1;
-		Dessert E1
+		Recipe breakfast;
+		Recipe lunch;
+		Recipe dinner;
+		Recipe snack;
+		Recipe dessert;
 
 
 };

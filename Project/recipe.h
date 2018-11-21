@@ -22,7 +22,7 @@ class Recipe
 class Shoppinglist:public Recipe
 {
 
-        char*filename[20];//past.txt
+        string filename;//past.txt
 /*past.txt is the file that holds the filenames of old shopping list*/
 
 };
