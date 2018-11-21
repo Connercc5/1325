@@ -10,5 +10,5 @@ using namespace std;
 
 string File::get_filename()
 {
-                return this->filename;
+                return filename;
 }

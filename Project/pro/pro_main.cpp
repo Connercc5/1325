@@ -7,6 +7,8 @@
 #include"mealplan.h"
 #include<gtkmm/application.h>
 #include<iostream>
+using namespace std;
+#include <fstream>
 
 int main(int argc, char *argv[])
 {

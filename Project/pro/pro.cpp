@@ -13,7 +13,7 @@
 using namespace std;
 //START:FUNCTIONS THAT ARE USED TO INTERACT WITH TEXT
 
-/*
+
 void Menuwindow::File_read(File N1)
 {
 	vector<ingredient> G;
@@ -163,10 +163,10 @@ void Menuwindow::File_write(File N1)
 	while (g < N1.Nationality.size())
 	{
 
-		//Get the modified amount of meals for Breakfest-Dessert
+		//Get the modified amount of meals for Breakfast-Dessert
 
 		j = 0;
-		//Breakfest
+		//Breakfast
 		while (j < N1.Nationality[g].breakfast.size())
 		{
 			int b = 0;
@@ -361,7 +361,7 @@ string Menuwindow::get_underscore(string s)
 	string see(token);
 	return see;
 }
-string Menuwindow::void get_blank(char*token)
+void Menuwindow::get_blank(char*token)
 {
 	int f = 0;
 	string t(token);
@@ -373,7 +373,7 @@ string Menuwindow::void get_blank(char*token)
 	}
 }
 
-*/
+
 
 
 

@@ -5,15 +5,28 @@
 #include<string>
 #include<iostream>
 using namespace std;
-//#include"file.h"
+//SLOWLY INTEGRATING IN ALL OF OUR CLASS
+#include"file.h"
+#include"nationalities.h"
+#include"recipe.h"
+#include"ingredient.h"
+#include"days.h"
+#include"mealplan.h"
+
+
+
 class Menuwindow: public Gtk::Window
-{
-//	 static void File_write(File N1)
-  //      static void get_blank(char*token);
-      //  static string get_underscore(string s);
-        //static void File_read(File N1);
+{ //START:FUNCTIONS THAT ARE USED FOR FILE INTERACTIONS
+
+        static void File_write(File N1);
+        static void get_blank(char*token);
+        static string get_underscore(string s);
+        static void File_read(File N1);
+        static File N1;
+ //END:FUNCTIONS THAT ARE USED FOR FILE INTERACTIONS*/
 
 public:
+   // static  File N1;
     Menuwindow();
     virtual ~Menuwindow();
 protected:
@@ -28,7 +41,16 @@ protected:
     Gtk::Button case3;
     Gtk::Button case4;
     Gtk::Box box;
-private:
+//private:
+ //START:FUNCTIONS THAT ARE USED FOR FILE INTERACTIONS
+/*        
+        static void File_write(File N1);
+        static void get_blank(char*token);
+        static string get_underscore(string s);
+        static void File_read(File N1);
+        static File file;
+ *///END:FUNCTIONS THAT ARE USED FOR FILE INTERACTIONS*/
+
 
 };
 

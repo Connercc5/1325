@@ -5,6 +5,8 @@ using namespace std;
 #include<string>
 #include <vector>
 #include"ingredient.h"
+#include <gtkmm.h>
+#include <gtkmm/window.h>
 
 class Recipe
 {
@@ -15,7 +17,7 @@ class Recipe
 //		virtual void add_recipe();/*have not made functions in the .cpp file yet, so these functions are comment out until then.*/
 //		virtual void modify_recipe();
 //		virtual void delete_recipe(); 
-		explicit Recipe(string recipe_name ,vector <ingredient> ingr,int num_of_ingredients); 
+		explicit Recipe(string recipe_name ,vector <ingredient> ingr,int num_of_ingredients);
 
 
 };
