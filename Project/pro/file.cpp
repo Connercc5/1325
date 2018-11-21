@@ -6,9 +6,9 @@ using namespace std;
 
 
 
-string File:: filename = "AllFile.txt";//will convert to char* later.
+
 
 string File::get_filename()
 {
-                return filename;
+                return this->filename;
 }
