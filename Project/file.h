@@ -4,18 +4,16 @@
 using namespace std;
 #include<string>
 #include <vector>
-
+#include"Nationalites.h"
 class File
 {
+	string filename;
+	static void File_write(File N1)
+	static void get_blank(char*token);
+	static string get_underscore(string s);
 	public:
-        string nationality;
-        vector<Recipe> breakfast;
-        vector<Recipe> lunch;
-        vector<Recipe> dinner;
-        vector<Recipe> snack;
-        vector<Recipe> desert;
-        void add_file();
-        void modify_file();
-        void delete_file();
+	vector<Nationalities>Nationality;
+        string get_filename()
+
 };
 #endif
