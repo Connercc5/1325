@@ -4,13 +4,16 @@
 using namespace std;
 #include<string>
 #include <vector>
-//#include"days.h"
-//#include"file.h"
-class Meal_plan
+#include"recipe.h"
+#include"days.h"
+#include"file.h"
+#include"pro.h"
+class Mealplan
 {
 	public:
-//	vector <Days> daysList
-//	File *f1;
+	vector <Days> daysList;
+	File *f1;
+	Mealplan(File N1,int status);//if they entered yes or no	
 	void combine_ingredents();
 	void add_mealplan();
 	void modify_mealplan();

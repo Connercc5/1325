@@ -31,46 +31,4 @@ class Shoppinglist:public Recipe
 
 
 
-//I ended up not using these I just used a recipe vector instead
-/*class Breakfest:public Recipe
-{
-//	using Recipe::Recipe(string recipe_name ,vector <ingredient> ingr,int num_of_ingredients); 
-	using Recipe::Recipe; 
-};
-class Lunch:public Recipe
-{
-
-	//using Recipe::Recipe(char recipe_name ,vector <ingredient> ingr); 
-	using Recipe::Recipe; 
-
-};
-class Dinner:public Recipe
-{
-	//using Recipe::Recipe(char recipe_name ,vector <ingredient> ingr); 
-	using Recipe::Recipe; 
-
-
-};
-class Snack:public Recipe
-{
-
-	//using Recipe::Recipe(char recipe_name ,vector <ingredient> ingr); 
-	using Recipe::Recipe; 
-};
-class Dessert:public Recipe
-{
-
-	using Recipe::Recipe; 
-
-};
-*/
-/*
-class Shoppinglist:public Recipe
-{
-
-	char*filename[20];//past.txt
-
-
-};
-*/
 #endif

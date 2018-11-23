@@ -15,14 +15,47 @@ using namespace std;
 
 
 
+
+class Plan: public Gtk::Window
+{
+        public:
+                Plan(Mealplan m,int day,File N1,string input,int time);
+                virtual ~Plan();
+		File N1;
+        protected:
+
+                Gtk::Label label;
+                Gtk::Label labels;
+    		Gtk::Label time_label;
+                Gtk::Box box;
+                Gtk::Button cancel;
+                Gtk::Button day0;
+                Gtk::Button day1;
+                Gtk::Button day2;
+                Gtk::Button day3;
+                Gtk::Button day4;
+		void caseR(Mealplan m);
+	friend class Modify_window;
+};
+
+
+
+
+
+
+
+
+
+
+
 class Menuwindow: public Gtk::Window
 { //START:FUNCTIONS THAT ARE USED FOR FILE INTERACTIONS
 
         static void File_write(File N1);
         static void get_blank(char*token);
         static string get_underscore(string s);
-        static void File_read(File N1);
-   static  File N1;
+        static File File_read(File N1);
+	static File N1;
 
  //END:FUNCTIONS THAT ARE USED FOR FILE INTERACTIONS*/
 
@@ -47,23 +80,53 @@ protected:
 };
 
 
+class Modify2_window: public Gtk::Window{
+public:
+    Modify2_window (File N1,int choice,int day);
+    virtual ~Modify2_window();
+        string entry_ans;
+	int day;
+	int choice;
+protected:
+
+    void enter_clicked (File N1);
+    void back_button_clicked();
+
+
+
+    Gtk::Label nationality_names_title_label;
+    Gtk::Label nationality_names_label;
+    Gtk::Label nationality_label;
+    Gtk::Entry nationality_entry;
+    Gtk::Button enter_button;
+    Gtk::Button back_button;
+    Gtk::Box box;
+        friend class Plan;
+};
+
+
+
+
 class Modify_window: public Gtk::Window{
 public:
-    Modify_window ();
+    Modify_window (File N1);
     virtual ~Modify_window();
-
+	string entry_ans;
 
 protected:
 
     void Nationality ();
     void back_button_clicked();
 
+
+    Gtk::Label nationality_names_title_label;
+    Gtk::Label nationality_names_label;
     Gtk::Label nationality_label;
     Gtk::Entry nationality_entry;
     Gtk::Button nationality_button;
     Gtk::Button back_button;
     Gtk::Box box;
-
+	friend class Plan;
 };
 
 
@@ -71,10 +134,6 @@ class Recipe_Info {
 public:
     string food_type, recipe_name, recipe;
     Recipe_Info (string food_type_p, string recipe_name_p, string recipe_p);
-};
-
-class Database {
-
 };
 #endif
 
