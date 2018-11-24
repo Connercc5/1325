@@ -438,6 +438,20 @@ void Modify2_window::enter_clicked(File N1)
 		Plan p(m, day, N1, input, time);
 		Gtk::Main::run(p);
 		back_button.signal_clicked().connect(sigc::mem_fun(*this, &Modify2_window::back_button_clicked));
+
+		 if((day==6)&&(time==4))
+                {
+			this->Chosen=p.Chosen_reps;
+                        ShoppingList s (p.Chosen_reps);
+                        cout<<s.Rep_names<<" "<<s.List<<endl;
+                        cout<<"SIZE OF VECTOR:"<<p.Chosen_reps.size()<<endl;
+			List_window f (s.Rep_names,s.List);
+			Gtk::Main::run(f);
+                }
+
+		
+		
+		
 		p.hide();
 
 	}
@@ -460,7 +474,6 @@ EnterRecipe_window::~EnterRecipe_window()
 EnterRecipe_window::EnterRecipe_window(Mealplan m, File N1, string NationalityName, string meal_type) :box(Gtk::ORIENTATION_VERTICAL), enter("Enter"), cancel("Cancel", 3)
 {
 	set_size_request(300, 300);
-	//int hold_index;
 	int e = 0;
 	while (e < N1.Nationality.size())
 	{
@@ -473,7 +486,6 @@ EnterRecipe_window::EnterRecipe_window(Mealplan m, File N1, string NationalityNa
 	}
 	e = 0;
 	string recipe_names = " ";
-	//	cout<<"Mealtype:"<<meal_type<<endl;
 
 
 
@@ -481,7 +493,6 @@ EnterRecipe_window::EnterRecipe_window(Mealplan m, File N1, string NationalityNa
 	{
 		while (e < N1.Nationality[hold_index].breakfast.size())
 		{
-			//               	cout<<"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"<<endl;
 			recipe_names = recipe_names + N1.Nationality[hold_index].breakfast[e].recipe_name;
 			recipe_names = recipe_names + "\n";
 			e++;
@@ -491,7 +502,6 @@ EnterRecipe_window::EnterRecipe_window(Mealplan m, File N1, string NationalityNa
 	{
 		while (e < N1.Nationality[hold_index].lunch.size())
 		{
-			//			cout<<"LLLLLLLLLLLLLLLLLLLLLLLLLLLLL"<<endl;
 			recipe_names = recipe_names + N1.Nationality[hold_index].lunch[e].recipe_name;
 			recipe_names = recipe_names + "\n";
 			e++;
@@ -501,7 +511,6 @@ EnterRecipe_window::EnterRecipe_window(Mealplan m, File N1, string NationalityNa
 	{
 		while (e < N1.Nationality[hold_index].dinner.size())
 		{
-			//			cout<<"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"<<endl;
 			recipe_names = recipe_names + N1.Nationality[hold_index].dinner[e].recipe_name;
 			recipe_names = recipe_names + "\n";
 			e++;
@@ -511,7 +520,6 @@ EnterRecipe_window::EnterRecipe_window(Mealplan m, File N1, string NationalityNa
 	{
 		while (e < N1.Nationality[hold_index].snack.size())
 		{
-			//			cout<<"SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS"<<endl;
 			recipe_names = recipe_names + N1.Nationality[hold_index].snack[e].recipe_name;
 			recipe_names = recipe_names + "\n";
 			e++;
@@ -521,13 +529,12 @@ EnterRecipe_window::EnterRecipe_window(Mealplan m, File N1, string NationalityNa
 	{
 		while (e < N1.Nationality[hold_index].dessert.size())
 		{
-			//			cout<<"EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"<<endl;
 			recipe_names = recipe_names + N1.Nationality[hold_index].dessert[e].recipe_name;
 			recipe_names = recipe_names + "\n";
 			e++;
 		}
 	}
-	cout << recipe_names << endl;
+	//cout << recipe_names << endl;
 	add(box);
 
 
@@ -556,13 +563,14 @@ void EnterRecipe_window::cancel_clicked()
 List_window::~List_window(){hide();}
 List_window::List_window(string Rep_names,string List):box(Gtk::ORIENTATION_VERTICAL),ok("ok")
 {
+	set_size_request(400,400);
 	Rep_name_label.set_text(Rep_names);
 	List_label.set_text(List);
 	add(box);
 	box.pack_start(Rep_name_label);
 	box.pack_start(List_label);
 	ok.signal_clicked().connect(sigc::mem_fun(*this, &List_window::ok_clicked));
-
+	show_all_children();
 	
 }
 void List_window::ok_clicked()
@@ -585,6 +593,7 @@ Plan::Plan(Mealplan m, int day, File N1, string input, int time) :box(Gtk::ORIEN
 	label.set_text(m.daysList[day].name);
 	labels.set_text(input);
 	add(box);
+	this->day =day;
 	this->input = input;
 	time_label.set_text("Recipe for " + tim[time]);
 	box.pack_start(label);
@@ -610,7 +619,6 @@ void Plan::caseR(Mealplan m)
 	hide();
 	int y = 0;
 	int h = 0;
-	cout << meal_type << endl;
 	EnterRecipe_window e(m, N1, input, meal_type);
 	Gtk::Main::run(e);
 	string rep_name = e.recipe;
@@ -655,9 +663,7 @@ void Plan::caseR(Mealplan m)
 		}
 	}
 	Chosen_reps.push_back(temp_hold);
-	ShoppingList s (Chosen_reps);
-	List_window(s.Rep_names,s.List);
-}
+	}
 
 void Plan::caseB(Mealplan m)
 {

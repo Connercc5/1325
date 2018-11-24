@@ -40,6 +40,8 @@ ShoppingList::ShoppingList(vector <Recipe> Chosen_reps)
 					{
 						tempList[g].quantity+=Chosen_reps[h].ingr[ingre].quantity;
 				
+						
+						
 						k=10;
 					}
 				
@@ -58,7 +60,7 @@ ShoppingList::ShoppingList(vector <Recipe> Chosen_reps)
 	h=0;
 	while (h<tempList.size())
 	{
-		List+=tempList[h].quantity;
+		List+=to_string(tempList[h].quantity);
 		List+=" ";
 		List+=tempList[h].unit;
 		List+=" ";

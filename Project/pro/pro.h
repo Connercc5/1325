@@ -23,6 +23,7 @@ public:
 	virtual ~Plan();
 	string meal_type;
 	string input;
+	int day;
 	Recipe temp_hold;
 	vector <Recipe> Chosen_reps;
 	File N1;
@@ -127,6 +128,7 @@ class Modify2_window : public Gtk::Window {//Used for create shopping option
 	int day;
 	int time;
 	int choice;
+	vector <Recipe> Chosen;
 
 protected:
 
