@@ -14,12 +14,12 @@ using namespace std;
 //START:FUNCTIONS THAT ARE USED TO INTERACT WITH TEXT
 
 File Menuwindow::N1;
-
+int Modify2_window::y=0;
 File Menuwindow::File_read(File N1)
 {
+	N1.Nationality.clear();
 	vector<ingredient> G;
 	ifstream inFile;
-	cout<<N1.get_filename()<<endl;
 	Nationalities F1;
 	int g = N1.get_filename().length();
 	char file[g + 1];
@@ -377,25 +377,27 @@ void Menuwindow::get_blank(char*token)
 	}
 }
 
-Modify2_window::Modify2_window(File N1,int choice,int day):box(Gtk::ORIENTATION_VERTICAL), enter_button("Enter") ,back_button("Back to main menu"){
+Modify2_window::Modify2_window(File N1,int choice,int day,int time):box(Gtk::ORIENTATION_VERTICAL), enter_button("Enter") ,back_button("Back to main menu"){
     set_size_request(400,200);
     set_title("Create Shopping List");
     add(box);
-this->choice =choice;
-this->day =day;        
-int y=0;
-        string nations;
-        while(y<N1.Nationality.size())
+	this->choice =choice;
+	this->day =day;     
+	this->time=time;
+	cout<<time<<endl;
+	y=0;
+        string nations=" ";
+	while(y<N1.Nationality.size())
         {
-                nations+=N1.Nationality[y].nationality;
+
+	  	nations+=N1.Nationality[y].nationality;
                 nations+="\n";
                 y++;
-        }
-
+	}
         nationality_names_title_label.set_text("Nationalities:");
         nationality_names_label.set_text (nations);
-
-    nationality_label.set_text ("Enter a nationality: ");
+	nations=" ";
+	nationality_label.set_text ("Enter a nationality: ");
     box.pack_start (nationality_names_title_label);
     box.pack_start (nationality_names_label);
     box.pack_start (nationality_label);
@@ -419,67 +421,82 @@ nationality_entry.set_text("Enter nationality");
 Modify2_window::~Modify2_window(){hide();}
 void Modify2_window::enter_clicked(File N1)
 {
- 
+ if(entry_ans.compare("DONE")!=0)
+ {
         Mealplan m(N1,choice); //SETTING UP WINDOW FOR MANUAL OPTION
-       // int day=0;
-
-        int time=0;
-
-
-
-
-     //           while(day<7)
-                {
-		while(time<5)
-// Modify2_window w(N1,choice);
-  //      Gtk::Main::run(w);
-		{  string input=nationality_entry.get_text();
-
-			hide();
-Plan p(m,day,N1,input,time);
-    Gtk::Main::run(p);
-p.hide();
-                             time++;
+	string input=nationality_entry.get_text();
+	hide();
+	Plan p(m,day,N1,input,time);
+	Gtk::Main::run(p);
+	back_button.signal_clicked().connect(sigc::mem_fun(*this, &Modify2_window::back_button_clicked));
+	p.hide();
+ }
 }
-    time=0;
-                        day++;
-                        //di.hide();
-              }
-
-        
-
-
-
-}
-void Modify2_window::back_button_clicked(){
+void Modify2_window::back_button_clicked()
+{	
 hide ();
-Menuwindow w;
-Gtk::Main::run(w);
+entry_ans="DONE";
 }
       
 
 
 void Plan::caseR(Mealplan m)
 {
-hide();
-int y=0;
-string nations;
-while(y<N1.Nationality.size())
-{
-nations+=N1.Nationality[y].nationality;
-nations+="\n";
-	y++;
-}
-
-
-
+	hide();
+	int y=0;
+	string nations;
+	while(y<N1.Nationality.size())
+	{
+		nations+=N1.Nationality[y].nationality;
+		nations+="\n";
+		y++;
+	}
+//	cout<<meal_type<<endl;
 }
 
 //END:FUNCTIONS THAT INTERACT WITH TEXTFILE 
 
-Plan::~Plan(){hide();}
 
-Plan::Plan(Mealplan m,int day,File N1,string input,int time):box(Gtk::ORIENTATION_VERTICAL),day0("Breakfast"),day1("Lunch"),day2("Dinner"),day3("Snack"),day4("Dessert"),cancel("Cancel")
+EnterRecipe_window::~EnterRecipe_window()
+{
+	hide();
+}
+
+EnterRecipe_window::EnterRecipe_window(Mealplan m,File N1, string NationalityName):box(Gtk::ORIENTATION_VERTICAL),enter("Enter"),cancel("Cancel",3)
+{
+	int hold_index;
+	int e =0;
+	while(e<N1.Nationality.size())
+	{
+		if(N1.Nationality[e].nationality.compare(NationalityName)==0)
+		{
+
+			hold_index=e;
+		}
+ 		e++;	
+	}
+	e=0;
+	string recipe_names=" ";
+	while(e<N1.Nationality[hold_index].lunch.size())
+	{
+		recipe_names=recipe_names+N1.Nationality[hold_index].lunch[e].recipe_name;
+		recipe_names=recipe_names+"\n";
+		e++;
+	}
+	recipe_name_label.set_text(recipe_names);
+
+	box.pack_start(recipe_name_label);
+	box.pack_start(entry);
+	box.pack_start(enter);	
+	box.pack_start(cancel);
+}
+
+Plan::~Plan()
+{
+	hide();
+}
+
+Plan::Plan(Mealplan m,int day,File N1,string input,int time):box(Gtk::ORIENTATION_VERTICAL),day0("Breakfast"),day1("Lunch"),day2("Dinner"),day3("Snack"),day4("Dessert"),cancel("Cancel",3)
 {
  string tim[5]={"Breakfast","Lunch","Dinner","Snack","Dessert"};
     this-> N1=N1;
@@ -488,7 +505,7 @@ Plan::Plan(Mealplan m,int day,File N1,string input,int time):box(Gtk::ORIENTATIO
     label.set_text(m.daysList[day].name);
     labels.set_text(input);	
     add(box);
-	time_label.set_text("Recipe for "+tim[time]);
+    time_label.set_text("Recipe for "+tim[time]);
     box.pack_start(label);
     box.pack_start(time_label);
     box.pack_start(day0);
@@ -541,12 +558,13 @@ Menuwindow::Menuwindow():box(Gtk::ORIENTATION_VERTICAL)
 }
 Menuwindow::~Menuwindow()
 {
+	hide();
 }
 
 
 void Menuwindow::case1_clicked() {
     hide ();
-    	N1=File_read(N1);
+    N1=File_read(N1);
     Modify_window w(N1);
     Gtk::Main::run(w);
 }
@@ -591,16 +609,29 @@ void Menuwindow::case2_clicked()
 	//hide(); 
  //SETTING UP WINDOW FOR MANUAL OPTION
         int day=0;
+	int time=0;
 	while(day<7)
 	{
-	Modify2_window w(N1,choice,day);
-	Gtk::Main::run(w);
-	day++;
+		time=0;
+		while(time<5)
+		{
+
+				Modify2_window w(N1,choice,day,time);
+				Gtk::Main::run(w);
+			if(w.entry_ans.compare("DONE")==0)
+			{
+				w.hide();
+				
+				time =5;
+				day=7;
+			}
+
+				time++;
+		}
+		day++;
 	}
 
-	
-	
-              }
+     }
 		
 	
 }
