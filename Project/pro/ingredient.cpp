@@ -14,4 +14,4 @@ ingredient::ingredient(double amount, string unit, string ingre_name)
         this->name = ingre_name;
 
 }
-
+ingredient::ingredient(){}

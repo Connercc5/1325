@@ -18,13 +18,17 @@ class Recipe
 //		virtual void modify_recipe();
 //		virtual void delete_recipe(); 
 		explicit Recipe(string recipe_name ,vector <ingredient> ingr,int num_of_ingredients);
-
+		Recipe();
 
 };
-class Shoppinglist:public Recipe
+class ShoppingList:public Recipe
 {
+	public:
+  	string filename;//past.txt
+	string List;
+	string Rep_names;
+	ShoppingList(vector <Recipe> Chosen_reps);
 
-        string filename;//past.txt
 /*past.txt is the file that holds the filenames of old shopping list*/
 
 };

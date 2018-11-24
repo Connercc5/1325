@@ -11,7 +11,7 @@ class ingredient
         public:
         string name;//name of the ingredient
 	ingredient(double amount,string unit,string ingre_name);
-
+	ingredient();
 
 	double quantity;//amount of each ingredent
 

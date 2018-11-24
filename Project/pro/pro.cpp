@@ -14,7 +14,7 @@ using namespace std;
 //START:FUNCTIONS THAT ARE USED TO INTERACT WITH TEXT
 
 File Menuwindow::N1;
-int Modify2_window::y=0;
+int Modify2_window::y = 0;
 File Menuwindow::File_read(File N1)
 {
 	N1.Nationality.clear();
@@ -148,7 +148,7 @@ File Menuwindow::File_read(File N1)
 		inFile >> rope;
 	}
 	inFile.close();
-return N1;
+	return N1;
 }
 
 
@@ -377,150 +377,312 @@ void Menuwindow::get_blank(char*token)
 	}
 }
 
-Modify2_window::Modify2_window(File N1,int choice,int day,int time):box(Gtk::ORIENTATION_VERTICAL), enter_button("Enter") ,back_button("Back to main menu"){
-    set_size_request(400,200);
-    set_title("Create Shopping List");
-    add(box);
-	this->choice =choice;
-	this->day =day;     
-	this->time=time;
-	cout<<time<<endl;
-	y=0;
-        string nations=" ";
-	while(y<N1.Nationality.size())
-        {
-
-	  	nations+=N1.Nationality[y].nationality;
-                nations+="\n";
-                y++;
-	}
-        nationality_names_title_label.set_text("Nationalities:");
-        nationality_names_label.set_text (nations);
-	nations=" ";
-	nationality_label.set_text ("Enter a nationality: ");
-    box.pack_start (nationality_names_title_label);
-    box.pack_start (nationality_names_label);
-    box.pack_start (nationality_label);
-
-    nationality_entry.set_max_length (50);
-nationality_entry.set_text("Enter nationality");
-    nationality_entry.select_region(0, nationality_entry.get_text_length());
-    box.pack_start(nationality_entry);
-
-//entry_ans=nationality_entry.get_text();
-
-    enter_button.signal_clicked().connect(sigc::bind<File>(sigc::mem_fun(*this, &Modify2_window::enter_clicked),N1));
-    box.pack_start(enter_button);
-    back_button.signal_clicked().connect(sigc::mem_fun(*this, &Modify2_window::back_button_clicked));
-    box.pack_start(back_button);
-
-     show_all_children();
-
-}
-
-Modify2_window::~Modify2_window(){hide();}
-void Modify2_window::enter_clicked(File N1)
-{
- if(entry_ans.compare("DONE")!=0)
- {
-        Mealplan m(N1,choice); //SETTING UP WINDOW FOR MANUAL OPTION
-	string input=nationality_entry.get_text();
-	hide();
-	Plan p(m,day,N1,input,time);
-	Gtk::Main::run(p);
-	back_button.signal_clicked().connect(sigc::mem_fun(*this, &Modify2_window::back_button_clicked));
-	p.hide();
- }
-}
-void Modify2_window::back_button_clicked()
-{	
-hide ();
-entry_ans="DONE";
-}
-      
-
-
-void Plan::caseR(Mealplan m)
-{
-	hide();
-	int y=0;
-	string nations;
-	while(y<N1.Nationality.size())
-	{
-		nations+=N1.Nationality[y].nationality;
-		nations+="\n";
-		y++;
-	}
-//	cout<<meal_type<<endl;
-}
-
 //END:FUNCTIONS THAT INTERACT WITH TEXTFILE 
 
+
+
+
+
+
+
+//MODIFY2_WINDOW CONSTRUCTOR,DECONSTRUCTOR AND FUNCTIONS
+Modify2_window::Modify2_window(File N1, int choice, int day, int time) :box(Gtk::ORIENTATION_VERTICAL), enter_button("Enter"), back_button("Back to main menu") {
+	set_size_request(400, 200);
+	set_title("Create Shopping List");
+	add(box);
+	this->choice = choice;
+	this->day = day;
+	this->time = time;
+//	cout << time << endl;
+	y = 0;
+	string nations = " ";
+	while (y < N1.Nationality.size())
+	{
+
+		nations += N1.Nationality[y].nationality;
+		nations += "\n";
+		y++;
+	}
+	nationality_names_title_label.set_text("Nationalities:");
+	nationality_names_label.set_text(nations);
+	nations = " ";
+	nationality_label.set_text("Enter a nationality: ");
+	box.pack_start(nationality_names_title_label);
+	box.pack_start(nationality_names_label);
+	box.pack_start(nationality_label);
+
+	nationality_entry.set_max_length(50);
+	nationality_entry.set_text("Enter nationality");
+	nationality_entry.select_region(0, nationality_entry.get_text_length());
+	box.pack_start(nationality_entry);
+
+	//entry_ans=nationality_entry.get_text();
+
+	enter_button.signal_clicked().connect(sigc::bind<File>(sigc::mem_fun(*this, &Modify2_window::enter_clicked), N1));
+	box.pack_start(enter_button);
+	back_button.signal_clicked().connect(sigc::mem_fun(*this, &Modify2_window::back_button_clicked));
+	box.pack_start(back_button);
+
+	show_all_children();
+
+}
+
+Modify2_window::~Modify2_window() { hide(); }
+void Modify2_window::enter_clicked(File N1)
+{
+	if (entry_ans.compare("DONE") != 0)
+	{
+		Mealplan m(N1, choice); //SETTING UP WINDOW FOR MANUAL OPTION
+		string input = nationality_entry.get_text();
+		hide();
+		Plan p(m, day, N1, input, time);
+		Gtk::Main::run(p);
+		back_button.signal_clicked().connect(sigc::mem_fun(*this, &Modify2_window::back_button_clicked));
+		p.hide();
+
+	}
+}
+void Modify2_window::back_button_clicked()
+{
+	hide();
+	entry_ans = "DONE";
+}
+
+
+
+//ENTERRECIPE_WINDOW CONSTRUCTOR DECONSTRUCTOR AND FUNCTIONS
 
 EnterRecipe_window::~EnterRecipe_window()
 {
 	hide();
 }
 
-EnterRecipe_window::EnterRecipe_window(Mealplan m,File N1, string NationalityName):box(Gtk::ORIENTATION_VERTICAL),enter("Enter"),cancel("Cancel",3)
+EnterRecipe_window::EnterRecipe_window(Mealplan m, File N1, string NationalityName, string meal_type) :box(Gtk::ORIENTATION_VERTICAL), enter("Enter"), cancel("Cancel", 3)
 {
-	int hold_index;
-	int e =0;
-	while(e<N1.Nationality.size())
+	set_size_request(300, 300);
+	//int hold_index;
+	int e = 0;
+	while (e < N1.Nationality.size())
 	{
-		if(N1.Nationality[e].nationality.compare(NationalityName)==0)
+		if (N1.Nationality[e].nationality.compare(NationalityName) == 0)
 		{
 
-			hold_index=e;
+			hold_index = e;
 		}
- 		e++;	
-	}
-	e=0;
-	string recipe_names=" ";
-	while(e<N1.Nationality[hold_index].lunch.size())
-	{
-		recipe_names=recipe_names+N1.Nationality[hold_index].lunch[e].recipe_name;
-		recipe_names=recipe_names+"\n";
 		e++;
 	}
+	e = 0;
+	string recipe_names = " ";
+	//	cout<<"Mealtype:"<<meal_type<<endl;
+
+
+
+	if (meal_type.compare("Breakfast") == 0)
+	{
+		while (e < N1.Nationality[hold_index].breakfast.size())
+		{
+			//               	cout<<"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"<<endl;
+			recipe_names = recipe_names + N1.Nationality[hold_index].breakfast[e].recipe_name;
+			recipe_names = recipe_names + "\n";
+			e++;
+		}
+	}
+	else if (meal_type.compare("Lunch") == 0)
+	{
+		while (e < N1.Nationality[hold_index].lunch.size())
+		{
+			//			cout<<"LLLLLLLLLLLLLLLLLLLLLLLLLLLLL"<<endl;
+			recipe_names = recipe_names + N1.Nationality[hold_index].lunch[e].recipe_name;
+			recipe_names = recipe_names + "\n";
+			e++;
+		}
+	}
+	else if (meal_type.compare("Dinner") == 0)
+	{
+		while (e < N1.Nationality[hold_index].dinner.size())
+		{
+			//			cout<<"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"<<endl;
+			recipe_names = recipe_names + N1.Nationality[hold_index].dinner[e].recipe_name;
+			recipe_names = recipe_names + "\n";
+			e++;
+		}
+	}
+	else if (meal_type.compare("Snack") == 0)
+	{
+		while (e < N1.Nationality[hold_index].snack.size())
+		{
+			//			cout<<"SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS"<<endl;
+			recipe_names = recipe_names + N1.Nationality[hold_index].snack[e].recipe_name;
+			recipe_names = recipe_names + "\n";
+			e++;
+		}
+	}
+	else if (meal_type.compare("Dessert") == 0)
+	{
+		while (e < N1.Nationality[hold_index].dessert.size())
+		{
+			//			cout<<"EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"<<endl;
+			recipe_names = recipe_names + N1.Nationality[hold_index].dessert[e].recipe_name;
+			recipe_names = recipe_names + "\n";
+			e++;
+		}
+	}
+	cout << recipe_names << endl;
+	add(box);
+
+
 	recipe_name_label.set_text(recipe_names);
 
 	box.pack_start(recipe_name_label);
 	box.pack_start(entry);
-	box.pack_start(enter);	
+	box.pack_start(enter);
 	box.pack_start(cancel);
+	show_all_children();
+	enter.signal_clicked().connect(sigc::mem_fun(*this, &EnterRecipe_window::enter_clicked));
+	cancel.signal_clicked().connect(sigc::mem_fun(*this, &EnterRecipe_window::cancel_clicked));
+}
+void EnterRecipe_window::enter_clicked()
+{
+	this->recipe = entry.get_text();
+	hide();
+}
+void EnterRecipe_window::cancel_clicked()
+{
+	hide();
+
 }
 
+//List_window Constructor Deconstructor and Functions
+List_window::~List_window(){hide();}
+List_window::List_window(string Rep_names,string List):box(Gtk::ORIENTATION_VERTICAL),ok("ok")
+{
+	Rep_name_label.set_text(Rep_names);
+	List_label.set_text(List);
+	add(box);
+	box.pack_start(Rep_name_label);
+	box.pack_start(List_label);
+	ok.signal_clicked().connect(sigc::mem_fun(*this, &List_window::ok_clicked));
+
+	
+}
+void List_window::ok_clicked()
+{
+	hide();
+}
+
+//PLAN CONSTRUCTOR DECONSTRUCTOR AND FUNCTIONS
 Plan::~Plan()
 {
 	hide();
 }
 
-Plan::Plan(Mealplan m,int day,File N1,string input,int time):box(Gtk::ORIENTATION_VERTICAL),day0("Breakfast"),day1("Lunch"),day2("Dinner"),day3("Snack"),day4("Dessert"),cancel("Cancel",3)
+Plan::Plan(Mealplan m, int day, File N1, string input, int time) :box(Gtk::ORIENTATION_VERTICAL), day0("Breakfast"), day1("Lunch"), day2("Dinner"), day3("Snack"), day4("Dessert"), cancel("Cancel", 3)
 {
- string tim[5]={"Breakfast","Lunch","Dinner","Snack","Dessert"};
-    this-> N1=N1;
-    set_size_request(400,200);
-    //lab.set_text(time[])
-    label.set_text(m.daysList[day].name);
-    labels.set_text(input);	
-    add(box);
-    time_label.set_text("Recipe for "+tim[time]);
-    box.pack_start(label);
-    box.pack_start(time_label);
-    box.pack_start(day0);
-    box.pack_start(day1);
-    box.pack_start(day2);
-    box.pack_start(day3);
-    box.pack_start(day4);
-    box.pack_start(cancel);
-    show_all_children();
-    day0.signal_clicked().connect(sigc::bind<Mealplan>(sigc::mem_fun(*this, &Plan::caseR),m));
-    day1.signal_clicked().connect(sigc::bind<Mealplan>(sigc::mem_fun(*this, &Plan::caseR),m));
-    day2.signal_clicked().connect(sigc::bind<Mealplan>(sigc::mem_fun(*this, &Plan::caseR),m));
-    day3.signal_clicked().connect(sigc::bind<Mealplan>(sigc::mem_fun(*this, &Plan::caseR),m));
-    day4.signal_clicked().connect(sigc::bind<Mealplan>(sigc::mem_fun(*this, &Plan::caseR),m));
+	string tim[5] = { "Breakfast","Lunch","Dinner","Snack","Dessert" };
+	this->N1 = N1;
+	set_size_request(400, 200);
+	//lab.set_text(time[])
+	label.set_text(m.daysList[day].name);
+	labels.set_text(input);
+	add(box);
+	this->input = input;
+	time_label.set_text("Recipe for " + tim[time]);
+	box.pack_start(label);
+	box.pack_start(time_label);
+	box.pack_start(day0);
+	box.pack_start(day1);
+	box.pack_start(day2);
+	box.pack_start(day3);
+	box.pack_start(day4);
+	box.pack_start(cancel);
+	show_all_children();
+	//divde by time then connect by caseR function
+	day0.signal_clicked().connect(sigc::bind<Mealplan>(sigc::mem_fun(*this, &Plan::caseB), m));
+	day1.signal_clicked().connect(sigc::bind<Mealplan>(sigc::mem_fun(*this, &Plan::caseL), m));
+	day2.signal_clicked().connect(sigc::bind<Mealplan>(sigc::mem_fun(*this, &Plan::caseD), m));
+	day3.signal_clicked().connect(sigc::bind<Mealplan>(sigc::mem_fun(*this, &Plan::caseS), m));
+	day4.signal_clicked().connect(sigc::bind<Mealplan>(sigc::mem_fun(*this, &Plan::caseE), m));
 
+}
+
+void Plan::caseR(Mealplan m)
+{
+	hide();
+	int y = 0;
+	int h = 0;
+	cout << meal_type << endl;
+	EnterRecipe_window e(m, N1, input, meal_type);
+	Gtk::Main::run(e);
+	string rep_name = e.recipe;
+	if (meal_type.compare("Breakfast") == 0)
+		while (h < N1.Nationality[e.hold_index].breakfast.size())
+		{
+			if (N1.Nationality[e.hold_index].breakfast[h].recipe_name.compare(rep_name) == 0)
+				this->temp_hold = N1.Nationality[e.hold_index].breakfast[h];
+			h++;
+		}
+	else if (meal_type.compare("Lunch") == 0)
+		while (h < N1.Nationality[e.hold_index].lunch.size())
+		{
+			if (N1.Nationality[e.hold_index].lunch[h].recipe_name.compare(rep_name) == 0)
+				this->temp_hold = N1.Nationality[e.hold_index].lunch[h];
+			h++;
+		}
+	else if (meal_type.compare("Dinner") == 0)
+		while (h < N1.Nationality[e.hold_index].dinner.size())
+		{
+			if (N1.Nationality[e.hold_index].dinner[h].recipe_name.compare(rep_name) == 0)
+				this->temp_hold = N1.Nationality[e.hold_index].dinner[h];
+			h++;
+		}
+	else if (meal_type.compare("Snack") == 0)
+	{
+		while (h < N1.Nationality[e.hold_index].snack.size())
+		{
+			if (N1.Nationality[e.hold_index].snack[h].recipe_name.compare(rep_name) == 0)
+				this->temp_hold = N1.Nationality[e.hold_index].snack[h];
+
+			h++;
+		}
+	}
+	else if (meal_type.compare("Dessert") == 0)
+	{
+		while (h < N1.Nationality[e.hold_index].dessert.size())
+		{
+			if (N1.Nationality[e.hold_index].dessert[h].recipe_name.compare(rep_name) == 0)
+				this->temp_hold = N1.Nationality[e.hold_index].dessert[h];
+			h++;
+		}
+	}
+	Chosen_reps.push_back(temp_hold);
+	ShoppingList s (Chosen_reps);
+	List_window(s.Rep_names,s.List);
+}
+
+void Plan::caseB(Mealplan m)
+{
+	meal_type = "Breakfast";
+	caseR(m);
+}
+void Plan::caseL(Mealplan m)
+{
+	meal_type = "Lunch";
+	caseR(m);
+}
+void Plan::caseD(Mealplan m)
+{
+	meal_type = "Dinner";
+	caseR(m);
+}
+void Plan::caseS(Mealplan m)
+{
+	meal_type = "Snack";
+	caseR(m);
+}
+void Plan::caseE(Mealplan m)
+{
+	meal_type = "Dessert";
+	caseR(m);
 }
 
 
@@ -528,30 +690,28 @@ Plan::Plan(Mealplan m,int day,File N1,string input,int time):box(Gtk::ORIENTATIO
 
 
 
-
-
-
-Menuwindow::Menuwindow():box(Gtk::ORIENTATION_VERTICAL)
-,case1("Modify Recipes"),case2("Create Meal Plan Shopping List",2),case3("Choose Old Shopping list"),case4("Exit",3)
+//MENUWINDOW CONSTRUCTOR ,DECONSTRUCTOR AND FUNCTIONS
+Menuwindow::Menuwindow() :box(Gtk::ORIENTATION_VERTICAL)
+, case1("Modify Recipes"), case2("Create Meal Plan Shopping List", 2), case3("Choose Old Shopping list"), case4("Exit", 3)
 {
-    set_size_request(400,200);
-    set_title("Preppy Meal");
-    add(box);
-    Gtk::Label label=Gtk::Label();
-    label.set_text("Pick a option");
-    label.set_padding(10,10);
-    box.pack_start(label);
-    box.pack_start(case1);
-    box.pack_start(case2);
-    box.pack_start(case3);
-    box.pack_start(case4);
-    show_all_children();
+	set_size_request(400, 200);
+	set_title("Preppy Meal");
+	add(box);
+	Gtk::Label label = Gtk::Label();
+	label.set_text("Pick a option");
+	label.set_padding(10, 10);
+	box.pack_start(label);
+	box.pack_start(case1);
+	box.pack_start(case2);
+	box.pack_start(case3);
+	box.pack_start(case4);
+	show_all_children();
 
 
-    case1.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case1_clicked));
+	case1.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case1_clicked));
 
-    case2.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case2_clicked));
-    case4.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case4_clicked));
+	case2.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case2_clicked));
+	case4.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case4_clicked));
 
 
 
@@ -563,127 +723,128 @@ Menuwindow::~Menuwindow()
 
 
 void Menuwindow::case1_clicked() {
-    hide ();
-    N1=File_read(N1);
-    Modify_window w(N1);
-    Gtk::Main::run(w);
+	hide();
+	N1 = File_read(N1);
+	Modify_window w(N1);
+	Gtk::Main::run(w);
 }
 
-void Menuwindow::case2_clicked() 
+void Menuwindow::case2_clicked()
 {
-	N1=File_read(N1);//gives access to data from valid
+	N1 = File_read(N1);//gives access to data from valid
 	//setting up the dialog box for random option 
-	Gtk::Dialog dialog =Gtk::Dialog();
-	dialog.add_button("Yes",1);
-	dialog.add_button("No",0);
-	dialog.add_button("Cancel",3);
+	Gtk::Dialog dialog = Gtk::Dialog();
+	dialog.add_button("Yes", 1);
+	dialog.add_button("No", 0);
+	dialog.add_button("Cancel", 3);
 	dialog.set_transient_for(*this);
 	dialog.set_title("-Selection Option-");
-        dialog.set_size_request(300,100);
-	Gtk::Label label= Gtk::Label();
-        label.show();
+	dialog.set_size_request(300, 100);
+	Gtk::Label label = Gtk::Label();
+	label.show();
 
-	dialog.get_content_area()->pack_start(label);	
+	dialog.get_content_area()->pack_start(label);
 	label.set_text("Random Selction");
-	int choice=dialog.run();
+	int choice = dialog.run();
 	//We randomaly choose or user choose CHECK OUT mealplan.cpp
-	if(choice ==3)
+	if (choice == 3)
 	{
 		dialog.hide();
 	}
-	else if(choice ==1)
-        {	
-
-
-		
-
-
-
-
-                //Random option
-        }
-        else
-        {
-//manual option
-	dialog.hide();
-	//hide(); 
- //SETTING UP WINDOW FOR MANUAL OPTION
-        int day=0;
-	int time=0;
-	while(day<7)
+	else if (choice == 1)
 	{
-		time=0;
-		while(time<5)
-		{
 
-				Modify2_window w(N1,choice,day,time);
-				Gtk::Main::run(w);
-			if(w.entry_ans.compare("DONE")==0)
+
+
+
+
+
+
+		//Random option
+	}
+	else
+	{
+		//manual option
+		dialog.hide();
+		//hide(); 
+	 //SETTING UP WINDOW FOR MANUAL OPTION
+		int day = 0;
+		int time = 0;
+		while (day < 7)
+		{
+			time = 0;
+			while (time < 5)
 			{
-				w.hide();
-				
-				time =5;
-				day=7;
-			}
+
+				Modify2_window w(N1, choice, day, time);
+				Gtk::Main::run(w);
+				if (w.entry_ans.compare("DONE") == 0)
+				{
+					w.hide();
+
+					time = 5;
+					day = 7;
+				}
 
 				time++;
+			}
+			day++;
 		}
-		day++;
+
 	}
 
-     }
-		
-	
+
 }
 
 
 void Menuwindow::case4_clicked() {
-    Gtk::Main::quit();
+	Gtk::Main::quit();
 }
 
-Modify_window::Modify_window(File N1):box(Gtk::ORIENTATION_VERTICAL), nationality_button("Enter") ,back_button("Back to main menu"){
-    set_size_request(400,200);
-    set_title("Modify a recipe");
-    add(box);
+//MODIFY_WINDOW CONSTRUCTOR, DECONSTRUCTOR AND FUNCTIONS
+Modify_window::Modify_window(File N1) :box(Gtk::ORIENTATION_VERTICAL), nationality_button("Enter"), back_button("Back to main menu") {
+	set_size_request(400, 200);
+	set_title("Modify a recipe");
+	add(box);
 
- 	int y=0;
+	int y = 0;
 	string nations;
-	while(y<N1.Nationality.size())
+	while (y < N1.Nationality.size())
 	{
-		nations+=N1.Nationality[y].nationality;
-		nations+="\n";
-	        y++;
+		nations += N1.Nationality[y].nationality;
+		nations += "\n";
+		y++;
 	}
-    
+
 	nationality_names_title_label.set_text("Nationalities:");
-	nationality_names_label.set_text (nations);
+	nationality_names_label.set_text(nations);
 
-    nationality_label.set_text ("Enter a nationality: ");
-    box.pack_start (nationality_names_title_label);
-    box.pack_start (nationality_names_label);
-    box.pack_start (nationality_label);
-    
-    nationality_entry.set_max_length (50);
-    nationality_entry.set_text("Enter nationality");
-    nationality_entry.select_region(0, nationality_entry.get_text_length());
-    box.pack_start(nationality_entry);
+	nationality_label.set_text("Enter a nationality: ");
+	box.pack_start(nationality_names_title_label);
+	box.pack_start(nationality_names_label);
+	box.pack_start(nationality_label);
 
-entry_ans=nationality_entry.get_text();
+	nationality_entry.set_max_length(50);
+	nationality_entry.set_text("Enter nationality");
+	nationality_entry.select_region(0, nationality_entry.get_text_length());
+	box.pack_start(nationality_entry);
 
-    nationality_button.signal_clicked().connect(sigc::mem_fun(*this, &Modify_window::Nationality));
-    box.pack_start(nationality_button);
-    back_button.signal_clicked().connect(sigc::mem_fun(*this, &Modify_window::back_button_clicked));
-    box.pack_start(back_button);
+	entry_ans = nationality_entry.get_text();
 
-     show_all_children();
+	nationality_button.signal_clicked().connect(sigc::mem_fun(*this, &Modify_window::Nationality));
+	box.pack_start(nationality_button);
+	back_button.signal_clicked().connect(sigc::mem_fun(*this, &Modify_window::back_button_clicked));
+	box.pack_start(back_button);
+
+	show_all_children();
 
 }
 
 
 void Modify_window::Nationality() {}
-Modify_window::~Modify_window(){}
-void Modify_window::back_button_clicked(){
-hide ();
-Menuwindow w;
-Gtk::Main::run(w);
+Modify_window::~Modify_window() {}
+void Modify_window::back_button_clicked() {
+	hide();
+	Menuwindow w;
+	Gtk::Main::run(w);
 }

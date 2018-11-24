@@ -22,7 +22,11 @@ public:
 	Plan(Mealplan m, int day, File N1, string input, int time);
 	virtual ~Plan();
 	string meal_type;
+	string input;
+	Recipe temp_hold;
+	vector <Recipe> Chosen_reps;
 	File N1;
+
 protected:
 
 	Gtk::Label label;
@@ -36,12 +40,28 @@ protected:
 	Gtk::Button day3;
 	Gtk::Button day4;
 	void caseR(Mealplan m);
+	void caseB(Mealplan m);
+	void caseL(Mealplan m);
+	void caseD(Mealplan m);
+	void caseS(Mealplan m);
+	void caseE(Mealplan m);
 	friend class Modify_window;
+	friend class EnterRecipe_window;
 };
 
 
-
-
+class List_window:public Gtk::Window
+{
+	public:
+	List_window(string Rep_names,string List);
+	virtual~List_window();
+	protected:
+	Gtk::Label Rep_name_label;
+	Gtk::Label List_label;
+	Gtk::Box box;
+	Gtk::Button ok;
+	void ok_clicked();	
+};
 
 
 
@@ -67,7 +87,6 @@ public:
 protected:
 	void case1_clicked();
 	void case2_clicked();
-	//void case2_clicked(File N1);
 	void case3_clicked();
 	void case4_clicked();
 
@@ -83,16 +102,19 @@ protected:
 class EnterRecipe_window :public Gtk::Window
 {
 public:
-	EnterRecipe_window(Mealplan m, File N1, string NationalityName);
+	EnterRecipe_window(Mealplan m, File N1, string NationalityName,string meal_type);
 	virtual ~EnterRecipe_window();
-
+	string recipe;
+	int hold_index;
 protected:
 	Gtk::Label recipe_name_label;
 	Gtk::Entry entry;
 	Gtk::Button enter;
 	Gtk::Button cancel;
 	Gtk::Box box;
-
+	friend class Plan;
+	void cancel_clicked();
+	void enter_clicked();
 
 };
 class Modify2_window : public Gtk::Window {//Used for create shopping option
