@@ -46,6 +46,7 @@ protected:
 	void caseD(Mealplan m);
 	void caseS(Mealplan m);
 	void caseE(Mealplan m);
+	void cancel_clicked();
 	friend class Modify_window;
 	friend class EnterRecipe_window;
 };

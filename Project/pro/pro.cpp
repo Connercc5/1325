@@ -611,8 +611,10 @@ Plan::Plan(Mealplan m, int day, File N1, string input, int time) :box(Gtk::ORIEN
 	day2.signal_clicked().connect(sigc::bind<Mealplan>(sigc::mem_fun(*this, &Plan::caseD), m));
 	day3.signal_clicked().connect(sigc::bind<Mealplan>(sigc::mem_fun(*this, &Plan::caseS), m));
 	day4.signal_clicked().connect(sigc::bind<Mealplan>(sigc::mem_fun(*this, &Plan::caseE), m));
+	cancel.signal_clicked().connect(sigc::mem_fun(*this, &Plan::cancel_clicked));
 
 }
+void Plan::cancel_clicked(){hide();}
 
 void Plan::caseR(Mealplan m)
 {

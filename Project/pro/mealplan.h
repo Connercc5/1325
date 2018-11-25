@@ -7,7 +7,7 @@ using namespace std;
 #include"recipe.h"
 #include"days.h"
 #include"file.h"
-#include"pro.h"
+//#include"pro.h"
 class Mealplan
 {
 	public:
