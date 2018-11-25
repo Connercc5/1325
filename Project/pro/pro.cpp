@@ -412,7 +412,8 @@ Modify2_window::Modify2_window(File N1, int choice, int day, int time) :box(Gtk:
 	box.pack_start(nationality_label);
 
 	nationality_entry.set_max_length(50);
-	nationality_entry.set_text("Enter nationality");
+	//nationality_entry.set_text("Enter nationality");
+	nationality_entry.set_text("Mexican");//just using this to test program 
 	nationality_entry.select_region(0, nationality_entry.get_text_length());
 	box.pack_start(nationality_entry);
 
@@ -557,18 +558,39 @@ void EnterRecipe_window::cancel_clicked()
 {
 	hide();
 
+
 }
 
 //List_window Constructor Deconstructor and Functions
 List_window::~List_window(){hide();}
-List_window::List_window(string Rep_names,string List):box(Gtk::ORIENTATION_VERTICAL),ok("ok")
+List_window::List_window(string Rep_names,string List):box(Gtk::ORIENTATION_VERTICAL),ok("Ok")
 {
+
+	Gtk::Entry entry=Gtk::Entry();
+	Gtk::Label lab= Gtk::Label();
+	entry.set_text("Ex: file.txt or List.txt... etc");
+	lab.set_text("Enter a file name:");
+	Gtk::MessageDialog dialog(*this,"Save List",false,Gtk::MESSAGE_INFO);
+	dialog.set_secondary_text("What name would you like to save this list under?");
+	dialog.get_content_area()->pack_start(lab);
+        dialog.get_content_area()->pack_start(entry);
+        dialog.set_size_request(400,200);
+        entry.show();
+        lab.show();
+        dialog.run();
+        string s= entry.get_text();
+        int r=s.length();
+        char p1[r+1];//will hold the name of the file
+        strcpy(p1,s.c_str());//p1 now holds the name of the file
+	//this class need a function to while the list to a file.
+//THIS WOULD HAPPEN HERE
 	set_size_request(400,400);
 	Rep_name_label.set_text(Rep_names);
 	List_label.set_text(List);
 	add(box);
 	box.pack_start(Rep_name_label);
 	box.pack_start(List_label);
+	box.pack_start(ok);
 	ok.signal_clicked().connect(sigc::mem_fun(*this, &List_window::ok_clicked));
 	show_all_children();
 	
@@ -595,7 +617,7 @@ Plan::Plan(Mealplan m, int day, File N1, string input, int time) :box(Gtk::ORIEN
 	add(box);
 	this->day =day;
 	this->input = input;
-	time_label.set_text("Recipe for " + tim[time]);
+	time_label.set_text(tim[time]+" Recipe");
 	box.pack_start(label);
 	box.pack_start(time_label);
 	box.pack_start(day0);
@@ -616,6 +638,8 @@ Plan::Plan(Mealplan m, int day, File N1, string input, int time) :box(Gtk::ORIEN
 }
 void Plan::cancel_clicked(){hide();}
 
+
+//BUG IN HERE
 void Plan::caseR(Mealplan m)
 {
 	hide();
@@ -664,6 +688,8 @@ void Plan::caseR(Mealplan m)
 			h++;
 		}
 	}
+
+	// there is a bug here it is only add on 1 recipe
 	Chosen_reps.push_back(temp_hold);
 	}
 
@@ -763,12 +789,13 @@ void Menuwindow::case2_clicked()
 	{
 
 
-
-
-
-
-
 		//Random option
+
+
+
+
+
+
 	}
 	else
 	{
