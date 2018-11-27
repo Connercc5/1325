@@ -38,23 +38,24 @@ ShoppingList::ShoppingList(vector <Recipe> Chosen_reps)
 			{	
 				I=Chosen_reps[h].ingr[ingre];
 				tempList.push_back(I);
-			cout<<tempList.size()<<endl;
+				cout<<tempList.size()<<endl;
 			}
 			else
 			{
+
 				int g=0;
 				while(g<tempList.size())
 				{
+					cout<<tempList[g].name<<endl;
 					if(tempList[g].name.compare(Chosen_reps[h].ingr[ingre].name)==0)
 					{
 						tempList[g].quantity+=Chosen_reps[h].ingr[ingre].quantity;
 				
 						
 						
-						k=10;
+						//k=10;
 					}
-				
-					if(k==0)
+					else
 					{
 						I=Chosen_reps[h].ingr[ingre];
 						tempList.push_back(I);
