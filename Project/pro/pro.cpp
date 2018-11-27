@@ -386,9 +386,11 @@ void Menuwindow::get_blank(char*token)
 
 
 
-
+//IF YOUR TRYING TO UNDERSTAND WHAT I DID FOR THE CREATE MEALPLAN SHOPPING LIST OPTION, BEFORE YOU LOOK AT THIS GO START TO THE MENUWINDOW CASE2_CLICKED FUNCTION
 
 //MODIFY2_WINDOW CONSTRUCTOR,DECONSTRUCTOR AND FUNCTIONS
+
+//ASK USER TO CHOOSE NATIONALITY
 Modify2_window::Modify2_window(File N1, int choice, int day, int time) :box(Gtk::ORIENTATION_VERTICAL), enter_button("Enter"), back_button("Back to main menu") {
 	set_size_request(400, 200);
 	set_title("Create Shopping List");
@@ -443,7 +445,7 @@ void Modify2_window::enter_clicked(File N1)
 		Gtk::Main::run(p);
 		back_button.signal_clicked().connect(sigc::mem_fun(*this, &Modify2_window::back_button_clicked));
 
-		 if((day==6)&&(time==4))
+		 if((day==6)&&(time==4))//THIS IS FOR GETTING THE LABELS FOR THE FINAL SHOPPING LIST WINDOW
                 {
 			this->Chosen=p.get_chosen();
                         ShoppingList s (Chosen);
@@ -786,7 +788,7 @@ void Menuwindow::case2_clicked()
 	dialog.get_content_area()->pack_start(label);
 	label.set_text("Random Selction");
 	int choice = dialog.run();
-	//We randomaly choose or user choose CHECK OUT mealplan.cpp
+	//We randomaly choose or user chooseS
 	if (choice == 3)
 	{
 		dialog.hide();
@@ -794,7 +796,7 @@ void Menuwindow::case2_clicked()
 	else if (choice == 1)
 	{
 
-
+		//RANDOM YES
 		//Random option
 
 
@@ -805,19 +807,20 @@ void Menuwindow::case2_clicked()
 	}
 	else
 	{
+		//RANDOM NO
 		//manual option
 		dialog.hide();
 		//hide(); 
 	 //SETTING UP WINDOW FOR MANUAL OPTION
 		int day = 0;
 		int time = 0;
-		while (day < 7)
+		while (day < 7)//ASK SEVEN DAYS A WEEK
 		{
 			time = 0;
-			while (time < 5)
+			while (time < 5)//ASK FOR EACH MEAL BREAKFAST-DESSERT
 			{
 
-				Modify2_window w(N1, choice, day, time);
+				Modify2_window w(N1, choice, day, time);//CHECK OUT MODIFY2_WINDOW CONSTRUCTOR
 				Gtk::Main::run(w);
 				if (w.entry_ans.compare("DONE") == 0)
 				{
