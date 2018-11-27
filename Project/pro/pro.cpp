@@ -11,10 +11,13 @@
 #include<memory>
 #include"pro.h"
 using namespace std;
-//START:FUNCTIONS THAT ARE USED TO INTERACT WITH TEXT
 
+//ALL STATIC MEMBERS FROM .H FILE
 File Menuwindow::N1;
 int Modify2_window::y = 0;
+vector <Recipe> Plan::Chosen_reps;
+
+//START:FUNCTIONS THAT ARE USED TO INTERACT WITH TEXT
 File Menuwindow::File_read(File N1)
 {
 	N1.Nationality.clear();
@@ -442,10 +445,10 @@ void Modify2_window::enter_clicked(File N1)
 
 		 if((day==6)&&(time==4))
                 {
-			this->Chosen=p.Chosen_reps;
-                        ShoppingList s (p.Chosen_reps);
+			this->Chosen=p.get_chosen();
+                        ShoppingList s (Chosen);
                         cout<<s.Rep_names<<" "<<s.List<<endl;
-                        cout<<"SIZE OF VECTOR:"<<p.Chosen_reps.size()<<endl;
+                        cout<<"SIZE OF VECTOR:"<<Chosen.size()<<endl;
 			List_window f (s.Rep_names,s.List);
 			Gtk::Main::run(f);
                 }
@@ -605,7 +608,10 @@ Plan::~Plan()
 {
 	hide();
 }
-
+vector <Recipe> Plan::get_chosen()
+{
+return Chosen_reps;
+}
 Plan::Plan(Mealplan m, int day, File N1, string input, int time) :box(Gtk::ORIENTATION_VERTICAL), day0("Breakfast"), day1("Lunch"), day2("Dinner"), day3("Snack"), day4("Dessert"), cancel("Cancel", 3)
 {
 	string tim[5] = { "Breakfast","Lunch","Dinner","Snack","Dessert" };

@@ -11,6 +11,7 @@ Recipe::Recipe(string recipe_name, vector <ingredient> ingr, int num_of_ingredie
 }
 
 Recipe::Recipe(){}
+//I AM USING THIS CONSTRUCTOR TO CREATE THE TEXT FOR THE LABELS ON THE SHOPPING LIST WINDOW
 ShoppingList::ShoppingList(vector <Recipe> Chosen_reps)
 {
 	vector<ingredient> tempList;
@@ -19,17 +20,25 @@ ShoppingList::ShoppingList(vector <Recipe> Chosen_reps)
 	int k=0;
 	while (h<Chosen_reps.size())
 	{
-		Rep_names+=Chosen_reps[h].recipe_name;
-		Rep_names+=", ";
+		if(Rep_names.compare(Chosen_reps[h].recipe_name)!=0)
+		{
+			if(h>0)
+				Rep_names+=", ";
+			Rep_names+=Chosen_reps[h].recipe_name;
+		}
 
 //Trying to combine of the ingredients
 		int ingre=0;
+		tempList.clear();
 		while (ingre <Chosen_reps[h].ingr.size())
 		{
+			cout<<Chosen_reps[h].ingr.size()<<endl;
+		//IM PRETTY SURE THAT THE BUG IN THE SHOPPING WINDOW INGREDIENT COMBINATION IS HERE	
 			if(ingre==0)
 			{	
 				I=Chosen_reps[h].ingr[ingre];
 				tempList.push_back(I);
+			cout<<tempList.size()<<endl;
 			}
 			else
 			{

@@ -18,6 +18,7 @@ using namespace std;
 
 class Plan : public Gtk::Window
 {
+	static vector <Recipe> Chosen_reps;
 public:
 	Plan(Mealplan m, int day, File N1, string input, int time);
 	virtual ~Plan();
@@ -25,7 +26,7 @@ public:
 	string input;
 	int day;
 	Recipe temp_hold;
-	vector <Recipe> Chosen_reps;
+	vector<Recipe> get_chosen();
 	File N1;
 
 protected:
@@ -49,6 +50,7 @@ protected:
 	void cancel_clicked();
 	friend class Modify_window;
 	friend class EnterRecipe_window;
+
 };
 
 
