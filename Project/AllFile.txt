@@ -38,8 +38,7 @@ Breakfest#2
 Eggs_&_Chorizo_Wraps:6
 START_12_oz_chorizo,6_medium_eggs,2_tablespoons_milk,1_cup_cheddar_cheese,6_medium_flour_tortillas,1_bunch_scallions
 Huevos_Rancheros:14
-START_2_medium_ripe_tomatoes,1_medium_white_onion,1_bunch_fresh_cilantro,2_mediu
-m_lime(s),.25_teaspoon_salt,2_teaspoons_extra-virgin_olive_oil,1_medium_white_onion,1_teaspoon_ground_cumin,1_can(15oz)_black_beans,1.5_cup(s)_red_salsa,4_teaspoon(s)_cooking_oil,4_medium_eggs,4_medium_corn_tortillas,.5_cup(s)_monterey_jack_cheese
+START_2_medium_ripe_tomatoes,1_medium_white_onion,1_bunch_fresh_cilantro,2_medium_lime(s),.25_teaspoon_salt,2_teaspoons_extra-virgin_olive_oil,1_medium_white_onion,1_teaspoon_ground_cumin,1_can(15oz)_black_beans,1.5_cup(s)_red_salsa,4_teaspoon(s)_cooking_oil,4_medium_eggs,4_medium_corn_tortillas,.5_cup(s)_monterey_jack_cheese
 Lunch#1
 Pozole:10
 START_1_lbs_chicken_thighs,1_small_cabbage,1_meduim_radish,1(32_oz)can_hominy,7_tablespoon(s)_chile_powder,4_cup_chicken_broth,5_NONE_cloves_garlic,1_None_bay_leaf,3_teaspoon_cumin,2_small_limes
