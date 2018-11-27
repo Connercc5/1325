@@ -540,7 +540,7 @@ EnterRecipe_window::EnterRecipe_window(Mealplan m, File N1, string NationalityNa
 
 
 	recipe_name_label.set_text(recipe_names);
-
+	entry.set_text("Flan");//this is just here so i can test the code
 	box.pack_start(recipe_name_label);
 	box.pack_start(entry);
 	box.pack_start(enter);
@@ -582,7 +582,7 @@ List_window::List_window(string Rep_names,string List):box(Gtk::ORIENTATION_VERT
         int r=s.length();
         char p1[r+1];//will hold the name of the file
         strcpy(p1,s.c_str());//p1 now holds the name of the file
-	//this class need a function to while the list to a file.
+	//this class need a function to write the list to a file.
 //THIS WOULD HAPPEN HERE
 	set_size_request(400,400);
 	Rep_name_label.set_text(Rep_names);
