@@ -12,12 +12,27 @@
 #include"pro.h"
 using namespace std;
 
+//BASED ON CODE PUSHED ON GITHUB CURRENTLY THESE ARE THE THINGS THAT NEED TO BE DONE
+//THINGS THAT HAVE NOT BEEN  CODED YET 
+
+//THE MODIFY RECIPE OPTION
+//THE CREATE RANDOM SHOPPING LIST OPTION	(FOR THIS JUMP TO LINE 814 IN CODE)
+//LOOK AT OLD SHOPPING LIST OPTION		(FOR THIS JUMP TO LINE 774 IN CODE)
+
+
+
+
+
+
+
+
+
 //ALL STATIC MEMBERS FROM .H FILE
 File Menuwindow::N1;
 int Modify2_window::y = 0;
 vector <Recipe> Plan::Chosen_reps;
 
-//START:FUNCTIONS THAT ARE USED TO INTERACT WITH TEXT
+//START:FUNCTIONS THAT ARE USED TO INTERACT WITH ALLFILE.TXT
 File Menuwindow::File_read(File N1)
 {
 	N1.Nationality.clear();
@@ -753,6 +768,10 @@ Menuwindow::Menuwindow() :box(Gtk::ORIENTATION_VERTICAL)
 	case1.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case1_clicked));
 
 	case2.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case2_clicked));
+	
+	
+	//this is the visit old shopping list option
+	//case3.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case4_clicked));
 	case4.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case4_clicked));
 
 
