@@ -771,7 +771,7 @@ Menuwindow::Menuwindow() :box(Gtk::ORIENTATION_VERTICAL)
 	
 	
 	//this is the visit old shopping list option
-	//case3.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case4_clicked));
+	//case3.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case3_clicked));
 	case4.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case4_clicked));
 
 
