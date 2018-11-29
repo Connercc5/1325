@@ -863,7 +863,7 @@ void Menuwindow::case2_clicked()
 void Menuwindow::case4_clicked() {
 	Gtk::Main::quit();
 }
-
+//
 //MODIFY_WINDOW CONSTRUCTOR, DECONSTRUCTOR AND FUNCTIONS
 Modify_window::Modify_window(File N1) :box(Gtk::ORIENTATION_VERTICAL), nationality_button("Enter"), back_button("Back to main menu") {
 	set_size_request(400, 200);
