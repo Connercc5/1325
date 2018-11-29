@@ -864,6 +864,7 @@ void Menuwindow::case4_clicked() {
 	Gtk::Main::quit();
 }
 
+//J'ai modifié 
 //MODIFY_WINDOW CONSTRUCTOR, DECONSTRUCTOR AND FUNCTIONS
 Modify_window::Modify_window(File N1) :box(Gtk::ORIENTATION_VERTICAL), nationality_button("Enter"), back_button("Back to main menu") {
 	set_size_request(400, 200);
@@ -872,6 +873,7 @@ Modify_window::Modify_window(File N1) :box(Gtk::ORIENTATION_VERTICAL), nationali
 
 	int y = 0;
 	string nations;
+	//	cout << N1.Nationality.size() << endl;
 	while (y < N1.Nationality.size())
 	{
 		nations += N1.Nationality[y].nationality;
@@ -894,7 +896,7 @@ Modify_window::Modify_window(File N1) :box(Gtk::ORIENTATION_VERTICAL), nationali
 
 	entry_ans = nationality_entry.get_text();
 
-	nationality_button.signal_clicked().connect(sigc::mem_fun(*this, &Modify_window::Nationality));
+	nationality_button.signal_clicked().connect(sigc::bind<File>(sigc::mem_fun(*this, &Modify_window::Nationality), N1));
 	box.pack_start(nationality_button);
 	back_button.signal_clicked().connect(sigc::mem_fun(*this, &Modify_window::back_button_clicked));
 	box.pack_start(back_button);
@@ -903,11 +905,213 @@ Modify_window::Modify_window(File N1) :box(Gtk::ORIENTATION_VERTICAL), nationali
 
 }
 
+//J'ai modifié
+void Modify_window::Nationality(File N1) {
+  string user_input = nationality_entry.get_text ();
 
-void Modify_window::Nationality() {}
+  for (int i = 0; i < N1.Nationality.size (); i++) {
+    
+    if (user_input == N1.Nationality[i].nationality){
+
+      	hide();
+	Plan_2 p(user_input);
+	Gtk::Main::run(p);
+      
+  
+      break;
+    } else {
+      Gtk::MessageDialog dialog (*this, "Wrong input, try again", false, Gtk::MESSAGE_INFO);
+      dialog.run();
+    }
+    
+  }
+}
 Modify_window::~Modify_window() {}
 void Modify_window::back_button_clicked() {
 	hide();
 	Menuwindow w;
-	Gtk::Main::run(w);
+	Gtk::Main::run(w);}
+
+
+
+Plan_2::~Plan_2()
+{
+	hide();
 }
+
+Plan_2::Plan_2(string nationality_p) :box(Gtk::ORIENTATION_VERTICAL), Br_button("Breakfast"), Lu_button("Lunch"), Di_button("Diner"), Sn_button("Snack"), De_button("Dessert"), Cancel_button("Cancel")
+{
+
+  
+	set_size_request(400, 200);
+	set_title ("In which category ?");
+	add(box);
+
+
+
+		Br_button.signal_clicked().connect(sigc::bind<Glib::ustring>( sigc::mem_fun(*this, &Plan_2::Br_clicked), nationality_p));
+		box.pack_start(Br_button);
+	       	Lu_button.signal_clicked().connect(sigc::bind<Glib::ustring>( sigc::mem_fun(*this, &Plan_2::Lu_clicked), nationality_p));
+		box.pack_start(Lu_button);
+	       	Di_button.signal_clicked().connect(sigc::bind<Glib::ustring>( sigc::mem_fun(*this, &Plan_2::Di_clicked), nationality_p));
+		box.pack_start(Di_button);
+	       	Sn_button.signal_clicked().connect(sigc::bind<Glib::ustring>( sigc::mem_fun(*this, &Plan_2::Sn_clicked), nationality_p));
+		box.pack_start(Sn_button);
+	       	De_button.signal_clicked().connect(sigc::bind<Glib::ustring>( sigc::mem_fun(*this, &Plan_2::De_clicked), nationality_p));
+		box.pack_start(De_button);
+		Cancel_button.signal_clicked().connect(sigc::mem_fun(*this, &Plan_2::Cancel_clicked));
+		box.pack_start(Cancel_button); 
+		show_all_children();
+	
+
+}
+
+void Plan_2::Choice (string nationality_p, string meal_type_p) {
+	hide();
+	File N1;
+	
+	Option_window o( N1,  nationality_p, meal_type_p);
+	Gtk::Main::run(o);
+}
+
+void Plan_2::Cancel_clicked(){hide();}
+
+void Plan_2::Br_clicked (Glib::ustring nationality_p) {
+  string meal_type  = "Breakfast";
+   Choice  (nationality_p, meal_type);
+}
+
+
+void Plan_2::Lu_clicked (Glib::ustring nationality_p) {
+  string meal_type  = "Lunch";
+   Choice  (nationality_p, meal_type);
+}
+
+
+void Plan_2::Di_clicked (Glib::ustring nationality_p) {
+  string meal_type  = "Diner";
+  Choice  (nationality_p, meal_type);
+}
+
+void Plan_2::Sn_clicked (Glib::ustring nationality_p) {
+  string meal_type  = "Snack";
+   Choice  (nationality_p, meal_type);
+}
+
+void Plan_2::De_clicked (Glib::ustring nationality_p) {
+  string meal_type  = "Dessert";
+   Choice  (nationality_p, meal_type);
+}
+
+
+
+
+
+Option_window::~Option_window()
+{
+	hide();
+}
+
+Option_window::Option_window( File N1, string nationality_p, string meal_type_p) :box(Gtk::ORIENTATION_VERTICAL), Add_button("Add"), Delete_button("Delete"),Cancel_button("Cancel")
+{
+
+	set_size_request(300, 300);
+	int e = 0;
+	cout << "test"<< endl;
+        cout << N1.Nationality.size();
+	while (e < N1.Nationality.size())
+	{
+	 
+		if (N1.Nationality[e].nationality.compare(nationality_p) == 0)
+		{
+
+			hold_index = e;
+		}
+		e++;
+	}
+
+
+	e = 0;
+	string recipe_names = " ";
+
+
+
+	if (meal_type_p.compare("Breakfast") == 0)
+	{
+
+      
+		while (e < N1.Nationality[hold_index].breakfast.size())
+		{
+        
+			recipe_names = recipe_names + N1.Nationality[hold_index].breakfast[e].recipe_name;
+			recipe_names = recipe_names + "\n";
+			e++;
+		}
+	}
+	else if (meal_type_p.compare("Lunch") == 0)
+	{
+		while (e < N1.Nationality[hold_index].lunch.size())
+		{
+			recipe_names = recipe_names + N1.Nationality[hold_index].lunch[e].recipe_name;
+			recipe_names = recipe_names + "\n";
+			e++;
+		}
+	}
+	else if (meal_type_p.compare("Dinner") == 0)
+	{
+		while (e < N1.Nationality[hold_index].dinner.size())
+		{
+			recipe_names = recipe_names + N1.Nationality[hold_index].dinner[e].recipe_name;
+			recipe_names = recipe_names + "\n";
+			e++;
+		}
+	}
+	else if (meal_type_p.compare("Snack") == 0)
+	{
+		while (e < N1.Nationality[hold_index].snack.size())
+		{
+			recipe_names = recipe_names + N1.Nationality[hold_index].snack[e].recipe_name;
+			recipe_names = recipe_names + "\n";
+			e++;
+		}
+	}
+	else if (meal_type_p.compare("Dessert") == 0)
+	{
+		while (e < N1.Nationality[hold_index].dessert.size())
+		{
+			recipe_names = recipe_names + N1.Nationality[hold_index].dessert[e].recipe_name;
+			recipe_names = recipe_names + "\n";
+			e++;
+		}
+	}
+	//cout << recipe_names << endl;
+	add(box);
+
+
+	recipe_name_label.set_text(recipe_names);
+
+	box.pack_start(recipe_name_label);
+	box.pack_start(Add_button);
+	box.pack_start (Delete_button);
+	box.pack_start(Cancel_button);
+	show_all_children();
+	Add_button.signal_clicked().connect(sigc::mem_fun(*this, &Option_window::Add_clicked));
+	Delete_button.signal_clicked().connect(sigc::mem_fun(*this, &Option_window::Delete_clicked));
+	Cancel_button.signal_clicked().connect(sigc::mem_fun(*this, &Option_window::Cancel_clicked));
+}
+void Option_window::Add_clicked()
+{
+        
+}
+
+void Option_window::Delete_clicked()
+{
+        
+}
+void Option_window::Cancel_clicked()
+{
+	hide();
+
+
+}
+
