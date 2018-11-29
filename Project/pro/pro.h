@@ -159,9 +159,9 @@ public:
 	virtual ~Modify_window();
 	string entry_ans;
 
-protected:
+protected: 
 
-	void Nationality();
+	void Nationality(File N1);
 	void back_button_clicked();
 
 
@@ -181,5 +181,58 @@ public:
 	string food_type, recipe_name, recipe;
 	Recipe_Info(string food_type_p, string recipe_name_p, string recipe_p);
 };
-#endif
+
+
+class Plan_2 : public Gtk::Window
+{
+public:
+	Plan_2 (string nationality_p);
+	virtual ~Plan_2( );
+
+protected:
+
+	Gtk::Label label;
+	Gtk::Label labels;
+	Gtk::Label time_label;
+	Gtk::Box box;
+	Gtk::Button Cancel_button;
+	Gtk::Button Br_button ;
+	Gtk::Button Lu_button ;
+	Gtk::Button Di_button ;
+	Gtk::Button  Sn_button ;
+	Gtk::Button De_button ;
+	void Br_clicked(Glib::ustring n);
+	void Lu_clicked(Glib::ustring n);
+	void Di_clicked(Glib::ustring n);
+	void Sn_clicked(Glib::ustring n);
+	void De_clicked(Glib::ustring n);
+	void Choice (string nationality_p, string meal_type_p);
+	void Cancel_clicked();
+	
+	friend class Modify_window;
+	friend class EnterRecipe_window;
+};
+
+
+class Option_window :public Gtk::Window
+{
+public:
+	Option_window(File N1, string nationality_p, string meal_type_p);
+	virtual ~ Option_window();
+	string recipe;
+	int hold_index;
+protected:
+	Gtk::Label recipe_name_label;
+	Gtk::Button Add_button;
+	Gtk::Button Delete_button;
+	Gtk::Button Cancel_button;
+	Gtk::Box box;
+	friend class Plan;
+friend class Menuwindow;
+	void Cancel_clicked();
+	void Add_clicked();
+	void Delete_clicked();
+};
+
+
 
