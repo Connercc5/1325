@@ -720,19 +720,17 @@ List_window::List_window(string Rep_names,string List):box(Gtk::ORIENTATION_VERT
 	Gtk::MessageDialog dialog(*this,"Save List",false,Gtk::MESSAGE_INFO);
 	dialog.set_secondary_text("What name would you like to save this list under?");
 	dialog.get_content_area()->pack_start(lab);
-    dialog.get_content_area()->pack_start(entry);
-    dialog.set_size_request(400,200);
-    entry.show();
-    lab.show();
-    dialog.run();
-    string s= entry.get_text();
-
+        dialog.get_content_area()->pack_start(entry);
+        dialog.set_size_request(400,200);
+        entry.show();
+        lab.show();
+        dialog.run();
+        string s= entry.get_text();
 	//write the recipe names and list of ingredients to a file.
     string path = "./savedList/"+s;
     ofstream outfile (path);
-    outfile <<Rep_names<<List<<endl;
+    outfile <<Rep_names<<"\n"<<List<<endl;
     outfile.close();
-
 	set_size_request(400,400);
 	Rep_name_label.set_text(Rep_names);
 	List_label.set_text(List);
