@@ -13,7 +13,7 @@
 using namespace std;
 
 //BASED ON CODE PUSHED ON GITHUB CURRENTLY THESE ARE THE THINGS THAT NEED TO BE DONE
-//THINGS THAT HAVE NOT BEEN  CODED YET 
+//THINGS THAT HAVE NOT BEEN  CODED YET
 
 //THE MODIFY RECIPE OPTION
 //THE CREATE RANDOM SHOPPING LIST OPTION	(FOR THIS JUMP TO LINE 814 IN CODE)
@@ -395,7 +395,7 @@ void Menuwindow::get_blank(char*token)
 	}
 }
 
-//END:FUNCTIONS THAT INTERACT WITH TEXTFILE 
+//END:FUNCTIONS THAT INTERACT WITH TEXTFILE
 
 
 
@@ -436,13 +436,13 @@ Modify2_window::Modify2_window(File N1, int day, int time) :box(Gtk::ORIENTATION
 
 	nationality_entry.set_max_length(50);
 	//nationality_entry.set_text("Enter nationality");
-	nationality_entry.set_text("Mexican");//just using this to test program 
+	nationality_entry.set_text("Mexican");//just using this to test program
 	nationality_entry.select_region(0, nationality_entry.get_text_length());
 	box.pack_start(nationality_entry);
 	time_label.set_text(tim[time]+" Recipe");
 
 
- 
+
 	box.pack_start(label);
 
 	box.pack_start(time_label);
@@ -485,7 +485,7 @@ void Modify2_window::enter_clicked(string type)
                         cout<<"SIZE OF VECTOR:"<<Chosen_recipes.size()<<endl;
 			List_window f (s.Rep_names,s.List);
 			Gtk::Main::run(f);
-			
+
                 }
 
 	}
@@ -508,7 +508,7 @@ void Modify2_window::Send2_ER(Mealplan m, string meal_type)
 	bool found=false;
         entryR=rep_name;
 	transform(entryR.begin(),entryR.end(),entryR.begin(),::toupper);
-	if(e.cancel_==true)//they click cancel in ER(EnterRecipe window) 
+	if(e.cancel_==true)//they click cancel in ER(EnterRecipe window)
 	{
 		error=1;
 		return;
@@ -521,7 +521,7 @@ void Modify2_window::Send2_ER(Mealplan m, string meal_type)
                         FileR=N1.Nationality[e.hold_index].breakfast[h].recipe_name;
 			transform(FileR.begin(),FileR.end(),FileR.begin(),::toupper);//make text upper case so user can enter recipe name in any case
 			if (FileR.compare(entryR) == 0)
-			{ 
+			{
 			     	this->temp_hold = N1.Nationality[e.hold_index].breakfast[h];
 				found=true;
 			}
@@ -536,7 +536,7 @@ void Modify2_window::Send2_ER(Mealplan m, string meal_type)
 			{
 				this->temp_hold = N1.Nationality[e.hold_index].lunch[h];
 				found=true;
-			
+
 			}
 			h++;
                 }
@@ -572,14 +572,14 @@ void Modify2_window::Send2_ER(Mealplan m, string meal_type)
         {
                 while (h < N1.Nationality[e.hold_index].dessert.size())
                 {
-                
+
 		        FileR=N1.Nationality[e.hold_index].dessert[h].recipe_name;
                         transform(FileR.begin(),FileR.end(),FileR.begin(),::toupper);
 			if (FileR.compare(entryR) == 0)
-			{ 
+			{
 				this->temp_hold = N1.Nationality[e.hold_index].dessert[h];
 				found=true;
-			
+
 			}
 			h++;
                 }
@@ -720,17 +720,19 @@ List_window::List_window(string Rep_names,string List):box(Gtk::ORIENTATION_VERT
 	Gtk::MessageDialog dialog(*this,"Save List",false,Gtk::MESSAGE_INFO);
 	dialog.set_secondary_text("What name would you like to save this list under?");
 	dialog.get_content_area()->pack_start(lab);
-        dialog.get_content_area()->pack_start(entry);
-        dialog.set_size_request(400,200);
-        entry.show();
-        lab.show();
-        dialog.run();
-        string s= entry.get_text();
-        int r=s.length();
-        char p1[r+1];//will hold the name of the file
-        strcpy(p1,s.c_str());//p1 now holds the name of the file
-	//this class need a function to write the list to a file.
-//THIS WOULD HAPPEN HERE
+    dialog.get_content_area()->pack_start(entry);
+    dialog.set_size_request(400,200);
+    entry.show();
+    lab.show();
+    dialog.run();
+    string s= entry.get_text();
+
+	//write the recipe names and list of ingredients to a file.
+    string path = "./savedList/"+s;
+    ofstream outfile (path);
+    outfile <<Rep_names<<List<<endl;
+    outfile.close();
+
 	set_size_request(400,400);
 	Rep_name_label.set_text(Rep_names);
 	List_label.set_text(List);
@@ -740,7 +742,7 @@ List_window::List_window(string Rep_names,string List):box(Gtk::ORIENTATION_VERT
 	box.pack_start(ok);
 	ok.signal_clicked().connect(sigc::mem_fun(*this, &List_window::ok_clicked));
 	show_all_children();
-	
+
 }
 void List_window::ok_clicked()
 {
@@ -769,8 +771,8 @@ Menuwindow::Menuwindow() :box(Gtk::ORIENTATION_VERTICAL)
 	case1.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case1_clicked));
 
 	case2.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case2_clicked));
-	
-	
+
+
 	//this is the visit old shopping list option
 	//case3.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case3_clicked));
 	case4.signal_clicked().connect(sigc::mem_fun(*this, &Menuwindow::case4_clicked));
@@ -794,7 +796,7 @@ void Menuwindow::case1_clicked() {
 void Menuwindow::case2_clicked()
 {
 	N1 = File_read(N1);//gives access to data from valid
-	//setting up the dialog box for random option 
+	//setting up the dialog box for random option
 	Gtk::Dialog dialog = Gtk::Dialog();
 	dialog.add_button("Yes", 1);
 	dialog.add_button("No", 0);
@@ -806,7 +808,7 @@ void Menuwindow::case2_clicked()
 	label.show();
 
 	dialog.get_content_area()->pack_start(label);
-	label.set_text("Random Selction");
+	label.set_text("Random Selection");
 	int choice = dialog.run();
 	//We randomaly choose or user chooseS
 	if (choice == 3)
@@ -830,7 +832,7 @@ void Menuwindow::case2_clicked()
 		//RANDOM NO
 		//manual option
 		dialog.hide();
-		hide(); 
+		hide();
 	 //SETTING UP WINDOW FOR MANUAL OPTION
 		int day = 0;
 		int time = 0;

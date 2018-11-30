@@ -12,16 +12,6 @@ Mealplan::Mealplan()
 }
 
 
-
-
-
-
-
-
-
-
-
-
 void Mealplan::combine_ingredents()
 {
 
