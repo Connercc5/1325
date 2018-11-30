@@ -26,6 +26,7 @@ ShoppingList::ShoppingList(vector <Recipe> Chosen_reps)
 	int g=0;
 	vector<string>Rep;
 	string rep;
+	Mealplan m;
 	while (h<Chosen_reps.size())
 	{
 		

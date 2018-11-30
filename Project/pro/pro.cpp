@@ -527,7 +527,7 @@ void Modify2_window::Send2_ER(Mealplan m, string meal_type)
 			}
 			h++;
                 }
-        else if (meal_type.compare("Lunch") == 0)
+        else if (meal_type.compare("Lunch") == 0)//if user clicked lunch
                 while (h < N1.Nationality[e.hold_index].lunch.size())
                 {
                         FileR=N1.Nationality[e.hold_index].lunch[h].recipe_name;
@@ -540,7 +540,7 @@ void Modify2_window::Send2_ER(Mealplan m, string meal_type)
 			}
 			h++;
                 }
-        else if (meal_type.compare("Dinner") == 0)
+        else if (meal_type.compare("Dinner") == 0)//if user clicked dinner
                 while (h < N1.Nationality[e.hold_index].dinner.size())
                 {
                         FileR=N1.Nationality[e.hold_index].dinner[h].recipe_name;
@@ -553,7 +553,7 @@ void Modify2_window::Send2_ER(Mealplan m, string meal_type)
 			}
 			h++;
                 }
-        else if (meal_type.compare("Snack") == 0)
+        else if (meal_type.compare("Snack") == 0)//if user clicked snack
         {
                 while (h < N1.Nationality[e.hold_index].snack.size())
                 {
@@ -727,10 +727,10 @@ List_window::List_window(string Rep_names,string List):box(Gtk::ORIENTATION_VERT
         dialog.run();
         string s= entry.get_text();
 	//write the recipe names and list of ingredients to a file.
-    string path = "./savedList/"+s;
-    ofstream outfile (path);
-    outfile <<Rep_names<<"\n"<<List<<endl;
-    outfile.close();
+	string path = "./savedList/"+s;
+    	ofstream outfile (path);
+    	outfile <<Rep_names<<"\n"<<List<<endl;
+    	outfile.close();
 	set_size_request(400,400);
 	Rep_name_label.set_text(Rep_names);
 	List_label.set_text(List);
@@ -843,7 +843,7 @@ void Menuwindow::case2_clicked()
 
 				Modify2_window w(N1, day, time);//CHECK OUT MODIFY2_WINDOW CONSTRUCTOR
 				Gtk::Main::run(w);
-				time -=w.error;//user entered and invalid recipe so add back time so they can still select recipe for that time of day
+				time -=w.error;//user entered a invalid recipe so add back time so they can still select recipe for that time of day
 				if(w.error ==1)
 					cout<<"ERROR"<<endl;
 				if (w.entry_ans.compare("DONE") == 0)//if user wishes to cancel manual option
