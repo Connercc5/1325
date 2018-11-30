@@ -815,11 +815,67 @@ void Menuwindow::case2_clicked()
 	}
 	else if (choice == 1)
 	{
-
 		//RANDOM YES
 		//Random option
+		string path = "./savedList/test.txt";
+        ofstream outfile (path);
+		string listwrite;
 
+		int b=0;
+        //PROOF OF CONCEPT RANDOM FUCTION
+		//random nationality, stays static though random
+        int natRand=rand()%N1.Nationality.size();
 
+        //random recipies from 0 to the size of breakfast
+        int recipeRandBreakfast=rand()%N1.Nationality[natRand].breakfast.size();
+        int recipeRandLunch=rand()%N1.Nationality[natRand].lunch.size();
+        int recipeRandDinner=rand()%N1.Nationality[natRand].dinner.size();
+        int recipeRandSnack=rand()%N1.Nationality[natRand].snack.size();
+        int recipeRandDessert=rand()%N1.Nationality[natRand].dessert.size();
+
+        outfile<<N1.Nationality[natRand].breakfast[recipeRandBreakfast].recipe_name<<",";
+        outfile<<N1.Nationality[natRand].lunch[recipeRandLunch].recipe_name<<",";
+        outfile<<N1.Nationality[natRand].dinner[recipeRandDinner].recipe_name<<",";
+        outfile<<N1.Nationality[natRand].snack[recipeRandSnack].recipe_name<<",";
+        outfile<<N1.Nationality[natRand].dessert[recipeRandDessert].recipe_name<<endl;
+
+        //get ingredients for each
+        while (b < N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr.size())
+        {
+            outfile<< N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr[b].quantity<<" "<< N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr[b].unit<<" "<< N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr[b].name<<endl;
+            b++;
+
+        }
+        b=0;
+        while (b < N1.Nationality[natRand].lunch[recipeRandLunch].ingr.size())
+        {
+            outfile<< N1.Nationality[natRand].lunch[recipeRandLunch].ingr[b].quantity<<" "<< N1.Nationality[natRand].lunch[recipeRandLunch].ingr[b].unit<<" "<< N1.Nationality[natRand].lunch[recipeRandLunch].ingr[b].name<<endl;
+            b++;
+
+        }
+        b=0;
+        while (b < N1.Nationality[natRand].dinner[recipeRandDinner].ingr.size())
+        {
+            outfile<< N1.Nationality[natRand].dinner[recipeRandDinner].ingr[b].quantity<<" "<< N1.Nationality[natRand].dinner[recipeRandDinner].ingr[b].unit<<" "<< N1.Nationality[natRand].dinner[recipeRandDinner].ingr[b].name<<endl;
+            b++;
+
+        }
+        b=0;
+        while (b < N1.Nationality[natRand].snack[recipeRandSnack].ingr.size())
+        {
+            outfile<< N1.Nationality[natRand].snack[recipeRandSnack].ingr[b].quantity<<" "<< N1.Nationality[natRand].snack[recipeRandSnack].ingr[b].unit<<" "<< N1.Nationality[natRand].snack[recipeRandSnack].ingr[b].name<<endl;
+            b++;
+
+        }
+        b=0;
+        while (b < N1.Nationality[natRand].dessert[recipeRandDessert].ingr.size())
+        {
+            outfile<< N1.Nationality[natRand].dessert[recipeRandDessert].ingr[b].quantity<<" "<< N1.Nationality[natRand].dessert[recipeRandDessert].ingr[b].unit<<" "<< N1.Nationality[natRand].dessert[recipeRandDessert].ingr[b].name<<endl;
+            b++;
+
+        }
+
+        outfile.close();
 
 
 
