@@ -4,7 +4,7 @@ Breakfest#2
 Scotch_Eggs:7
 START_4_large_eggs,10_oz_sausage_meat,1_teaspoon(s)_fresh_thyme_leaves,1_tablespoon(s)_chopped_fresh_parsley,1_medium_spring_onion,4_oz_plain_flour,4_oz_breadcrumbs
 Black_Pudding:8
-START_4_cup(s)_fresh_pig_blood,2.5_teaspoon_salt,1.5_cup(s)_oatmeal,2_cup(s)_diced_pork_fat,1_large_yellow_onion,1_cup(s)_milk,1.5_teaspoon(s)_pepper,1_teaspoon(s)_allspice
+START_4_cup(s)_fresh_pig_blood,2.5_teaspoon(s)_salt,1.5_cup(s)_oatmeal,2_cup(s)_diced_pork_fat,1_large_yellow_onion,1_cup(s)_milk,1.5_teaspoon(s)_pepper,1_teaspoon(s)_allspice
 Lunch#1
 Irish_Stew:7
 START_3_lbs_lamb_shoulder_cut,4_tablespoon(s)_vegetable_oil,2_lbs_onions,1_lbs_carrots,4_cup(s)_chicken,1_large_sprig_thyme,3_lbs_russet_potatoes
