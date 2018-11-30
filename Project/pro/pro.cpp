@@ -30,7 +30,7 @@ using namespace std;
 //ALL STATIC MEMBERS FROM .H FILE
 File Menuwindow::N1;
 int Modify2_window::y = 0;
-vector <Recipe> Plan::Chosen_reps;
+vector <Recipe> Modify2_window::Chosen_recipes;
 
 //START:FUNCTIONS THAT ARE USED TO INTERACT WITH ALLFILE.TXT
 File Menuwindow::File_read(File N1)
@@ -406,14 +406,15 @@ void Menuwindow::get_blank(char*token)
 //MODIFY2_WINDOW CONSTRUCTOR,DECONSTRUCTOR AND FUNCTIONS
 
 //ASK USER TO CHOOSE NATIONALITY
-Modify2_window::Modify2_window(File N1, int choice, int day, int time) :box(Gtk::ORIENTATION_VERTICAL), enter_button("Enter"), back_button("Back to main menu") {
+Modify2_window::Modify2_window(File N1, int day, int time) :box(Gtk::ORIENTATION_VERTICAL),cancel("Cancel"), brea("Breakfast"), lunc("Lunch"),dinn("Dinner"),snac("Snack"),dess("Dessert") {
 	set_size_request(400, 200);
 	set_title("Create Shopping List");
 	add(box);
-	this->choice = choice;
 	this->day = day;
 	this->time = time;
-//	cout << time << endl;
+	this->N1 =N1;
+	this->error=0;
+
 	y = 0;
 	string nations = " ";
 	while (y < N1.Nationality.size())
@@ -430,58 +431,180 @@ Modify2_window::Modify2_window(File N1, int choice, int day, int time) :box(Gtk:
 	box.pack_start(nationality_names_title_label);
 	box.pack_start(nationality_names_label);
 	box.pack_start(nationality_label);
+	label.set_text(m.daysList[day].name);
+	//labels.set_text(input);
 
 	nationality_entry.set_max_length(50);
 	//nationality_entry.set_text("Enter nationality");
 	nationality_entry.set_text("Mexican");//just using this to test program 
 	nationality_entry.select_region(0, nationality_entry.get_text_length());
 	box.pack_start(nationality_entry);
+	time_label.set_text(tim[time]+" Recipe");
 
-	//entry_ans=nationality_entry.get_text();
 
-	enter_button.signal_clicked().connect(sigc::bind<File>(sigc::mem_fun(*this, &Modify2_window::enter_clicked), N1));
-	box.pack_start(enter_button);
-	back_button.signal_clicked().connect(sigc::mem_fun(*this, &Modify2_window::back_button_clicked));
-	box.pack_start(back_button);
+ 
+	box.pack_start(label);
+
+	box.pack_start(time_label);
+	box.pack_start(brea);
+	box.pack_start(lunc);
+	box.pack_start(dinn);
+	box.pack_start(snac);
+	box.pack_start(dess);
+	box.pack_start(cancel);
+	box.pack_start(cancel);
+
+	 brea.signal_clicked().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &Modify2_window::enter_clicked), "Breakfast"));
+	 lunc.signal_clicked().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &Modify2_window::enter_clicked), "Lunch"));
+	 dinn.signal_clicked().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &Modify2_window::enter_clicked), "Dinner"));
+	 snac.signal_clicked().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &Modify2_window::enter_clicked), "Snack"));
+	 dess.signal_clicked().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &Modify2_window::enter_clicked), "Dessert"));
+	 cancel.signal_clicked().connect(sigc::mem_fun(*this, &Modify2_window::cancel_clicked));
+	//box.pack_start(back_button);
 
 	show_all_children();
 
 }
 
 Modify2_window::~Modify2_window() { hide(); }
-void Modify2_window::enter_clicked(File N1)
+void Modify2_window::enter_clicked(string type)
 {
 	if (entry_ans.compare("DONE") != 0)
 	{
-		Mealplan m(N1, choice); //SETTING UP WINDOW FOR MANUAL OPTION
-		string input = nationality_entry.get_text();
+		//Mealplan m; //SETTING UP WINDOW FOR MANUAL OPTION
+		this->	entry_ans=nationality_entry.get_text();
+		//string input = nationality_entry.get_text();
 		hide();
-		Plan p(m, day, N1, input, time);
-		Gtk::Main::run(p);
-		back_button.signal_clicked().connect(sigc::mem_fun(*this, &Modify2_window::back_button_clicked));
-
-		 if((day==6)&&(time==4))//THIS IS FOR GETTING THE LABELS FOR THE FINAL SHOPPING LIST WINDOW
+		Send2_ER(m,type);//this function will go to the EnterRecipe Window
+		//if((day==6)&&(time==4))//THIS IS FOR GETTING THE LABELS FOR THE FINAL SHOPPING LIST WINDOW
+		if((day==0)&&(time==4))//this is here because i am testing code
                 {
-			this->Chosen=p.get_chosen();
-                        ShoppingList s (Chosen);
+                        //this->Chosen_recipe=
+			ShoppingList s (Chosen_recipes);
                         cout<<s.Rep_names<<" "<<s.List<<endl;
-                        cout<<"SIZE OF VECTOR:"<<Chosen.size()<<endl;
+                        cout<<"SIZE OF VECTOR:"<<Chosen_recipes.size()<<endl;
 			List_window f (s.Rep_names,s.List);
 			Gtk::Main::run(f);
+			
                 }
-
-		
-		
-		
-		p.hide();
 
 	}
 }
-void Modify2_window::back_button_clicked()
+void Modify2_window::cancel_clicked()
 {
 	hide();
 	entry_ans = "DONE";
 }
+
+void Modify2_window::Send2_ER(Mealplan m, string meal_type)
+{
+        //hide();
+        int y = 0;
+        int h = 0;
+        EnterRecipe_window e(m, N1, entry_ans, meal_type);
+        Gtk::Main::run(e);
+        string rep_name = e.recipe;//rep_name now holds the input from the entry in EnterRecipe window
+	string entryR,FileR;//use this for case error
+	bool found=false;
+        entryR=rep_name;
+	transform(entryR.begin(),entryR.end(),entryR.begin(),::toupper);
+	if(e.cancel_==true)//they click cancel in ER(EnterRecipe window) 
+	{
+		error=1;
+		return;
+	}
+
+        if (meal_type.compare("Breakfast") == 0)//if user clicked breakfast
+                while (h < N1.Nationality[e.hold_index].breakfast.size())
+                {
+
+                        FileR=N1.Nationality[e.hold_index].breakfast[h].recipe_name;
+			transform(FileR.begin(),FileR.end(),FileR.begin(),::toupper);//make text upper case so user can enter recipe name in any case
+			if (FileR.compare(entryR) == 0)
+			{ 
+			     	this->temp_hold = N1.Nationality[e.hold_index].breakfast[h];
+				found=true;
+			}
+			h++;
+                }
+        else if (meal_type.compare("Lunch") == 0)
+                while (h < N1.Nationality[e.hold_index].lunch.size())
+                {
+                        FileR=N1.Nationality[e.hold_index].lunch[h].recipe_name;
+                    	transform(FileR.begin(),FileR.end(),FileR.begin(),::toupper);
+			if (FileR.compare(entryR) == 0)
+			{
+				this->temp_hold = N1.Nationality[e.hold_index].lunch[h];
+				found=true;
+			
+			}
+			h++;
+                }
+        else if (meal_type.compare("Dinner") == 0)
+                while (h < N1.Nationality[e.hold_index].dinner.size())
+                {
+                        FileR=N1.Nationality[e.hold_index].dinner[h].recipe_name;
+                        transform(FileR.begin(),FileR.end(),FileR.begin(),::toupper);
+			if (FileR.compare(entryR) == 0)
+			{
+		     		this->temp_hold = N1.Nationality[e.hold_index].dinner[h];
+				found=true;
+
+			}
+			h++;
+                }
+        else if (meal_type.compare("Snack") == 0)
+        {
+                while (h < N1.Nationality[e.hold_index].snack.size())
+                {
+                        FileR=N1.Nationality[e.hold_index].snack[h].recipe_name;
+                        transform(FileR.begin(),FileR.end(),FileR.begin(),::toupper);
+			if (FileR.compare(entryR) == 0)
+			{
+				this->temp_hold = N1.Nationality[e.hold_index].snack[h];
+				found=true;
+
+			}
+			h++;
+                }
+        }
+        else if (meal_type.compare("Dessert") == 0)
+        {
+                while (h < N1.Nationality[e.hold_index].dessert.size())
+                {
+                
+		        FileR=N1.Nationality[e.hold_index].dessert[h].recipe_name;
+                        transform(FileR.begin(),FileR.end(),FileR.begin(),::toupper);
+			if (FileR.compare(entryR) == 0)
+			{ 
+				this->temp_hold = N1.Nationality[e.hold_index].dessert[h];
+				found=true;
+			
+			}
+			h++;
+                }
+        }
+        if(found==false)
+	{
+		warning();
+		return;
+	}
+        // there is a bug here it is only add on 1 recipe
+        Chosen_recipes.push_back(temp_hold);
+        }
+
+
+void Modify2_window:: warning()
+{
+	Gtk::MessageDialog dialog(*this,"Not Found",false,Gtk::MESSAGE_INFO);
+        dialog.set_secondary_text("Recipe was not found");
+	dialog.run();
+	error=1;
+
+}
+
+
+
 
 
 
@@ -494,13 +617,18 @@ EnterRecipe_window::~EnterRecipe_window()
 
 EnterRecipe_window::EnterRecipe_window(Mealplan m, File N1, string NationalityName, string meal_type) :box(Gtk::ORIENTATION_VERTICAL), enter("Enter"), cancel("Cancel", 3)
 {
+	this->cancel_=false;
 	set_size_request(300, 300);
 	int e = 0;
+	string Nation;
+	transform(NationalityName.begin(),NationalityName.end(),NationalityName.begin(),::toupper);
 	while (e < N1.Nationality.size())
 	{
-		if (N1.Nationality[e].nationality.compare(NationalityName) == 0)
-		{
+		Nation=N1.Nationality[e].nationality;
+	      	transform(Nation.begin(),Nation.end(),Nation.begin(),::toupper);
 
+		if(Nation.compare(NationalityName) == 0)
+		{
 			hold_index = e;
 		}
 		e++;
@@ -509,7 +637,7 @@ EnterRecipe_window::EnterRecipe_window(Mealplan m, File N1, string NationalityNa
 	string recipe_names = " ";
 
 
-
+//this will display the recipes in catagory that the user clicked
 	if (meal_type.compare("Breakfast") == 0)
 	{
 		while (e < N1.Nationality[hold_index].breakfast.size())
@@ -555,7 +683,6 @@ EnterRecipe_window::EnterRecipe_window(Mealplan m, File N1, string NationalityNa
 			e++;
 		}
 	}
-	//cout << recipe_names << endl;
 	add(box);
 
 
@@ -577,7 +704,7 @@ void EnterRecipe_window::enter_clicked()
 void EnterRecipe_window::cancel_clicked()
 {
 	hide();
-
+	this->	cancel_=true;
 
 }
 
@@ -619,132 +746,6 @@ void List_window::ok_clicked()
 {
 	hide();
 }
-
-//PLAN CONSTRUCTOR DECONSTRUCTOR AND FUNCTIONS
-Plan::~Plan()
-{
-	hide();
-}
-vector <Recipe> Plan::get_chosen()
-{
-return Chosen_reps;
-}
-Plan::Plan(Mealplan m, int day, File N1, string input, int time) :box(Gtk::ORIENTATION_VERTICAL), day0("Breakfast"), day1("Lunch"), day2("Dinner"), day3("Snack"), day4("Dessert"), cancel("Cancel", 3)
-{
-	string tim[5] = { "Breakfast","Lunch","Dinner","Snack","Dessert" };
-	this->N1 = N1;
-	set_size_request(400, 200);
-	//lab.set_text(time[])
-	label.set_text(m.daysList[day].name);
-	labels.set_text(input);
-	add(box);
-	this->day =day;
-	this->input = input;
-	time_label.set_text(tim[time]+" Recipe");
-	box.pack_start(label);
-	box.pack_start(time_label);
-	box.pack_start(day0);
-	box.pack_start(day1);
-	box.pack_start(day2);
-	box.pack_start(day3);
-	box.pack_start(day4);
-	box.pack_start(cancel);
-	show_all_children();
-	//divde by time then connect by caseR function
-	day0.signal_clicked().connect(sigc::bind<Mealplan>(sigc::mem_fun(*this, &Plan::caseB), m));
-	day1.signal_clicked().connect(sigc::bind<Mealplan>(sigc::mem_fun(*this, &Plan::caseL), m));
-	day2.signal_clicked().connect(sigc::bind<Mealplan>(sigc::mem_fun(*this, &Plan::caseD), m));
-	day3.signal_clicked().connect(sigc::bind<Mealplan>(sigc::mem_fun(*this, &Plan::caseS), m));
-	day4.signal_clicked().connect(sigc::bind<Mealplan>(sigc::mem_fun(*this, &Plan::caseE), m));
-	cancel.signal_clicked().connect(sigc::mem_fun(*this, &Plan::cancel_clicked));
-
-}
-void Plan::cancel_clicked(){hide();}
-
-
-//BUG IN HERE
-void Plan::caseR(Mealplan m)
-{
-	hide();
-	int y = 0;
-	int h = 0;
-	EnterRecipe_window e(m, N1, input, meal_type);
-	Gtk::Main::run(e);
-	string rep_name = e.recipe;
-	if (meal_type.compare("Breakfast") == 0)
-		while (h < N1.Nationality[e.hold_index].breakfast.size())
-		{
-			if (N1.Nationality[e.hold_index].breakfast[h].recipe_name.compare(rep_name) == 0)
-				this->temp_hold = N1.Nationality[e.hold_index].breakfast[h];
-			h++;
-		}
-	else if (meal_type.compare("Lunch") == 0)
-		while (h < N1.Nationality[e.hold_index].lunch.size())
-		{
-			if (N1.Nationality[e.hold_index].lunch[h].recipe_name.compare(rep_name) == 0)
-				this->temp_hold = N1.Nationality[e.hold_index].lunch[h];
-			h++;
-		}
-	else if (meal_type.compare("Dinner") == 0)
-		while (h < N1.Nationality[e.hold_index].dinner.size())
-		{
-			if (N1.Nationality[e.hold_index].dinner[h].recipe_name.compare(rep_name) == 0)
-				this->temp_hold = N1.Nationality[e.hold_index].dinner[h];
-			h++;
-		}
-	else if (meal_type.compare("Snack") == 0)
-	{
-		while (h < N1.Nationality[e.hold_index].snack.size())
-		{
-			if (N1.Nationality[e.hold_index].snack[h].recipe_name.compare(rep_name) == 0)
-				this->temp_hold = N1.Nationality[e.hold_index].snack[h];
-
-			h++;
-		}
-	}
-	else if (meal_type.compare("Dessert") == 0)
-	{
-		while (h < N1.Nationality[e.hold_index].dessert.size())
-		{
-			if (N1.Nationality[e.hold_index].dessert[h].recipe_name.compare(rep_name) == 0)
-				this->temp_hold = N1.Nationality[e.hold_index].dessert[h];
-			h++;
-		}
-	}
-
-	// there is a bug here it is only add on 1 recipe
-	Chosen_reps.push_back(temp_hold);
-	}
-
-void Plan::caseB(Mealplan m)
-{
-	meal_type = "Breakfast";
-	caseR(m);
-}
-void Plan::caseL(Mealplan m)
-{
-	meal_type = "Lunch";
-	caseR(m);
-}
-void Plan::caseD(Mealplan m)
-{
-	meal_type = "Dinner";
-	caseR(m);
-}
-void Plan::caseS(Mealplan m)
-{
-	meal_type = "Snack";
-	caseR(m);
-}
-void Plan::caseE(Mealplan m)
-{
-	meal_type = "Dessert";
-	caseR(m);
-}
-
-
-
-
 
 
 //MENUWINDOW CONSTRUCTOR ,DECONSTRUCTOR AND FUNCTIONS
@@ -829,21 +830,27 @@ void Menuwindow::case2_clicked()
 		//RANDOM NO
 		//manual option
 		dialog.hide();
-		//hide(); 
+		hide(); 
 	 //SETTING UP WINDOW FOR MANUAL OPTION
 		int day = 0;
 		int time = 0;
-		while (day < 7)//ASK SEVEN DAYS A WEEK
+		//while (day < 7)//ASK SEVEN DAYS A WEEK
+		while (day < 1)//this is here because i am testing code
 		{
 			time = 0;
 			while (time < 5)//ASK FOR EACH MEAL BREAKFAST-DESSERT
 			{
 
-				Modify2_window w(N1, choice, day, time);//CHECK OUT MODIFY2_WINDOW CONSTRUCTOR
+				Modify2_window w(N1, day, time);//CHECK OUT MODIFY2_WINDOW CONSTRUCTOR
 				Gtk::Main::run(w);
-				if (w.entry_ans.compare("DONE") == 0)
+				time -=w.error;//user entered and invalid recipe so add back time so they can still select recipe for that time of day
+				if(w.error ==1)
+					cout<<"ERROR"<<endl;
+				if (w.entry_ans.compare("DONE") == 0)//if user wishes to cancel manual option
 				{
 					w.hide();
+					Menuwindow m;
+					Gtk::Main::run(m);
 
 					time = 5;
 					day = 7;

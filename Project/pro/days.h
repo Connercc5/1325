@@ -11,12 +11,19 @@ class Days
 {
         public:
 		Days(string day);
+		Days(Recipe r);
 		string name;
-		Recipe breakfast(string recipe_name ,vector <ingredient> ingr,int num_of_ingredients);
-		Recipe lunch(string recipe_name ,vector <ingredient> ingr,int num_of_ingredients);
-		Recipe dinner(string recipe_name ,vector <ingredient> ingr,int num_of_ingredients);
-		Recipe snack (string recipe_name ,vector <ingredient> ingr,int num_of_ingredients);
-		Recipe dessert(string recipe_name ,vector <ingredient> ingr,int num_of_ingredients);
+		Recipe b;
+		Recipe l;
+		Recipe d;
+		Recipe s;
+		Recipe e;
+	//	Recipe breakfast(string recipe_name ,vector <ingredient> ingr,int num_of_ingredients);
+	///	Recipe lunch(string recipe_name ,vector <ingredient> ingr,int num_of_ingredients);
+	//	Recipe dinner(string recipe_name ,vector <ingredient> ingr,int num_of_ingredients);
+	//	Recipe snack (string recipe_name ,vector <ingredient> ingr,int num_of_ingredients);
+	//	Recipe dessert(string recipe_name ,vector <ingredient> ingr,int num_of_ingredients);
+
 };
 #endif
 

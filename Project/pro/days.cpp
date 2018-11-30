@@ -8,3 +8,5 @@ Days::Days(string name)
 {
 	this->name=name;
 }
+Days::Days(Recipe r)
+{}

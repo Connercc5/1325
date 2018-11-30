@@ -16,44 +16,6 @@ using namespace std;
 
 
 
-class Plan : public Gtk::Window
-{
-	static vector <Recipe> Chosen_reps;
-public:
-	Plan(Mealplan m, int day, File N1, string input, int time);
-	virtual ~Plan();
-	string meal_type;
-	string input;
-	int day;
-	Recipe temp_hold;
-	vector<Recipe> get_chosen();
-	File N1;
-
-protected:
-
-	Gtk::Label label;
-	Gtk::Label labels;
-	Gtk::Label time_label;
-	Gtk::Box box;
-	Gtk::Button cancel;
-	Gtk::Button day0;
-	Gtk::Button day1;
-	Gtk::Button day2;
-	Gtk::Button day3;
-	Gtk::Button day4;
-	void caseR(Mealplan m);
-	void caseB(Mealplan m);
-	void caseL(Mealplan m);
-	void caseD(Mealplan m);
-	void caseS(Mealplan m);
-	void caseE(Mealplan m);
-	void cancel_clicked();
-	friend class Modify_window;
-	friend class EnterRecipe_window;
-
-};
-
-
 class List_window:public Gtk::Window
 {
 	public:
@@ -103,41 +65,60 @@ protected:
 
 };
 
-class EnterRecipe_window :public Gtk::Window
+class EnterRecipe_window :public Gtk::Window//ER
 {
 public:
 	EnterRecipe_window(Mealplan m, File N1, string NationalityName,string meal_type);
 	virtual ~EnterRecipe_window();
 	string recipe;
 	int hold_index;
+	bool cancel_=false;
 protected:
 	Gtk::Label recipe_name_label;
 	Gtk::Entry entry;
 	Gtk::Button enter;
 	Gtk::Button cancel;
 	Gtk::Box box;
-	friend class Plan;
 	void cancel_clicked();
 	void enter_clicked();
+
 
 };
 class Modify2_window : public Gtk::Window {//Used for create shopping option
 
 	static int y;
+	static vector <Recipe> Chosen_recipes;
 	public:
-	Modify2_window(File N1, int choice, int day, int time);
+	string tim[5] = { "Breakfast","Lunch","Dinner","Snack","Dessert" };
+	Modify2_window(File N1, int day, int time);
 	virtual ~Modify2_window();
 	string entry_ans;
 	int day;
 	int time;
-	int choice;
-	vector <Recipe> Chosen;
+	int error=0;
 
-protected:
+	File N1;
+        string meal_type;
+        string input;
+        Recipe temp_hold;
+        vector<Recipe> get_chosen();
+	Mealplan m;
+	protected:
 
-	void enter_clicked(File N1);
-	void back_button_clicked();
+	void enter_clicked(string type);
 
+	void warning();//entered something that was not an option
+	 Gtk::Label label;
+        Gtk::Label labels;
+        Gtk::Label time_label;
+        Gtk::Button cancel;
+        Gtk::Button brea;
+        Gtk::Button lunc;
+        Gtk::Button dinn;
+        Gtk::Button snac;
+        Gtk::Button dess;
+        void Send2_ER(Mealplan m,string meal_type);
+        void cancel_clicked();
 
 
 	Gtk::Label nationality_names_title_label;
@@ -147,7 +128,7 @@ protected:
 	Gtk::Button enter_button;
 	Gtk::Button back_button;
 	Gtk::Box box;
-	friend class Plan;
+
 };
 
 
@@ -172,14 +153,8 @@ protected:
 	Gtk::Button nationality_button;
 	Gtk::Button back_button;
 	Gtk::Box box;
-	friend class Plan;
 };
 
 
-class Recipe_Info {
-public:
-	string food_type, recipe_name, recipe;
-	Recipe_Info(string food_type_p, string recipe_name_p, string recipe_p);
-};
 #endif
 

@@ -6,7 +6,7 @@ using namespace std;
 #include<vector>
 
 //this class will probably hold the random function
-Mealplan::Mealplan(File N1,int status)
+Mealplan::Mealplan()
 {
 	add_mealplan();//fill vector of days with names of days
 }
