@@ -33,6 +33,12 @@ int Modify2_window::y = 0;
 vector <Recipe> Modify2_window::Chosen_recipes;
 
 //START:FUNCTIONS THAT ARE USED TO INTERACT WITH ALLFILE.TXT
+void Menuwindow ::get_w(File N1)
+{
+	File_write(N1);
+}
+
+
 File Menuwindow::File_read(File N1)
 {
 	N1.Nationality.clear();
@@ -247,6 +253,7 @@ void Menuwindow::File_write(File N1)
 		{
 			int b = 0;
 			string name = get_underscore(N1.Nationality[g].dessert[j].recipe_name);
+			cout<<name<<endl;
 			if (name.compare("DELETE") == 0)
 			{
 				N1.Nationality[g].Erep_num--;
@@ -603,7 +610,7 @@ void Modify2_window:: warning()
 
 
 
-//ENTERRECIPE_WINDOW CONSTRUCTOR DECONSTRUCTOR AND FUNCTIONS
+//ENTERRECIPE_WINDOW CONSTRUCTOR DECONSTRUCTOR AND FUNCTIONS USED IN OPTION 2 MAnual
 
 EnterRecipe_window::~EnterRecipe_window()
 {
@@ -1020,7 +1027,7 @@ Plan_2::~Plan_2()
 	hide();
 }
 
-Plan_2::Plan_2(File N1, string nationality_p) :box(Gtk::ORIENTATION_VERTICAL), Br_button("Breakfast"), Lu_button("Lunch"), Di_button("Diner"), Sn_button("Snack"), De_button("Dessert"), Cancel_button("Cancel")
+Plan_2::Plan_2(File N1, string nationality_p) :box(Gtk::ORIENTATION_VERTICAL), Br_button("Breakfast"), Lu_button("Lunch"), Di_button("Dinner"), Sn_button("Snack"), De_button("Dessert"), Cancel_button("Cancel")
 {
 
          this->N1 = N1;
@@ -1068,7 +1075,8 @@ void Plan_2::Lu_clicked (Glib::ustring nationality_p) {
 
 
 void Plan_2::Di_clicked (Glib::ustring nationality_p) {
-  string meal_type  = "Diner";
+//We are using Dinner  not Diner the spelling was causing that input not to be read in from file  
+string meal_type  = "Dinner";
   Choice  (nationality_p, meal_type);
 }
 
@@ -1311,8 +1319,54 @@ void Delete_window::Send_clicked(Glib::ustring nationality_p, Glib::ustring meal
 {
     hide ();
     string user_input = recipe_name_entry.get_text();
-    string underscore = "_";
-    ifstream Infile;
+   int i=0;
+    while(i<1000)
+    {
+    //cout<<user_iput<<endl;
+	    if( user_input.compare(N1.Nationality[hold_index].breakfast[i].recipe_name)==0)
+    {
+    		
+	   N1.Nationality[hold_index].breakfast[i].recipe_name="DELETE";
+  	 break; 
+    
+    }
+    else if(user_input.compare(N1.Nationality[hold_index].lunch[i].recipe_name)==0)
+    {
+	   N1.Nationality[hold_index].lunch[i].recipe_name="DELETE";
+  	 break; 
+    
+    
+    } 
+    else if(user_input.compare(N1.Nationality[hold_index].dinner[i].recipe_name)==0)
+    {
+	   N1.Nationality[hold_index].dinner[i].recipe_name="DELETE";
+  	 break; 
+    }
+    else if(user_input.compare(N1.Nationality[hold_index].snack[i].recipe_name)==0)
+    {
+	   N1.Nationality[hold_index].snack[i].recipe_name="DELETE";
+  	 break; 
+    
+    
+    
+    }
+    else if(user_input.compare(N1.Nationality[hold_index].dessert[i].recipe_name)==0)
+    {
+   	cout<< N1.Nationality[hold_index].dessert[i].recipe_name<<endl;
+	   N1.Nationality[hold_index].dessert[i].recipe_name="DELETE";
+   	cout<< N1.Nationality[hold_index].dessert[i].recipe_name<<endl;
+  	 break; 
+    }
+    i++;
+    }	    
+    
+    Menuwindow r;
+    r.get_w(N1);
+    //File_write(N1);
+    /* string underscore = "_";
+   
+
+	       ifstream Infile;
     string line;
     ofstream Tempfile;
     Tempfile.open("Temp.txt");
@@ -1341,7 +1395,7 @@ for(int  i = 0; i < user_input.length(); i++) {
      //  rename("AllFile.txt", "OldFile.txt");
        rename("Temp.txt","AllFiles.txt");
       cout <<endl<<endl<<endl;
-    
+    */
      
 }
 void Delete_window::Cancel_clicked()

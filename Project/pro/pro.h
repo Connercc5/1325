@@ -50,7 +50,7 @@ class Menuwindow : public Gtk::Window
 	//END:FUNCTIONS THAT ARE USED FOR FILE INTERACTIONS*/
 
 public:
-
+	void get_w(File N1);
 	Menuwindow();
 	virtual ~Menuwindow();
 protected:
@@ -59,7 +59,7 @@ protected:
 	void case3_clicked();
 	void case4_clicked();
 
-
+	friend class Delete_window;
 	Gtk::Button case1;
 	Gtk::Button case2;
 	Gtk::Button case3;
