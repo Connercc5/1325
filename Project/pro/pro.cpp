@@ -978,24 +978,34 @@ Modify_window::Modify_window(File N1) :box(Gtk::ORIENTATION_VERTICAL), nationali
 //J'ai modifié
 void Modify_window::Nationality(File N1) {
   string user_input = nationality_entry.get_text ();
-
-  for (int i = 0; i < N1.Nationality.size (); i++) {
-    
-    if (user_input == N1.Nationality[i].nationality){
-
+   //there was a bug here if you entered anything other then irish the MESSAGEDIALOG would put up
+  bool check=false;//check if name matches nationality
+  for (int i = 0; i < N1.Nationality.size (); i++) 
+  {
+   //there was a bug here 
+    if (user_input == N1.Nationality[i].nationality)
+    {
+	  
       	hide();
 	Plan_2 p( N1, user_input);
-	Gtk::Main::run(p);
-      
-  
-      break;
-    } else {
+	Gtk::Main::run(p);	   
+	check=true;    
+	break;
+    } 
+  }
+  if(check ==false)  
+  {
       Gtk::MessageDialog dialog (*this, "Wrong input, try again", false, Gtk::MESSAGE_INFO);
       dialog.run();
-    }
+      //just added this
+	Menuwindow w;
+	Gtk::Main::run(w);
+   }
     
-  }
+    
+  
 }
+
 Modify_window::~Modify_window() {}
 void Modify_window::back_button_clicked() {
 	hide();
