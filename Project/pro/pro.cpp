@@ -253,7 +253,6 @@ void Menuwindow::File_write(File N1)
 		{
 			int b = 0;
 			string name = get_underscore(N1.Nationality[g].dessert[j].recipe_name);
-			cout<<name<<endl;
 			if (name.compare("DELETE") == 0)
 			{
 				N1.Nationality[g].Erep_num--;
@@ -1362,6 +1361,13 @@ void Delete_window::Send_clicked(Glib::ustring nationality_p, Glib::ustring meal
     
     Menuwindow r;
     r.get_w(N1);
+    Gtk::MessageDialog dialog(*this,"Done",false,Gtk::MESSAGE_INFO);
+    dialog.set_secondary_text("Recipe Deleted!");
+    dialog.run();
+    Menuwindow m;
+    dialog.hide(); 
+    Gtk::Main::run(m);
+
     //File_write(N1);
     /* string underscore = "_";
    

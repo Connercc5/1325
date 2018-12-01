@@ -45,7 +45,7 @@ START_1_lbs_chicken_thighs,1_small_cabbage,1_medium_radish,1_oz)can_hominy,7_tab
 Dinner#1
 Garlic_Beef_Enchilades:9
 START_1_lbs_ground_beef,1_medium_onion,2_tablespoon(s)_flour,1_tablespoon(s)_powder,1_teaspoon(s)_salt,1_teaspoon(s)_garlic_powder,0.5_teaspoon(s)_ground_cumin,0.25_teaspoon(s)_rubbed_sage,1_can_stewed_tomatoes,
-Snack#1
-Sheet_Pan_Nachos:12
-START_1_tablespoon(s)_olive_oil,1_lbs_ground_beef,2_cloves_garlic,1.25_oz_package_taco_seasoning,12_oz_tortilla_chips,15_oz_can_black_beans,1_cup(s)_corn_kernels,1_cup(s)_shredded_cheddar_cheese,0.5_cup(s)_shredded_monterey_jack_cheese,1_whole_tomato,0.25_cup(s)_red_onion_diced,1_whole_jalapeno,
-Dessert#0
+Snack#0
+Dessert#1
+Flan:4
+START_0.33_cup(s)_white_sugar,3_medium_eggs,1_teaspoon(s)_vanilla_extract,1_can(12_oz)_evaporated_milk,
