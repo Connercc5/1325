@@ -414,8 +414,8 @@ Modify2_window::Modify2_window(File N1, int day, int time) :box(Gtk::ORIENTATION
 	this->time = time;
 	this->N1 =N1;
 	this->error=0;
-
 	y = 0;
+
 	string nations = " ";
 	while (y < N1.Nationality.size())
 	{
@@ -432,7 +432,6 @@ Modify2_window::Modify2_window(File N1, int day, int time) :box(Gtk::ORIENTATION
 	box.pack_start(nationality_names_label);
 	box.pack_start(nationality_label);
 	label.set_text(m.daysList[day].name);
-	//labels.set_text(input);
 
 	nationality_entry.set_max_length(50);
 	//nationality_entry.set_text("Enter nationality");
@@ -440,8 +439,6 @@ Modify2_window::Modify2_window(File N1, int day, int time) :box(Gtk::ORIENTATION
 	nationality_entry.select_region(0, nationality_entry.get_text_length());
 	box.pack_start(nationality_entry);
 	time_label.set_text(tim[time]+" Recipe");
-
-
 
 	box.pack_start(label);
 
@@ -460,7 +457,6 @@ Modify2_window::Modify2_window(File N1, int day, int time) :box(Gtk::ORIENTATION
 	 snac.signal_clicked().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &Modify2_window::enter_clicked), "Snack"));
 	 dess.signal_clicked().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &Modify2_window::enter_clicked), "Dessert"));
 	 cancel.signal_clicked().connect(sigc::mem_fun(*this, &Modify2_window::cancel_clicked));
-	//box.pack_start(back_button);
 
 	show_all_children();
 
@@ -476,15 +472,14 @@ void Modify2_window::enter_clicked(string type)
 		//string input = nationality_entry.get_text();
 		hide();
 		Send2_ER(m,type);//this function will go to the EnterRecipe Window
-		//if((day==6)&&(time==4))//THIS IS FOR GETTING THE LABELS FOR THE FINAL SHOPPING LIST WINDOW
-		if((day==0)&&(time==4))//this is here because i am testing code
+		if((day==6)&&(time==4))//THIS IS FOR GETTING THE LABELS FOR THE FINAL SHOPPING LIST WINDOW
+		//if((day==0)&&(time==4))//this is here because i am testing code
                 {
-                        //this->Chosen_recipe=
 			ShoppingList s (Chosen_recipes);
-                        cout<<s.Rep_names<<" "<<s.List<<endl;
-                        cout<<"SIZE OF VECTOR:"<<Chosen_recipes.size()<<endl;
-			List_window f (s.Rep_names,s.List);
+			Chosen_recipes.clear();
+			List_window f (s.Rep_names,s.List);		
 			Gtk::Main::run(f);
+
 
                 }
 
@@ -617,11 +612,12 @@ EnterRecipe_window::~EnterRecipe_window()
 
 EnterRecipe_window::EnterRecipe_window(Mealplan m, File N1, string NationalityName, string meal_type) :box(Gtk::ORIENTATION_VERTICAL), enter("Enter"), cancel("Cancel", 3)
 {
-	this->cancel_=false;
+	this->cancel_=false;//signal to other Modify2_window that user canceled a recipe write
 	set_size_request(300, 300);
 	int e = 0;
 	string Nation;
-	transform(NationalityName.begin(),NationalityName.end(),NationalityName.begin(),::toupper);
+
+	transform(NationalityName.begin(),NationalityName.end(),NationalityName.begin(),::toupper);//allowing user to enter nationality in any case
 	while (e < N1.Nationality.size())
 	{
 		Nation=N1.Nationality[e].nationality;
@@ -713,7 +709,9 @@ List_window::~List_window(){hide();}
 List_window::List_window(string Rep_names,string List):box(Gtk::ORIENTATION_VERTICAL),ok("Ok")
 {
 
+// Setting up message dialog
 	Gtk::Entry entry=Gtk::Entry();
+        set_size_request(400,500);
 	Gtk::Label lab= Gtk::Label();
 	entry.set_text("Ex: file.txt or List.txt... etc");
 	lab.set_text("Enter a file name:");
@@ -721,11 +719,16 @@ List_window::List_window(string Rep_names,string List):box(Gtk::ORIENTATION_VERT
 	dialog.set_secondary_text("What name would you like to save this list under?");
 	dialog.get_content_area()->pack_start(lab);
         dialog.get_content_area()->pack_start(entry);
+        box.pack_start(scrolled_window);
+	scrolled_window.set_border_width(10);
+	scrolled_window.set_policy(Gtk::POLICY_AUTOMATIC,Gtk::POLICY_ALWAYS);
+	//scrolled_window.set_policy(NULL,NULL);
         dialog.set_size_request(400,200);
         entry.show();
         lab.show();
         dialog.run();
-        string s= entry.get_text();
+//END: Message dialog set up        
+	string s= entry.get_text();
 	//write the recipe names and list of ingredients to a file.
 	string path = "./savedList/"+s;
     	ofstream outfile (path);
@@ -745,6 +748,8 @@ List_window::List_window(string Rep_names,string List):box(Gtk::ORIENTATION_VERT
 void List_window::ok_clicked()
 {
 	hide();
+	Menuwindow d;
+	Gtk::Main::run(d);
 }
 
 
@@ -890,8 +895,8 @@ void Menuwindow::case2_clicked()
 	 //SETTING UP WINDOW FOR MANUAL OPTION
 		int day = 0;
 		int time = 0;
-		//while (day < 7)//ASK SEVEN DAYS A WEEK
-		while (day < 1)//this is here because i am testing code
+		while (day < 7)//ASK SEVEN DAYS A WEEK
+		//while (day < 1)//this is here because i am testing code
 		{
 			time = 0;
 			while (time < 5)//ASK FOR EACH MEAL BREAKFAST-DESSERT
@@ -900,8 +905,8 @@ void Menuwindow::case2_clicked()
 				Modify2_window w(N1, day, time);//CHECK OUT MODIFY2_WINDOW CONSTRUCTOR
 				Gtk::Main::run(w);
 				time -=w.error;//user entered a invalid recipe so add back time so they can still select recipe for that time of day
-				if(w.error ==1)
-					cout<<"ERROR"<<endl;
+//				if(w.error ==1)
+//					cout<<"ERROR"<<endl;
 				if (w.entry_ans.compare("DONE") == 0)//if user wishes to cancel manual option
 				{
 					w.hide();
@@ -926,7 +931,7 @@ void Menuwindow::case2_clicked()
 void Menuwindow::case4_clicked() {
 	Gtk::Main::quit();
 }
-//
+
 //MODIFY_WINDOW CONSTRUCTOR, DECONSTRUCTOR AND FUNCTIONS
 Modify_window::Modify_window(File N1) :box(Gtk::ORIENTATION_VERTICAL), nationality_button("Enter"), back_button("Back to main menu") {
 	set_size_request(400, 200);

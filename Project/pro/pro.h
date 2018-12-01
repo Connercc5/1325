@@ -26,6 +26,9 @@ class List_window:public Gtk::Window
 	Gtk::Label List_label;
 	Gtk::Box box;
 	Gtk::Button ok;
+	Gtk::ScrolledWindow scrolled_window;
+
+
 	void ok_clicked();	
 };
 

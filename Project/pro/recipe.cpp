@@ -3,6 +3,7 @@
 //#include"ingredient.h"
 #include"recipe.h"
 #include"mealplan.h"
+#include"days.h"
 using namespace std;
 Recipe::Recipe(string recipe_name, vector <ingredient> ingr, int num_of_ingredients)
 {
@@ -24,52 +25,78 @@ ShoppingList::ShoppingList(vector <Recipe> Chosen_reps)
 	int u=0;
 	int j=0;
 	int g=0;
+	Recipe b;
+	Recipe l;
+	Recipe d;
+	Recipe s;
+	Recipe e;
 	vector<string>Rep;
 	string rep;
 	Mealplan m;
-	while (h<Chosen_reps.size())
+
+		
+	int x=0;
+	u=0;	
+
+	while (h<=Chosen_reps.size())
 	{
-		
-		//m.dayList.push_back(day);
-		
-		
-		k=0;
-		u=0;
-		if(h==0)
-		{	Rep.push_back(Chosen_reps[h].recipe_name);
-		
-		}
-		else
-		{
-			cout<<Rep.size()<<endl;
-			while(u<Rep.size())
-			{
-			
-			cout<<Rep[u]<<Chosen_reps[h].recipe_name<<endl;
-			if(Rep[u].compare(Chosen_reps[h].recipe_name)==0)
-			{
-
-
-				k=10;
-
-			}
-
-			u++;
-		}
-		}
 		if(k==0)
 		{
-				if(r>0)		
-					Rep_names+=", ";
-				Rep_names+=Chosen_reps[h].recipe_name;
-			Rep.push_back(Chosen_reps[h].recipe_name);
-			j++;
-	
-				r=9;	
+			if(x==0)
+			{
+				b=Chosen_reps[h];
+			}	
+			else if(x==1)
+				l=Chosen_reps[h];
+			else if(x==2)
+				d=Chosen_reps[h];
+			else if(x==3)
+				s=Chosen_reps[h];
+			else if(x==4)
+				e=Chosen_reps[h];
+			else if(x==5)
+			{	
+				m.daysList[u].breakfast=b;
+				m.daysList[u].lunch=l;
+				m.daysList[u].dinner=d;
+				m.daysList[u].snack=s;
+				m.daysList[u].dessert=e;
+				cout<<m.daysList.size()<<endl;
+				x=-1;
+				if(h==Chosen_reps.size())
+					k=10;
+
+				u++;	
+				h--;
+			}
+			x++;
 		}
-	h++;
+
+		h++;
+	}	
+		k=0;
+
+u=0;
+Rep_names="";
+	while(u<7)
+	//while(u<1)//using this to test code
+	{
+		Rep_names+=m.daysList[u].name;
+		Rep_names+=": ";
+		Rep_names+=m.daysList[u].breakfast.recipe_name;
+		Rep_names+=", ";
+		Rep_names+=m.daysList[u].lunch.recipe_name;
+		Rep_names+=", ";
+		Rep_names+=m.daysList[u].dinner.recipe_name;
+		Rep_names+=", ";
+		Rep_names+=m.daysList[u].snack.recipe_name;
+		Rep_names+=", ";
+		Rep_names+=m.daysList[u].dessert.recipe_name;
+		Rep_names+="\n";
+		u++;
 	}
-	//Trying to combine all of the ingredients from all of the recipes
+u=0;
+//Trying to combine all of the ingredients from all of the recipes
 	h=0;
 	while(h<Chosen_reps.size())
 	{
@@ -89,12 +116,8 @@ ShoppingList::ShoppingList(vector <Recipe> Chosen_reps)
 				 k=0;
 				while(g<tempList.size())
 				{
-					cout<<tempList.size()<<endl;
-					cout<<tempList[g].name<<"Chosen: "<<Chosen_reps[h].ingr[ingre].name<<endl;
 					if(tempList[g].name.compare(Chosen_reps[h].ingr[ingre].name)==0)
 					{
-						
-						cout<<"Hi"<<endl;
 						tempList[g].quantity+=Chosen_reps[h].ingr[ingre].quantity;
 						k=10;
 						break;
@@ -103,13 +126,13 @@ ShoppingList::ShoppingList(vector <Recipe> Chosen_reps)
 				}
 				if(k==0)
 					{
-					ingredient ID=Chosen_reps[h].ingr[ingre];
+						ingredient ID=Chosen_reps[h].ingr[ingre];
 						tempList.push_back(ID);
 					}	
 
 					
 			}	
-ingre++;
+			ingre++;
 		}
 		h++;
 	}
