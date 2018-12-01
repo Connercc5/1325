@@ -796,6 +796,7 @@ void Menuwindow::case1_clicked() {
 	Gtk::Main::run(w);
 }
 
+
 void Menuwindow::case2_clicked()
 {
 	N1 = File_read(N1);//gives access to data from valid
@@ -928,8 +929,50 @@ void Menuwindow::case2_clicked()
 }
 
 
+
 void Menuwindow::case4_clicked() {
 	Gtk::Main::quit();
+}
+
+//J'ai modifié 
+//MODIFY_WINDOW CONSTRUCTOR, DECONSTRUCTOR AND FUNCTIONS
+Modify_window::Modify_window(File N1) :box(Gtk::ORIENTATION_VERTICAL), nationality_button("Enter"), back_button("Back to main menu") {
+	set_size_request(400, 200);
+	set_title("Modify a recipe");
+	add(box);
+
+	int y = 0;
+	string nations;
+	//	cout << N1.Nationality.size() << endl;
+	while (y < N1.Nationality.size())
+	{
+		nations += N1.Nationality[y].nationality;
+		nations += "\n";
+		y++;
+	}
+
+	nationality_names_title_label.set_text("Nationalities:");
+	nationality_names_label.set_text(nations);
+
+	nationality_label.set_text("Enter a nationality: ");
+	box.pack_start(nationality_names_title_label);
+	box.pack_start(nationality_names_label);
+	box.pack_start(nationality_label);
+
+	nationality_entry.set_max_length(50);
+	nationality_entry.set_text("Enter nationality");
+	nationality_entry.select_region(0, nationality_entry.get_text_length());
+	box.pack_start(nationality_entry);
+
+	entry_ans = nationality_entry.get_text();
+
+	nationality_button.signal_clicked().connect(sigc::bind<File>(sigc::mem_fun(*this, &Modify_window::Nationality), N1));
+	box.pack_start(nationality_button);
+	back_button.signal_clicked().connect(sigc::mem_fun(*this, &Modify_window::back_button_clicked));
+	box.pack_start(back_button);
+
+	show_all_children();
+
 }
 
 //J'ai modifié
@@ -941,7 +984,7 @@ void Modify_window::Nationality(File N1) {
     if (user_input == N1.Nationality[i].nationality){
 
       	hide();
-	Plan_2 p(N1, user_input);
+	Plan_2 p( N1, user_input);
 	Gtk::Main::run(p);
       
   
@@ -953,12 +996,12 @@ void Modify_window::Nationality(File N1) {
     
   }
 }
-
 Modify_window::~Modify_window() {}
 void Modify_window::back_button_clicked() {
 	hide();
 	Menuwindow w;
 	Gtk::Main::run(w);}
+
 
 
 
