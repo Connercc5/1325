@@ -932,50 +932,366 @@ void Menuwindow::case4_clicked() {
 	Gtk::Main::quit();
 }
 
-//MODIFY_WINDOW CONSTRUCTOR, DECONSTRUCTOR AND FUNCTIONS
-Modify_window::Modify_window(File N1) :box(Gtk::ORIENTATION_VERTICAL), nationality_button("Enter"), back_button("Back to main menu") {
-	set_size_request(400, 200);
-	set_title("Modify a recipe");
-	add(box);
+//J'ai modifié
+void Modify_window::Nationality(File N1) {
+  string user_input = nationality_entry.get_text ();
 
-	int y = 0;
-	string nations;
-	while (y < N1.Nationality.size())
-	{
-		nations += N1.Nationality[y].nationality;
-		nations += "\n";
-		y++;
-	}
+  for (int i = 0; i < N1.Nationality.size (); i++) {
+    
+    if (user_input == N1.Nationality[i].nationality){
 
-	nationality_names_title_label.set_text("Nationalities:");
-	nationality_names_label.set_text(nations);
-
-	nationality_label.set_text("Enter a nationality: ");
-	box.pack_start(nationality_names_title_label);
-	box.pack_start(nationality_names_label);
-	box.pack_start(nationality_label);
-
-	nationality_entry.set_max_length(50);
-	nationality_entry.set_text("Enter nationality");
-	nationality_entry.select_region(0, nationality_entry.get_text_length());
-	box.pack_start(nationality_entry);
-
-	entry_ans = nationality_entry.get_text();
-
-	nationality_button.signal_clicked().connect(sigc::mem_fun(*this, &Modify_window::Nationality));
-	box.pack_start(nationality_button);
-	back_button.signal_clicked().connect(sigc::mem_fun(*this, &Modify_window::back_button_clicked));
-	box.pack_start(back_button);
-
-	show_all_children();
-
+      	hide();
+	Plan_2 p(N1, user_input);
+	Gtk::Main::run(p);
+      
+  
+      break;
+    } else {
+      Gtk::MessageDialog dialog (*this, "Wrong input, try again", false, Gtk::MESSAGE_INFO);
+      dialog.run();
+    }
+    
+  }
 }
 
-
-void Modify_window::Nationality() {}
 Modify_window::~Modify_window() {}
 void Modify_window::back_button_clicked() {
 	hide();
 	Menuwindow w;
-	Gtk::Main::run(w);
+	Gtk::Main::run(w);}
+
+
+
+Plan_2::~Plan_2()
+{
+	hide();
+}
+
+Plan_2::Plan_2(File N1, string nationality_p) :box(Gtk::ORIENTATION_VERTICAL), Br_button("Breakfast"), Lu_button("Lunch"), Di_button("Diner"), Sn_button("Snack"), De_button("Dessert"), Cancel_button("Cancel")
+{
+
+         this->N1 = N1;
+	set_size_request(400, 200);
+	set_title ("In which category ?");
+	add(box);
+
+
+
+		Br_button.signal_clicked().connect(sigc::bind<Glib::ustring>( sigc::mem_fun(*this, &Plan_2::Br_clicked), nationality_p));
+		box.pack_start(Br_button);
+	       	Lu_button.signal_clicked().connect(sigc::bind<Glib::ustring>( sigc::mem_fun(*this, &Plan_2::Lu_clicked), nationality_p));
+		box.pack_start(Lu_button);
+	       	Di_button.signal_clicked().connect(sigc::bind<Glib::ustring>( sigc::mem_fun(*this, &Plan_2::Di_clicked), nationality_p));
+		box.pack_start(Di_button);
+	       	Sn_button.signal_clicked().connect(sigc::bind<Glib::ustring>( sigc::mem_fun(*this, &Plan_2::Sn_clicked), nationality_p));
+		box.pack_start(Sn_button);
+	       	De_button.signal_clicked().connect(sigc::bind<Glib::ustring>( sigc::mem_fun(*this, &Plan_2::De_clicked), nationality_p));
+		box.pack_start(De_button);
+		Cancel_button.signal_clicked().connect(sigc::mem_fun(*this, &Plan_2::Cancel_clicked));
+		box.pack_start(Cancel_button); 
+		show_all_children();
+	
+
+}
+
+void Plan_2::Choice (string nationality_p, string meal_type_p) {
+	hide();
+	Option_window o( N1,  nationality_p, meal_type_p);
+	Gtk::Main::run(o);
+}
+
+void Plan_2::Cancel_clicked(){hide();}
+
+void Plan_2::Br_clicked (Glib::ustring nationality_p) {
+  string meal_type  = "Breakfast";
+   Choice  (nationality_p, meal_type);
+}
+
+
+void Plan_2::Lu_clicked (Glib::ustring nationality_p) {
+  string meal_type  = "Lunch";
+   Choice  (nationality_p, meal_type);
+}
+
+
+void Plan_2::Di_clicked (Glib::ustring nationality_p) {
+  string meal_type  = "Diner";
+  Choice  (nationality_p, meal_type);
+}
+
+void Plan_2::Sn_clicked (Glib::ustring nationality_p) {
+  string meal_type  = "Snack";
+   Choice  (nationality_p, meal_type);
+}
+
+void Plan_2::De_clicked (Glib::ustring nationality_p) {
+  string meal_type  = "Dessert";
+   Choice  (nationality_p, meal_type);
+}
+
+
+
+
+
+Option_window::~Option_window()
+{
+	hide();
+}
+
+Option_window::Option_window( File N1, string nationality_p, string meal_type_p) :box(Gtk::ORIENTATION_VERTICAL), Add_button("Add"), Delete_button("Delete"),Cancel_button("Cancel")
+{
+  this->N1= N1;
+
+	set_size_request(300, 300);
+	int e = 0;
+	while (e < N1.Nationality.size())
+	{
+	 
+		if (N1.Nationality[e].nationality.compare(nationality_p) == 0)
+		{
+
+			hold_index = e;
+		}
+		e++;
+	}
+
+
+	e = 0;
+	string recipe_names = " ";
+
+
+
+	if (meal_type_p.compare("Breakfast") == 0)
+	{
+
+      
+		while (e < N1.Nationality[hold_index].breakfast.size())
+		{
+        
+			recipe_names = recipe_names + N1.Nationality[hold_index].breakfast[e].recipe_name;
+			recipe_names = recipe_names + "\n";
+			e++;
+		}
+	}
+	else if (meal_type_p.compare("Lunch") == 0)
+	{
+		while (e < N1.Nationality[hold_index].lunch.size())
+		{
+			recipe_names = recipe_names + N1.Nationality[hold_index].lunch[e].recipe_name;
+			recipe_names = recipe_names + "\n";
+			e++;
+		}
+	}
+	else if (meal_type_p.compare("Dinner") == 0)
+	{
+		while (e < N1.Nationality[hold_index].dinner.size())
+		{
+			recipe_names = recipe_names + N1.Nationality[hold_index].dinner[e].recipe_name;
+			recipe_names = recipe_names + "\n";
+			e++;
+		}
+	}
+	else if (meal_type_p.compare("Snack") == 0)
+	{
+		while (e < N1.Nationality[hold_index].snack.size())
+		{
+			recipe_names = recipe_names + N1.Nationality[hold_index].snack[e].recipe_name;
+			recipe_names = recipe_names + "\n";
+			e++;
+		}
+	}
+	else if (meal_type_p.compare("Dessert") == 0)
+	{
+		while (e < N1.Nationality[hold_index].dessert.size())
+		{
+			recipe_names = recipe_names + N1.Nationality[hold_index].dessert[e].recipe_name;
+			recipe_names = recipe_names + "\n";
+			e++;
+		}
+	}
+	//cout << recipe_names << endl;
+	add(box);
+
+
+	recipe_name_label.set_text(recipe_names);
+
+	box.pack_start(recipe_name_label);
+	box.pack_start(Add_button);
+	box.pack_start (Delete_button);
+	box.pack_start(Cancel_button);
+	show_all_children();
+	Add_button.signal_clicked().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &Option_window::Add_clicked), nationality_p , meal_type_p));
+	Delete_button.signal_clicked().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &Option_window::Delete_clicked), nationality_p , meal_type_p));
+	Cancel_button.signal_clicked().connect(sigc::mem_fun(*this, &Option_window::Cancel_clicked));
+}
+void Option_window::Add_clicked(Glib::ustring nationality_p, Glib::ustring meal_type_p)
+{
+  hide ();
+  // cout << N1.Nationality.size() << endl;
+  // cout << nationality_p << endl << meal_type_p << endl;      
+}
+
+void Option_window::Delete_clicked(Glib::ustring nationality_p, Glib::ustring meal_type_p)
+{
+  //  cout << N1.Nationality.size() << endl;
+  // cout << nationality_p << endl << meal_type_p << endl;
+    hide();
+      Delete_window d( N1,  nationality_p, meal_type_p);
+       Gtk::Main::run(d);
+    
+}
+
+
+void Option_window::Cancel_clicked()
+{
+	hide();
+}
+
+
+
+
+/////////
+
+
+Delete_window::~Delete_window()
+{
+	hide();
+}
+
+Delete_window::Delete_window( File N1, string nationality_p, string meal_type_p) :box(Gtk::ORIENTATION_VERTICAL), Send_button("Send"),Cancel_button("Cancel")
+{
+  this->N1= N1;
+
+	set_size_request(300, 300);
+	int e = 0;
+	while (e < N1.Nationality.size())
+	{
+	 
+		if (N1.Nationality[e].nationality.compare(nationality_p) == 0)
+		{
+
+			hold_index = e;
+		}
+		e++;
+	}
+
+
+	e = 0;
+	string recipe_names = " ";
+
+
+
+	if (meal_type_p.compare("Breakfast") == 0)
+	{
+
+      
+		while (e < N1.Nationality[hold_index].breakfast.size())
+		{
+        
+			recipe_names = recipe_names + N1.Nationality[hold_index].breakfast[e].recipe_name;
+			recipe_names = recipe_names + "\n";
+			e++;
+		}
+	}
+	else if (meal_type_p.compare("Lunch") == 0)
+	{
+		while (e < N1.Nationality[hold_index].lunch.size())
+		{
+			recipe_names = recipe_names + N1.Nationality[hold_index].lunch[e].recipe_name;
+			recipe_names = recipe_names + "\n";
+			e++;
+		}
+	}
+	else if (meal_type_p.compare("Dinner") == 0)
+	{
+		while (e < N1.Nationality[hold_index].dinner.size())
+		{
+			recipe_names = recipe_names + N1.Nationality[hold_index].dinner[e].recipe_name;
+			recipe_names = recipe_names + "\n";
+			e++;
+		}
+	}
+	else if (meal_type_p.compare("Snack") == 0)
+	{
+		while (e < N1.Nationality[hold_index].snack.size())
+		{
+			recipe_names = recipe_names + N1.Nationality[hold_index].snack[e].recipe_name;
+			recipe_names = recipe_names + "\n";
+			e++;
+		}
+	}
+	else if (meal_type_p.compare("Dessert") == 0)
+	{
+		while (e < N1.Nationality[hold_index].dessert.size())
+		{
+			recipe_names = recipe_names + N1.Nationality[hold_index].dessert[e].recipe_name;
+			recipe_names = recipe_names + "\n";
+			e++;
+		}
+	}
+	//cout << recipe_names << endl;
+	add(box);
+
+
+	
+
+	recipe_name_label.set_text(recipe_names);
+	box.pack_start(recipe_name_label);
+
+	question_label.set_text ("Which recipe would you like to delete ?");
+	box.pack_start (question_label);
+	
+	recipe_name_entry.set_max_length(50);
+	recipe_name_entry.set_text("Enter");
+	recipe_name_entry.select_region(0, recipe_name_entry.get_text_length());
+	box.pack_start(recipe_name_entry);
+
+	box.pack_start(Send_button);
+	box.pack_start(Cancel_button);
+	show_all_children();
+	Send_button.signal_clicked().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &Delete_window::Send_clicked), nationality_p , meal_type_p));
+	Cancel_button.signal_clicked().connect(sigc::mem_fun(*this, &Delete_window::Cancel_clicked));
+}
+
+
+void Delete_window::Send_clicked(Glib::ustring nationality_p, Glib::ustring meal_type_p)
+{
+    hide ();
+    string user_input = recipe_name_entry.get_text();
+    string underscore = "_";
+    ifstream Infile;
+    string line;
+    ofstream Tempfile;
+    Tempfile.open("Temp.txt");
+    Infile.open("AllFile.txt");
+
+ 
+for(int  i = 0; i < user_input.length(); i++) {
+   std::size_t found = user_input.find(" ");
+    if (found!=std::string::npos){
+    user_input.replace (found ,1, underscore);
+ 
+    }   
+}
+
+
+     while (getline(Infile,line))  {
+ 
+       if (!(line.find(user_input) != std::string::npos) )
+          {
+	    //  cout << "Found"<< endl;
+	     Tempfile << line << endl;
+	     }
+}
+      Tempfile.close();
+     Infile.close();
+     //  rename("AllFile.txt", "OldFile.txt");
+       rename("Temp.txt","AllFiles.txt");
+      cout <<endl<<endl<<endl;
+    
+     
+}
+void Delete_window::Cancel_clicked()
+{
+	hide();
 }
