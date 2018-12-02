@@ -730,7 +730,11 @@ void Plan_2::Choice (string nationality_p, string meal_type_p) {
 	Gtk::Main::run(o);
 }
 
-void Plan_2::Cancel_clicked(){hide();}
+void Plan_2::Cancel_clicked(){
+	hide();
+	Menuwindow w;
+	Gtk::Main::run(w);
+}
 
 void Plan_2::Br_clicked (Glib::ustring nationality_p) {
   string meal_type  = "Breakfast";
@@ -879,6 +883,8 @@ void Option_window::Delete_clicked(Glib::ustring nationality_p, Glib::ustring me
 void Option_window::Cancel_clicked()
 {
 	hide();
+		Menuwindow w;
+	Gtk::Main::run(w);
 }
 
 
@@ -1055,6 +1061,8 @@ if(i<N1.Nationality[hold_index].Erep_num)
 void Delete_window::Cancel_clicked()
 {
 	hide();
+		Menuwindow w;
+	Gtk::Main::run(w);
 }
 
 Add_window::~Add_window()
@@ -1127,6 +1135,8 @@ Add_window::Add_window( File N1, int hold_index, string meal_type_p) :box(Gtk::O
 void Add_window::Cancel_clicked()
 {
 	hide();
+		Menuwindow w;
+	Gtk::Main::run(w);
 }
 
 
