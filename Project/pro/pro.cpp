@@ -1029,57 +1029,19 @@ Add_window::~Add_window()
 	hide();
 }
 
+
 static int counter = 0;
 Add_window::Add_window( File N1, string nationality_p, string meal_type_p) :box(Gtk::ORIENTATION_VERTICAL), Add_button("Add"),Cancel_button("Cancel"), Done_button ("Done")
 {
 
   this->N1= N1;
 
-  if (counter > 0) {
+  
 	set_size_request(300, 300);
 
 	add(box);
-
-	amount_label.set_text("Enter amount:");
-	box.pack_start(amount_label);
-
-
-	amount_entry.set_max_length(50);
-	amount_entry.set_text("amount");
-	amount_entry.select_region(0, amount_entry.get_text_length());
-	box.pack_start(amount_entry);
-	
-	unit_label.set_text ("Enter unit:");
-	box.pack_start (unit_label);
-	
-	unit_entry.set_max_length(50);
-	unit_entry.set_text("unit");
-	unit_entry.select_region(0, unit_entry.get_text_length());
-	box.pack_start(unit_entry);
-
-	ingredient_name_label.set_text ("Enter ingredient name");
-	box.pack_start (ingredient_name_label);
-	
-	ingredient_name_entry.set_max_length(50);
-	ingredient_name_entry.set_text("ingredient name");
-	ingredient_name_entry.select_region(0, ingredient_name_entry.get_text_length());
-	box.pack_start(ingredient_name_entry);
-
-	box.pack_start(Add_button);
-	box.pack_start(Done_button);
-	box.pack_start(Cancel_button);
-	show_all_children();
-	Add_button.signal_clicked().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &Add_window::Add_clicked), nationality_p , meal_type_p));
-		Done_button.signal_clicked().connect(sigc::mem_fun(*this, &Add_window::Done_clicked));
-	//	Done_button.signal_clicked().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &Add_window::Done_clicked), ingredients_p));
-	Cancel_button.signal_clicked().connect(sigc::mem_fun(*this, &Add_window::Cancel_clicked));
-  } else {
-    
-	set_size_request(300, 300);
-
-	add(box);
-
-       	recipe_name_label.set_text("Enter recipe name:");
+	if (counter == 0) {
+	recipe_name_label.set_text("Enter recipe name:");
 	box.pack_start(recipe_name_label);
 
 
@@ -1087,6 +1049,8 @@ Add_window::Add_window( File N1, string nationality_p, string meal_type_p) :box(
 	recipe_name_entry.set_text("recipe name");
 	recipe_name_entry.select_region(0, recipe_name_entry.get_text_length());
 	box.pack_start(recipe_name_entry);
+	counter++;
+	}
 
 	amount_label.set_text("Enter amount:");
 	box.pack_start(amount_label);
@@ -1118,13 +1082,10 @@ Add_window::Add_window( File N1, string nationality_p, string meal_type_p) :box(
 	box.pack_start(Cancel_button);
 	show_all_children();
 	Add_button.signal_clicked().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &Add_window::Add_clicked), nationality_p , meal_type_p));
-       	Done_button.signal_clicked().connect(sigc::mem_fun(*this, &Add_window::Done_clicked));
-	//	Done_button.signal_clicked().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &Add_window::Done_clicked), ingredients_p));
+	Done_button.signal_clicked().connect (sigc::mem_fun(*this, &Add_window::Done_clicked));
 	Cancel_button.signal_clicked().connect(sigc::mem_fun(*this, &Add_window::Cancel_clicked));
 
-  }
 }
-
 void Add_window::Cancel_clicked()
 {
 	hide();
