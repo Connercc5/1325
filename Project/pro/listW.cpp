@@ -57,7 +57,7 @@ List_window::List_window(string Rep_names,string List):box(Gtk::ORIENTATION_VERT
 List_window::List_window(string Rep_names,string List,int random):box(Gtk::ORIENTATION_VERTICAL),ok("Ok")
 {
 // Setting up message dialog
-        set_title("Random List");
+        set_title("List");
         Gtk::Entry entry=Gtk::Entry();
         set_size_request(400,500);
         Gtk::Label lab= Gtk::Label();
