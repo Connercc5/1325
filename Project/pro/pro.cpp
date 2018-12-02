@@ -33,7 +33,7 @@ int Modify2_window::y = 0;
 vector <Recipe> Modify2_window::Chosen_recipes;
 
 //START:FUNCTIONS THAT ARE USED TO INTERACT WITH ALLFILE.TXT
-void Menuwindow ::get_w(File N1)
+void Menuwindow ::get_writeFileFunction(File N1)
 {
 	File_write(N1);
 }
@@ -58,17 +58,17 @@ File Menuwindow::File_read(File N1)
 	inFile >> rope;
 	int f = 0;
 	char *token;
-	token = strtok(rope, "\n");
+	token = strtok(rope, "\n");//BEGIN
 	g = 0;
 	int i = 0;
 	int fi = 0;
 	int s = 0;
 	int l = 0;
 	int Num = 0;
-	inFile >> rope;
+	inFile >> rope;//first nationalities name
 	double amount = 0;
 	//intializing all meal nums to 0
-	F1.Brep_num = 0;//number of Breakfest recipes
+	F1.Brep_num = 0;//number of Breakfast recipes
 	F1.Lrep_num = 0;//number of Lunch recipes
 	F1.Drep_num = 0;//number of Dinner recipes
 	F1.Srep_num = 0;//number of Snack recipes
@@ -119,20 +119,22 @@ File Menuwindow::File_read(File N1)
 				{
 					token = strtok(NULL, "_");
 					amount = atof(token);
-					get_blank(token);
+					get_blank(token);//remove underscore
 					token = strtok(NULL, "_");
-					get_blank(token);
+					get_blank(token);//remove underscore
 					string unit(token);
 					token = strtok(NULL, ",");
-					get_blank(token);
+					get_blank(token);//remove underscore
 					string ingre_name(token);
 					//cout<<"INGREDIENT "<<i<<": "<<amount<<" "<<unit<<" "<<ingre_name<<endl;
-					G.push_back(ingredient(amount, unit, ingre_name));
+					G.push_back(ingredient(amount, unit, ingre_name));//each ingredient object contains 1 double for amount 2 strings one for name of ingredients and the other for the unit of amount
 					i++;
 
 				}
 				i = 0;
-				//PUSHES RECIPES INTO THE BREAKFEST-DESSERT CATAGORIES
+				//PUSHES RECIPES INTO THE BREAKFAST-DESSERT CATAGORIES
+				//each recipe object contains a ingredient vector , string for name of recipe and int fot the num of ingredients in vector
+				//each nationalities object contains 5 recipe vectors for breafast-dessert and 5 int for the number of recipes in each of those catagories
 				if (fi == 0)
 				{
 					F1.breakfast.push_back(Recipe(Rep_name, G, Rep_num));
@@ -161,7 +163,7 @@ File Menuwindow::File_read(File N1)
 			fi++;
 		}
 		fi = 0;
-
+		//pushes nationality vector on the file object
 		N1.Nationality.push_back(F1);
 		i++;
 		F1.breakfast.clear();
@@ -191,7 +193,7 @@ void Menuwindow::File_write(File N1)
 	{
 
 		//Get the modified amount of meals for Breakfast-Dessert
-
+//if user deleted a recipe the code would enter one of hte 5 loops to decrease the number of meals in that catagory
 		j = 0;
 		//Breakfast
 		while (j < N1.Nationality[g].breakfast.size())
@@ -265,14 +267,14 @@ void Menuwindow::File_write(File N1)
 
 		j = 0;
 		outFile << N1.Nationality[g].nationality << endl;
-		outFile << "Breakfest#" << N1.Nationality[g].Brep_num << endl;
+		outFile << "Breakfast#" << N1.Nationality[g].Brep_num << endl;
 		while (j < N1.Nationality[g].breakfast.size())
 		{
 
 			int b = 0;
 
 			string name = get_underscore(N1.Nationality[g].breakfast[j].recipe_name);
-			if (name.compare("DELETE") != 0)
+			if (name.compare("DELETE") != 0)//if user wanted recipe deleted do not print file
 			{
 				outFile << name << ":" << N1.Nationality[g].breakfast[j].ingr.size() << endl;
 				outFile << "START_";
@@ -401,362 +403,8 @@ void Menuwindow::get_blank(char*token)
 	}
 }
 
-//END:FUNCTIONS THAT INTERACT WITH TEXTFILE
+//END:FUNCTIONS THAT INTERACT WITH TEXTFILE ALLFILE.TXT
 
-
-
-
-
-//IF YOUR TRYING TO UNDERSTAND WHAT I DID FOR THE CREATE MEALPLAN SHOPPING LIST OPTION, BEFORE YOU LOOK AT THIS GO START TO THE MENUWINDOW CASE2_CLICKED FUNCTION
-
-//MODIFY2_WINDOW CONSTRUCTOR,DECONSTRUCTOR AND FUNCTIONS
-
-//ASK USER TO CHOOSE NATIONALITY
-Modify2_window::Modify2_window(File N1, int day, int time) :box(Gtk::ORIENTATION_VERTICAL),cancel("Cancel"), brea("Breakfast"), lunc("Lunch"),dinn("Dinner"),snac("Snack"),dess("Dessert") {
-	set_size_request(400, 200);
-	set_title("Create Shopping List");
-	add(box);
-	this->day = day;
-	this->time = time;
-	this->N1 =N1;
-	this->error=0;
-	y = 0;
-
-	string nations = " ";
-	while (y < N1.Nationality.size())
-	{
-
-		nations += N1.Nationality[y].nationality;
-		nations += "\n";
-		y++;
-	}
-	nationality_names_title_label.set_text("Nationalities:");
-	nationality_names_label.set_text(nations);
-	nations = " ";
-	nationality_label.set_text("Enter a nationality: ");
-	box.pack_start(nationality_names_title_label);
-	box.pack_start(nationality_names_label);
-	box.pack_start(nationality_label);
-	label.set_text(m.daysList[day].name);
-
-	nationality_entry.set_max_length(50);
-	//nationality_entry.set_text("Enter nationality");
-	nationality_entry.set_text("Mexican");//just using this to test program
-	nationality_entry.select_region(0, nationality_entry.get_text_length());
-	box.pack_start(nationality_entry);
-	time_label.set_text(tim[time]+" Recipe");
-
-	box.pack_start(label);
-
-	box.pack_start(time_label);
-	box.pack_start(brea);
-	box.pack_start(lunc);
-	box.pack_start(dinn);
-	box.pack_start(snac);
-	box.pack_start(dess);
-	box.pack_start(cancel);
-	box.pack_start(cancel);
-
-	 brea.signal_clicked().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &Modify2_window::enter_clicked), "Breakfast"));
-	 lunc.signal_clicked().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &Modify2_window::enter_clicked), "Lunch"));
-	 dinn.signal_clicked().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &Modify2_window::enter_clicked), "Dinner"));
-	 snac.signal_clicked().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &Modify2_window::enter_clicked), "Snack"));
-	 dess.signal_clicked().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &Modify2_window::enter_clicked), "Dessert"));
-	 cancel.signal_clicked().connect(sigc::mem_fun(*this, &Modify2_window::cancel_clicked));
-
-	show_all_children();
-
-}
-
-Modify2_window::~Modify2_window() { hide(); }
-void Modify2_window::enter_clicked(string type)
-{
-	if (entry_ans.compare("DONE") != 0)
-	{
-		//Mealplan m; //SETTING UP WINDOW FOR MANUAL OPTION
-		this->	entry_ans=nationality_entry.get_text();
-		//string input = nationality_entry.get_text();
-		hide();
-		Send2_ER(m,type);//this function will go to the EnterRecipe Window
-		if((day==6)&&(time==4))//THIS IS FOR GETTING THE LABELS FOR THE FINAL SHOPPING LIST WINDOW
-		//if((day==0)&&(time==4))//this is here because i am testing code
-                {
-			ShoppingList s (Chosen_recipes);
-			Chosen_recipes.clear();
-			List_window f (s.Rep_names,s.List);		
-			Gtk::Main::run(f);
-
-
-                }
-
-	}
-}
-void Modify2_window::cancel_clicked()
-{
-	hide();
-	entry_ans = "DONE";
-}
-
-void Modify2_window::Send2_ER(Mealplan m, string meal_type)
-{
-        //hide();
-        int y = 0;
-        int h = 0;
-        EnterRecipe_window e(m, N1, entry_ans, meal_type);
-        Gtk::Main::run(e);
-        string rep_name = e.recipe;//rep_name now holds the input from the entry in EnterRecipe window
-	string entryR,FileR;//use this for case error
-	bool found=false;
-        entryR=rep_name;
-	transform(entryR.begin(),entryR.end(),entryR.begin(),::toupper);
-	if(e.cancel_==true)//they click cancel in ER(EnterRecipe window)
-	{
-		error=1;
-		return;
-	}
-
-        if (meal_type.compare("Breakfast") == 0)//if user clicked breakfast
-                while (h < N1.Nationality[e.hold_index].breakfast.size())
-                {
-
-                        FileR=N1.Nationality[e.hold_index].breakfast[h].recipe_name;
-			transform(FileR.begin(),FileR.end(),FileR.begin(),::toupper);//make text upper case so user can enter recipe name in any case
-			if (FileR.compare(entryR) == 0)
-			{
-			     	this->temp_hold = N1.Nationality[e.hold_index].breakfast[h];
-				found=true;
-			}
-			h++;
-                }
-        else if (meal_type.compare("Lunch") == 0)//if user clicked lunch
-                while (h < N1.Nationality[e.hold_index].lunch.size())
-                {
-                        FileR=N1.Nationality[e.hold_index].lunch[h].recipe_name;
-                    	transform(FileR.begin(),FileR.end(),FileR.begin(),::toupper);
-			if (FileR.compare(entryR) == 0)
-			{
-				this->temp_hold = N1.Nationality[e.hold_index].lunch[h];
-				found=true;
-
-			}
-			h++;
-                }
-        else if (meal_type.compare("Dinner") == 0)//if user clicked dinner
-                while (h < N1.Nationality[e.hold_index].dinner.size())
-                {
-                        FileR=N1.Nationality[e.hold_index].dinner[h].recipe_name;
-                        transform(FileR.begin(),FileR.end(),FileR.begin(),::toupper);
-			if (FileR.compare(entryR) == 0)
-			{
-		     		this->temp_hold = N1.Nationality[e.hold_index].dinner[h];
-				found=true;
-
-			}
-			h++;
-                }
-        else if (meal_type.compare("Snack") == 0)//if user clicked snack
-        {
-                while (h < N1.Nationality[e.hold_index].snack.size())
-                {
-                        FileR=N1.Nationality[e.hold_index].snack[h].recipe_name;
-                        transform(FileR.begin(),FileR.end(),FileR.begin(),::toupper);
-			if (FileR.compare(entryR) == 0)
-			{
-				this->temp_hold = N1.Nationality[e.hold_index].snack[h];
-				found=true;
-
-			}
-			h++;
-                }
-        }
-        else if (meal_type.compare("Dessert") == 0)
-        {
-                while (h < N1.Nationality[e.hold_index].dessert.size())
-                {
-
-		        FileR=N1.Nationality[e.hold_index].dessert[h].recipe_name;
-                        transform(FileR.begin(),FileR.end(),FileR.begin(),::toupper);
-			if (FileR.compare(entryR) == 0)
-			{
-				this->temp_hold = N1.Nationality[e.hold_index].dessert[h];
-				found=true;
-
-			}
-			h++;
-                }
-        }
-        if(found==false)
-	{
-		warning();
-		return;
-	}
-        // there is a bug here it is only add on 1 recipe
-        Chosen_recipes.push_back(temp_hold);
-        }
-
-
-void Modify2_window:: warning()
-{
-	Gtk::MessageDialog dialog(*this,"Not Found",false,Gtk::MESSAGE_INFO);
-        dialog.set_secondary_text("Recipe was not found");
-	dialog.run();
-	error=1;
-
-}
-
-
-
-
-
-
-//ENTERRECIPE_WINDOW CONSTRUCTOR DECONSTRUCTOR AND FUNCTIONS USED IN OPTION 2 MAnual
-
-EnterRecipe_window::~EnterRecipe_window()
-{
-	hide();
-}
-
-EnterRecipe_window::EnterRecipe_window(Mealplan m, File N1, string NationalityName, string meal_type) :box(Gtk::ORIENTATION_VERTICAL), enter("Enter"), cancel("Cancel", 3)
-{
-	this->cancel_=false;//signal to other Modify2_window that user canceled a recipe write
-	set_size_request(300, 300);
-	int e = 0;
-	string Nation;
-
-	transform(NationalityName.begin(),NationalityName.end(),NationalityName.begin(),::toupper);//allowing user to enter nationality in any case
-	while (e < N1.Nationality.size())
-	{
-		Nation=N1.Nationality[e].nationality;
-	      	transform(Nation.begin(),Nation.end(),Nation.begin(),::toupper);
-
-		if(Nation.compare(NationalityName) == 0)
-		{
-			hold_index = e;
-		}
-		e++;
-	}
-	e = 0;
-	string recipe_names = " ";
-
-
-//this will display the recipes in catagory that the user clicked
-	if (meal_type.compare("Breakfast") == 0)
-	{
-		while (e < N1.Nationality[hold_index].breakfast.size())
-		{
-			recipe_names = recipe_names + N1.Nationality[hold_index].breakfast[e].recipe_name;
-			recipe_names = recipe_names + "\n";
-			e++;
-		}
-	}
-	else if (meal_type.compare("Lunch") == 0)
-	{
-		while (e < N1.Nationality[hold_index].lunch.size())
-		{
-			recipe_names = recipe_names + N1.Nationality[hold_index].lunch[e].recipe_name;
-			recipe_names = recipe_names + "\n";
-			e++;
-		}
-	}
-	else if (meal_type.compare("Dinner") == 0)
-	{
-		while (e < N1.Nationality[hold_index].dinner.size())
-		{
-			recipe_names = recipe_names + N1.Nationality[hold_index].dinner[e].recipe_name;
-			recipe_names = recipe_names + "\n";
-			e++;
-		}
-	}
-	else if (meal_type.compare("Snack") == 0)
-	{
-		while (e < N1.Nationality[hold_index].snack.size())
-		{
-			recipe_names = recipe_names + N1.Nationality[hold_index].snack[e].recipe_name;
-			recipe_names = recipe_names + "\n";
-			e++;
-		}
-	}
-	else if (meal_type.compare("Dessert") == 0)
-	{
-		while (e < N1.Nationality[hold_index].dessert.size())
-		{
-			recipe_names = recipe_names + N1.Nationality[hold_index].dessert[e].recipe_name;
-			recipe_names = recipe_names + "\n";
-			e++;
-		}
-	}
-	add(box);
-
-
-	recipe_name_label.set_text(recipe_names);
-	entry.set_text("Flan");//this is just here so i can test the code
-	box.pack_start(recipe_name_label);
-	box.pack_start(entry);
-	box.pack_start(enter);
-	box.pack_start(cancel);
-	show_all_children();
-	enter.signal_clicked().connect(sigc::mem_fun(*this, &EnterRecipe_window::enter_clicked));
-	cancel.signal_clicked().connect(sigc::mem_fun(*this, &EnterRecipe_window::cancel_clicked));
-}
-void EnterRecipe_window::enter_clicked()
-{
-	this->recipe = entry.get_text();
-	hide();
-}
-void EnterRecipe_window::cancel_clicked()
-{
-	hide();
-	this->	cancel_=true;
-
-}
-
-//List_window Constructor Deconstructor and Functions
-List_window::~List_window(){hide();}
-List_window::List_window(string Rep_names,string List):box(Gtk::ORIENTATION_VERTICAL),ok("Ok")
-{
-
-// Setting up message dialog
-	Gtk::Entry entry=Gtk::Entry();
-        set_size_request(400,500);
-	Gtk::Label lab= Gtk::Label();
-	entry.set_text("Ex: file.txt or List.txt... etc");
-	lab.set_text("Enter a file name:");
-	Gtk::MessageDialog dialog(*this,"Save List",false,Gtk::MESSAGE_INFO);
-	dialog.set_secondary_text("What name would you like to save this list under?");
-	dialog.get_content_area()->pack_start(lab);
-        dialog.get_content_area()->pack_start(entry);
-        box.pack_start(scrolled_window);
-	scrolled_window.set_border_width(10);
-	scrolled_window.set_policy(Gtk::POLICY_AUTOMATIC,Gtk::POLICY_ALWAYS);
-	//scrolled_window.set_policy(NULL,NULL);
-        dialog.set_size_request(400,200);
-        entry.show();
-        lab.show();
-        dialog.run();
-//END: Message dialog set up        
-	string s= entry.get_text();
-	//write the recipe names and list of ingredients to a file.
-	string path = "./savedList/"+s;
-    	ofstream outfile (path);
-    	outfile <<Rep_names<<"\n"<<List<<endl;
-    	outfile.close();
-	set_size_request(400,400);
-	Rep_name_label.set_text(Rep_names);
-	List_label.set_text(List);
-	add(box);
-	box.pack_start(Rep_name_label);
-	box.pack_start(List_label);
-	box.pack_start(ok);
-	ok.signal_clicked().connect(sigc::mem_fun(*this, &List_window::ok_clicked));
-	show_all_children();
-
-}
-void List_window::ok_clicked()
-{
-	hide();
-	Menuwindow d;
-	Gtk::Main::run(d);
-}
 
 
 //MENUWINDOW CONSTRUCTOR ,DECONSTRUCTOR AND FUNCTIONS
@@ -912,8 +560,6 @@ void Menuwindow::case2_clicked()
 				Modify2_window w(N1, day, time);//CHECK OUT MODIFY2_WINDOW CONSTRUCTOR
 				Gtk::Main::run(w);
 				time -=w.error;//user entered a invalid recipe so add back time so they can still select recipe for that time of day
-//				if(w.error ==1)
-//					cout<<"ERROR"<<endl;
 				if (w.entry_ans.compare("DONE") == 0)//if user wishes to cancel manual option
 				{
 					w.hide();
@@ -1363,7 +1009,7 @@ void Delete_window::Send_clicked(Glib::ustring nationality_p, Glib::ustring meal
     }	    
     
     Menuwindow r;
-    r.get_w(N1);
+    r.get_writeFileFunction(N1);
     Gtk::MessageDialog dialog(*this,"Done",false,Gtk::MESSAGE_INFO);
     dialog.set_secondary_text("Recipe Deleted!");
     dialog.run();
@@ -1371,40 +1017,6 @@ void Delete_window::Send_clicked(Glib::ustring nationality_p, Glib::ustring meal
     dialog.hide(); 
     Gtk::Main::run(m);
 
-    //File_write(N1);
-    /* string underscore = "_";
-   
-
-	       ifstream Infile;
-    string line;
-    ofstream Tempfile;
-    Tempfile.open("Temp.txt");
-    Infile.open("AllFile.txt");
-
- 
-for(int  i = 0; i < user_input.length(); i++) {
-   std::size_t found = user_input.find(" ");
-    if (found!=std::string::npos){
-    user_input.replace (found ,1, underscore);
- 
-    }   
-}
-
-
-     while (getline(Infile,line))  {
- 
-       if (!(line.find(user_input) != std::string::npos) )
-          {
-	    //  cout << "Found"<< endl;
-	     Tempfile << line << endl;
-	     }
-}
-      Tempfile.close();
-     Infile.close();
-     //  rename("AllFile.txt", "OldFile.txt");
-       rename("Temp.txt","AllFiles.txt");
-      cout <<endl<<endl<<endl;
-    */
      
 }
 void Delete_window::Cancel_clicked()

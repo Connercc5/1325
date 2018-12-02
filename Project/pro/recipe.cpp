@@ -78,8 +78,8 @@ ShoppingList::ShoppingList(vector <Recipe> Chosen_reps)
 
 u=0;
 Rep_names="";
-	while(u<7)
-	//while(u<1)//using this to test code
+//	while(u<7)
+	while(u<1)//using this to test code
 	{
 		Rep_names+=m.daysList[u].name;
 		Rep_names+=": ";
