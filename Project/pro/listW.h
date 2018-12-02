@@ -13,6 +13,7 @@ class List_window:public Gtk::Window
 {
         public:
         List_window(string Rep_names,string List);
+        List_window(string Rep_names,string List,int random);
         virtual~List_window();
         protected:
         Gtk::Label Rep_name_label;
@@ -22,6 +23,6 @@ class List_window:public Gtk::Window
         Gtk::ScrolledWindow scrolled_window;
 
 
-        void ok_clicked();      
+        void ok_clicked();
 };
 #endif

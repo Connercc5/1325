@@ -9,6 +9,7 @@
 #include<stdlib.h>
 #include <gtkmm.h>
 #include<memory>
+#include <sstream>
 #include"pro.h"
 using namespace std;
 
@@ -31,10 +32,10 @@ using namespace std;
 File Menuwindow::N1;
 int Modify2_window::y = 0;
 vector <Recipe> Modify2_window::Chosen_recipes;
-int Add_window:: numI=0;//num of ingredients added    
+int Add_window:: numI=0;//num of ingredients added
 vector <ingredient> Add_window::tempI;
 Recipe Add_window:: R;
-string Add_window:: rep_name;//name of recipe 
+string Add_window:: rep_name;//name of recipe
 
 //START:FUNCTIONS THAT ARE USED TO INTERACT WITH ALLFILE.TXT
 void Menuwindow ::get_writeFileFunction(File N1)
@@ -480,13 +481,10 @@ void Menuwindow::case2_clicked()
 	else if (choice == 1)
 	{
 		//RANDOM YES
-		//Random option
-		string path = "./savedList/test.txt";
-        ofstream outfile (path);
-		string listwrite;
-
+		string listWrite;
+		string repNames;
 		int b=0;
-        //PROOF OF CONCEPT RANDOM FUCTION
+        ostringstream strs;
 		//random nationality, stays static though random
         int natRand=rand()%N1.Nationality.size();
 
@@ -496,54 +494,67 @@ void Menuwindow::case2_clicked()
         int recipeRandDinner=rand()%N1.Nationality[natRand].dinner.size();
         int recipeRandSnack=rand()%N1.Nationality[natRand].snack.size();
         int recipeRandDessert=rand()%N1.Nationality[natRand].dessert.size();
+        //building recipe names string for list window
+        repNames=repNames+N1.Nationality[natRand].breakfast[recipeRandBreakfast].recipe_name+",";
+        repNames=repNames+N1.Nationality[natRand].lunch[recipeRandLunch].recipe_name+",";
+        repNames=repNames+N1.Nationality[natRand].dinner[recipeRandDinner].recipe_name+",";
+        repNames=repNames+N1.Nationality[natRand].snack[recipeRandSnack].recipe_name+",";
+        repNames=repNames+N1.Nationality[natRand].dessert[recipeRandDessert].recipe_name+"\n";
 
-        outfile<<N1.Nationality[natRand].breakfast[recipeRandBreakfast].recipe_name<<",";
-        outfile<<N1.Nationality[natRand].lunch[recipeRandLunch].recipe_name<<",";
-        outfile<<N1.Nationality[natRand].dinner[recipeRandDinner].recipe_name<<",";
-        outfile<<N1.Nationality[natRand].snack[recipeRandSnack].recipe_name<<",";
-        outfile<<N1.Nationality[natRand].dessert[recipeRandDessert].recipe_name<<endl;
-
-        //get ingredients for each
+        //get ingredients for each & build list string for list window
         while (b < N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr.size())
         {
-            outfile<< N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr[b].quantity<<" "<< N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr[b].unit<<" "<< N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr[b].name<<endl;
+            strs<<N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr[b].quantity;
+            string temp = strs.str();
+            listWrite=listWrite+temp+" "+ N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr[b].unit+" "+ N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr[b].name+"\n";
             b++;
 
         }
         b=0;
         while (b < N1.Nationality[natRand].lunch[recipeRandLunch].ingr.size())
         {
-            outfile<< N1.Nationality[natRand].lunch[recipeRandLunch].ingr[b].quantity<<" "<< N1.Nationality[natRand].lunch[recipeRandLunch].ingr[b].unit<<" "<< N1.Nationality[natRand].lunch[recipeRandLunch].ingr[b].name<<endl;
+            strs.clear();
+            strs.str("");
+            strs<<N1.Nationality[natRand].lunch[recipeRandLunch].ingr[b].quantity;
+            string temp = strs.str();
+            listWrite=listWrite+temp+" "+ N1.Nationality[natRand].lunch[recipeRandLunch].ingr[b].unit+" "+ N1.Nationality[natRand].lunch[recipeRandLunch].ingr[b].name+"\n";
             b++;
 
         }
         b=0;
         while (b < N1.Nationality[natRand].dinner[recipeRandDinner].ingr.size())
         {
-            outfile<< N1.Nationality[natRand].dinner[recipeRandDinner].ingr[b].quantity<<" "<< N1.Nationality[natRand].dinner[recipeRandDinner].ingr[b].unit<<" "<< N1.Nationality[natRand].dinner[recipeRandDinner].ingr[b].name<<endl;
+            strs.clear();
+            strs.str("");
+            strs<<N1.Nationality[natRand].dinner[recipeRandDinner].ingr[b].quantity;
+            string temp = strs.str();
+            listWrite=listWrite+temp+" "+ N1.Nationality[natRand].dinner[recipeRandDinner].ingr[b].unit+" "+ N1.Nationality[natRand].dinner[recipeRandDinner].ingr[b].name+"\n";
             b++;
 
         }
         b=0;
         while (b < N1.Nationality[natRand].snack[recipeRandSnack].ingr.size())
         {
-            outfile<< N1.Nationality[natRand].snack[recipeRandSnack].ingr[b].quantity<<" "<< N1.Nationality[natRand].snack[recipeRandSnack].ingr[b].unit<<" "<< N1.Nationality[natRand].snack[recipeRandSnack].ingr[b].name<<endl;
+            strs.clear();
+            strs.str("");
+            strs<<N1.Nationality[natRand].snack[recipeRandSnack].ingr[b].quantity;
+            string temp = strs.str();
+            listWrite=listWrite+temp+" "+ N1.Nationality[natRand].snack[recipeRandSnack].ingr[b].unit+" "+ N1.Nationality[natRand].snack[recipeRandSnack].ingr[b].name+"\n";
             b++;
 
         }
         b=0;
         while (b < N1.Nationality[natRand].dessert[recipeRandDessert].ingr.size())
         {
-            outfile<< N1.Nationality[natRand].dessert[recipeRandDessert].ingr[b].quantity<<" "<< N1.Nationality[natRand].dessert[recipeRandDessert].ingr[b].unit<<" "<< N1.Nationality[natRand].dessert[recipeRandDessert].ingr[b].name<<endl;
+            strs.clear();
+            strs.str("");
+            strs<<N1.Nationality[natRand].dessert[recipeRandDessert].ingr[b].quantity;
+            string temp = strs.str();
+            listWrite=listWrite+temp+" "+ N1.Nationality[natRand].dessert[recipeRandDessert].ingr[b].unit+" "+ N1.Nationality[natRand].dessert[recipeRandDessert].ingr[b].name+"\n";
             b++;
 
         }
-
-        outfile.close();
-
-
-
-
+        List_window(repNames,listWrite,1);
 	}
 	else
 	{
@@ -595,7 +606,7 @@ void Menuwindow::case4_clicked() {
 	Gtk::Main::quit();
 }
 
-//J'ai modifié 
+//J'ai modifié
 //MODIFY_WINDOW CONSTRUCTOR, DECONSTRUCTOR AND FUNCTIONS
 Modify_window::Modify_window(File N1) :box(Gtk::ORIENTATION_VERTICAL), nationality_button("Enter"), back_button("Back to main menu") {
 	set_size_request(400, 200);
@@ -641,20 +652,20 @@ void Modify_window::Nationality(File N1) {
   string user_input = nationality_entry.get_text ();
    //there was a bug here if you entered anything other then irish the MESSAGEDIALOG would put up
   bool check=false;//check if name matches nationality
-  for (int i = 0; i < N1.Nationality.size (); i++) 
+  for (int i = 0; i < N1.Nationality.size (); i++)
   {
-   //there was a bug here 
+   //there was a bug here
     if (user_input == N1.Nationality[i].nationality)
     {
-	  
+
       	hide();
 	Plan_2 p( N1, user_input);
-	Gtk::Main::run(p);	   
-	check=true;    
+	Gtk::Main::run(p);
+	check=true;
 	break;
-    } 
+    }
   }
-  if(check ==false)  
+  if(check ==false)
   {
       Gtk::MessageDialog dialog (*this, "Wrong input, try again", false, Gtk::MESSAGE_INFO);
       dialog.run();
@@ -662,9 +673,9 @@ void Modify_window::Nationality(File N1) {
 	Menuwindow w;
 	Gtk::Main::run(w);
    }
-    
-    
-  
+
+
+
 }
 
 Modify_window::~Modify_window() {}
@@ -702,9 +713,9 @@ Plan_2::Plan_2(File N1, string nationality_p) :box(Gtk::ORIENTATION_VERTICAL), B
 	       	De_button.signal_clicked().connect(sigc::bind<Glib::ustring>( sigc::mem_fun(*this, &Plan_2::De_clicked), nationality_p));
 		box.pack_start(De_button);
 		Cancel_button.signal_clicked().connect(sigc::mem_fun(*this, &Plan_2::Cancel_clicked));
-		box.pack_start(Cancel_button); 
+		box.pack_start(Cancel_button);
 		show_all_children();
-	
+
 
 }
 
@@ -729,7 +740,7 @@ void Plan_2::Lu_clicked (Glib::ustring nationality_p) {
 
 
 void Plan_2::Di_clicked (Glib::ustring nationality_p) {
-//We are using Dinner  not Diner the spelling was causing that input not to be read in from file  
+//We are using Dinner  not Diner the spelling was causing that input not to be read in from file
 string meal_type  = "Dinner";
   Choice  (nationality_p, meal_type);
 }
@@ -761,7 +772,7 @@ Option_window::Option_window( File N1, string nationality_p, string meal_type_p)
 	int e = 0;
 	while (e < N1.Nationality.size())
 	{
-	 
+
 		if (N1.Nationality[e].nationality.compare(nationality_p) == 0)
 		{
 
@@ -779,10 +790,10 @@ Option_window::Option_window( File N1, string nationality_p, string meal_type_p)
 	if (meal_type_p.compare("Breakfast") == 0)
 	{
 
-      
+
 		while (e < N1.Nationality[hold_index].breakfast.size())
 		{
-        
+
 			recipe_names = recipe_names + N1.Nationality[hold_index].breakfast[e].recipe_name;
 			recipe_names = recipe_names + "\n";
 			e++;
@@ -845,7 +856,7 @@ void Option_window::Add_clicked(Glib::ustring nationality_p, Glib::ustring meal_
       Add_window a( N1,  hold_index, meal_type_p);
        Gtk::Main::run(a);
        // cout << N1.Nationality.size() << endl;
-  // cout << nationality_p << endl << meal_type_p << endl;      
+  // cout << nationality_p << endl << meal_type_p << endl;
 }
 
 
@@ -856,7 +867,7 @@ void Option_window::Delete_clicked(Glib::ustring nationality_p, Glib::ustring me
     hide();
       Delete_window d( N1,  nationality_p, meal_type_p);
        Gtk::Main::run(d);
-    
+
 }
 
 
@@ -884,7 +895,7 @@ Delete_window::Delete_window( File N1, string nationality_p, string meal_type_p)
 	int e = 0;
 	while (e < N1.Nationality.size())
 	{
-	 
+
 		if (N1.Nationality[e].nationality.compare(nationality_p) == 0)
 		{
 
@@ -902,10 +913,10 @@ Delete_window::Delete_window( File N1, string nationality_p, string meal_type_p)
 	if (meal_type_p.compare("Breakfast") == 0)
 	{
 
-      
+
 		while (e < N1.Nationality[hold_index].breakfast.size())
 		{
-        
+
 			recipe_names = recipe_names + N1.Nationality[hold_index].breakfast[e].recipe_name;
 			recipe_names = recipe_names + "\n";
 			e++;
@@ -951,14 +962,14 @@ Delete_window::Delete_window( File N1, string nationality_p, string meal_type_p)
 	add(box);
 
 
-	
+
 
 	recipe_name_label.set_text(recipe_names);
 	box.pack_start(recipe_name_label);
 
 	question_label.set_text ("Which recipe would you like to delete ?");
 	box.pack_start (question_label);
-	
+
 	recipe_name_entry.set_max_length(50);
 	recipe_name_entry.set_text("Enter");
 	recipe_name_entry.select_region(0, recipe_name_entry.get_text_length());
@@ -977,64 +988,64 @@ void Delete_window::Send_clicked(Glib::ustring nationality_p, Glib::ustring meal
     hide ();
     string user_input = recipe_name_entry.get_text();
    int i=0;
-    
-   
+
+
 	while(i<1000)
     {
-if(i<N1.Nationality[hold_index].Brep_num)    	   
+if(i<N1.Nationality[hold_index].Brep_num)
 if( user_input.compare(N1.Nationality[hold_index].breakfast[i].recipe_name)==0)
     {
-    		
+
 	   N1.Nationality[hold_index].breakfast[i].recipe_name="DELETE";
-  	 break; 
-    
+  	 break;
+
     }
-if(i<N1.Nationality[hold_index].Lrep_num)    	   
+if(i<N1.Nationality[hold_index].Lrep_num)
      if(user_input.compare(N1.Nationality[hold_index].lunch[i].recipe_name)==0)
     {
 	   N1.Nationality[hold_index].lunch[i].recipe_name="DELETE";
-  	 break; 
-    
-    
-    } 
-if(i<N1.Nationality[hold_index].Drep_num)    	   
+  	 break;
+
+
+    }
+if(i<N1.Nationality[hold_index].Drep_num)
     if(user_input.compare(N1.Nationality[hold_index].dinner[i].recipe_name)==0)
     {
 	   N1.Nationality[hold_index].dinner[i].recipe_name="DELETE";
-  	 break; 
+  	 break;
     }
-if(i<N1.Nationality[hold_index].Srep_num)    	   
+if(i<N1.Nationality[hold_index].Srep_num)
    if(user_input.compare(N1.Nationality[hold_index].snack[i].recipe_name)==0)
    {
 	   N1.Nationality[hold_index].snack[i].recipe_name="DELETE";
-  	 break; 
-    
-    
-    
+  	 break;
+
+
+
     }
-if(i<N1.Nationality[hold_index].Erep_num)    	   
+if(i<N1.Nationality[hold_index].Erep_num)
     if(user_input.compare(N1.Nationality[hold_index].dessert[i].recipe_name)==0)
     {
 
 
 	  N1.Nationality[hold_index].dessert[i].recipe_name="DELETE";
 
-  	 break; 
+  	 break;
     }
 
     i++;
-    }	   
-   
+    }
+
    Menuwindow r;
     r.get_writeFileFunction(N1);
     Gtk::MessageDialog dialog(*this,"Done",false,Gtk::MESSAGE_INFO);
     dialog.set_secondary_text("Recipe Deleted!");
     dialog.run();
     Menuwindow m;
-    dialog.hide(); 
+    dialog.hide();
     Gtk::Main::run(m);
 
-     
+
 }
 void Delete_window::Cancel_clicked()
 {
@@ -1049,19 +1060,19 @@ Add_window::~Add_window()
 
 static int counter = 0;
 
-//when user click the add button 
+//when user click the add button
 Add_window::Add_window( File N1, int hold_index, string meal_type_p) :box(Gtk::ORIENTATION_VERTICAL), Add_button("Add"),Cancel_button("Cancel"), Done_button ("Done")
 {
 
  this->N1= N1;
 	this->hold_index=hold_index;
 	this->meal_type=meal_type_p;
-  
+
 	set_size_request(300, 300);
 
 	add(box);
-	
-	//this appears only once to get the recipe name... but I'm struggling to transfer the input to the Done_clicked function 
+
+	//this appears only once to get the recipe name... but I'm struggling to transfer the input to the Done_clicked function
 	if (counter == 0) {
 	recipe_name_label.set_text("Enter recipe name:");
 	box.pack_start(recipe_name_label);
@@ -1082,10 +1093,10 @@ Add_window::Add_window( File N1, int hold_index, string meal_type_p) :box(Gtk::O
 	amount_entry.set_text("amount");
 	amount_entry.select_region(0, amount_entry.get_text_length());
 	box.pack_start(amount_entry);
-	
+
 	unit_label.set_text ("Enter unit:");
 	box.pack_start (unit_label);
-	
+
 	unit_entry.set_max_length(50);
 	unit_entry.set_text("unit");
 	unit_entry.select_region(0, unit_entry.get_text_length());
@@ -1093,7 +1104,7 @@ Add_window::Add_window( File N1, int hold_index, string meal_type_p) :box(Gtk::O
 
 	ingredient_name_label.set_text ("Enter ingredient name");
 	box.pack_start (ingredient_name_label);
-	
+
 	ingredient_name_entry.set_max_length(50);
 	ingredient_name_entry.set_text("ingredient name");
 	ingredient_name_entry.select_region(0, ingredient_name_entry.get_text_length());
@@ -1115,10 +1126,10 @@ void Add_window::Cancel_clicked()
 
 
 static string ingredients;
-static int c = 0 ; 
+static int c = 0 ;
 
 
-//Done function 
+//Done function
 void Add_window::Done_clicked()
 {
    string amount_input = amount_entry.get_text();
@@ -1136,36 +1147,36 @@ void Add_window::Done_clicked()
   double amount = atof(amm);
   	tempI.push_back(ingredient(amount,unit_input,ingredient_input));
 
-}	
-   Recipe R (rep_name,tempI,numI); 
+}
+   Recipe R (rep_name,tempI,numI);
    this->R =R;
-	 tempI.clear(); 
+	 tempI.clear();
    if(meal_type.compare("Breakfast")==0)
-   {	N1.Nationality[hold_index].breakfast.push_back(R); 
+   {	N1.Nationality[hold_index].breakfast.push_back(R);
    	N1.Nationality[hold_index].Brep_num++;
    }
    else if(meal_type.compare("Lunch")==0)
-   {	
-	   N1.Nationality[hold_index].lunch.push_back(R); 
+   {
+	   N1.Nationality[hold_index].lunch.push_back(R);
    	   N1.Nationality[hold_index].Lrep_num++;
    }
    else if(meal_type.compare("Dinner")==0)
    {
-	   N1.Nationality[hold_index].lunch.push_back(R); 
+	   N1.Nationality[hold_index].lunch.push_back(R);
    	   N1.Nationality[hold_index].Drep_num++;
-   
+
    }
    else if(meal_type.compare("Snack")==0)
-   {	
-	   N1.Nationality[hold_index].snack.push_back(R); 
+   {
+	   N1.Nationality[hold_index].snack.push_back(R);
    	   N1.Nationality[hold_index].Srep_num++;
-   
+
    }else if(meal_type.compare("Dessert")==0)
-   {	
-	   N1.Nationality[hold_index].dessert.push_back(R); 
+   {
+	   N1.Nationality[hold_index].dessert.push_back(R);
    	   N1.Nationality[hold_index].Erep_num++;
    }
-    ingredients  += amount_input +" " + unit_input + " " + ingredient_input  +",";  // add the ingredient in the recipe 
+    ingredients  += amount_input +" " + unit_input + " " + ingredient_input  +",";  // add the ingredient in the recipe
     cout << ingredients.substr(0 , ingredients.length() -1) << endl;
     hide ();
 	    rep_name = "Recipe name: " + rep_name;
@@ -1177,12 +1188,12 @@ void Add_window::Done_clicked()
     counter = 0;
     Menuwindow m;
     m.get_writeFileFunction(N1);
-    dialog.hide(); 
+    dialog.hide();
     Gtk::Main::run(m);
 
 
 
-    
+
 }
 
 void Add_window::Add_clicked(Glib::ustring nationality_p, Glib::ustring meal_type_p)
@@ -1198,9 +1209,9 @@ void Add_window::Add_clicked(Glib::ustring nationality_p, Glib::ustring meal_typ
   double amount = atof(amm);
   	tempI.push_back(ingredient(amount,unit_input,ingredient_input));
 
-  ingredients  += amount_input +" " + unit_input + " " + ingredient_input  +","; // adding recipe ingredients 
+  ingredients  += amount_input +" " + unit_input + " " + ingredient_input  +","; // adding recipe ingredients
     cout << rep_name << endl;
- numI++; 
+ numI++;
   hide();
   Add_window a( N1,  hold_index, meal_type_p);
   Gtk::Main::run(a);
