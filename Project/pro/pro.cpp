@@ -501,9 +501,12 @@ void Menuwindow::case2_clicked()
         repNames=repNames+N1.Nationality[natRand].snack[recipeRandSnack].recipe_name+",";
         repNames=repNames+N1.Nationality[natRand].dessert[recipeRandDessert].recipe_name+"\n";
 
+
         //get ingredients for each & build list string for list window
         while (b < N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr.size())
         {
+            strs.clear();
+            strs.str("");
             strs<<N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr[b].quantity;
             string temp = strs.str();
             listWrite=listWrite+temp+" "+ N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr[b].unit+" "+ N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr[b].name+"\n";
@@ -554,7 +557,9 @@ void Menuwindow::case2_clicked()
             b++;
 
         }
-        List_window(repNames,listWrite,1);
+        strs.clear();
+        strs.str("");
+        //List_window(repNames,listWrite,1);
 	}
 	else
 	{
