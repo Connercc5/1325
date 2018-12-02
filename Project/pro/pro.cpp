@@ -584,6 +584,11 @@ void Menuwindow::case2_clicked()
 
 }
 
+void Menuwindow::case3_clicked() {
+	Gtk::MessageDialog dialog(*this,"Choose old shopping list",false,Gtk::MESSAGE_INFO);
+	dialog.set_secondary_text("Please look in saved folder list");
+	dialog.run();
+}
 
 
 void Menuwindow::case4_clicked() {
