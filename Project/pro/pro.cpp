@@ -1168,9 +1168,11 @@ void Add_window::Done_clicked()
     ingredients  += amount_input +" " + unit_input + " " + ingredient_input  +",";  // add the ingredient in the recipe 
     cout << ingredients.substr(0 , ingredients.length() -1) << endl;
     hide ();
+	    rep_name = "Recipe name: " + rep_name;
     Gtk::MessageDialog dialog(*this,rep_name,false,Gtk::MESSAGE_INFO);
     dialog.set_secondary_text(ingredients.substr(0 , ingredients.length() -1));
     dialog.run();
+	rep_name = "";
     ingredients ="";
     counter = 0;
     Menuwindow m;
