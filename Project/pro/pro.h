@@ -239,5 +239,35 @@ protected:
 	
 }; 
 
+class Add_window:public Gtk::Window
+{
+public: 
+	Add_window (File N1, string nationality_p, string meal_type_p);
+	virtual ~ Add_window (); 
+	string recipe; 
+	int hold_index; 
+	File N1; 
+
+protected: 
+	
+	Gtk::Label recipe_name_label; 
+	Gtk::Label ingredient_name_label;
+	Gtk::Label amount_label; 
+	Gtk::Label unit_label;
+	Gtk::Button Add_button; 
+	Gtk::Button Done_button;
+	Gtk::Button Cancel_button; 
+	Gtk::Entry ingredient_name_entry;
+	Gtk::Entry amount_entry; 
+	Gtk::Entry unit_entry;
+	Gtk::Entry recipe_name_entry;
+	Gtk::Box box; 
+	friend class Plan; 
+	friend class Menuwindow; 
+	void Cancel_clicked();
+	void Add_clicked(Glib::ustring n, Glib::ustring m);
+	void Done_clicked();
+}; 
+
 
 #endif
