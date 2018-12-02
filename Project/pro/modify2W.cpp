@@ -119,7 +119,7 @@ void Modify2_window::enter_clicked(string type)
                 {
                         ShoppingList s (Chosen_recipes);
                         Chosen_recipes.clear();
-                        List_window f (s.Rep_names,s.List);             
+                        List_window f (s.Rep_names,s.List,0);             
                         Gtk::Main::run(f);
 
 

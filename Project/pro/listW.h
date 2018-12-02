@@ -12,7 +12,6 @@ using namespace std;
 class List_window:public Gtk::Window
 {
         public:
-        List_window(string Rep_names,string List);
         List_window(string Rep_names,string List,int random);
         virtual~List_window();
         protected:
