@@ -114,8 +114,8 @@ void Modify2_window::enter_clicked(string type)
                 
                 
                 
-                //      if((day==6)&&(time==4))//THIS IS FOR GETTING THE LABELS FOR THE FINAL SHOPPING LIST WINDOW
-                if((day==0)&&(time==4))//this is here because i am testing code
+                if((day==6)&&(time==4))//THIS IS FOR GETTING THE LABELS FOR THE FINAL SHOPPING LIST WINDOW
+                //if((day==0)&&(time==4))//this is here because i am testing code
                 {
                         ShoppingList s (Chosen_recipes);
                         Chosen_recipes.clear();
