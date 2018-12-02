@@ -480,85 +480,102 @@ void Menuwindow::case2_clicked()
 	}
 	else if (choice == 1)
 	{
-		//RANDOM YES
+				//RANDOM YES
 		string listWrite;
 		string repNames;
+		vector<string> days;
+		days.push_back("Monday");
+		days.push_back("Tuesday");
+		days.push_back("Wednesday");
+		days.push_back("Thursday");
+		days.push_back("Friday");
+		days.push_back("Saturday");
+		days.push_back("Sunday");
 		int b=0;
         ostringstream strs;
-		//random nationality, stays static though random
-        int natRand=rand()%N1.Nationality.size();
-
-        //random recipies from 0 to the size of breakfast
-        int recipeRandBreakfast=rand()%N1.Nationality[natRand].breakfast.size();
-        int recipeRandLunch=rand()%N1.Nationality[natRand].lunch.size();
-        int recipeRandDinner=rand()%N1.Nationality[natRand].dinner.size();
-        int recipeRandSnack=rand()%N1.Nationality[natRand].snack.size();
-        int recipeRandDessert=rand()%N1.Nationality[natRand].dessert.size();
-        //building recipe names string for list window
-        repNames=repNames+N1.Nationality[natRand].breakfast[recipeRandBreakfast].recipe_name+",";
-        repNames=repNames+N1.Nationality[natRand].lunch[recipeRandLunch].recipe_name+",";
-        repNames=repNames+N1.Nationality[natRand].dinner[recipeRandDinner].recipe_name+",";
-        repNames=repNames+N1.Nationality[natRand].snack[recipeRandSnack].recipe_name+",";
-        repNames=repNames+N1.Nationality[natRand].dessert[recipeRandDessert].recipe_name+"\n";
-
-
-        //get ingredients for each & build list string for list window
-        while (b < N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr.size())
+        int i=0;
+        while(i<days.size())
         {
+
+
+            //random nationality, stays static though random
+            int natRand=rand()%N1.Nationality.size();
+
+            //random recipies from 0 to the size of breakfast
+            int recipeRandBreakfast=rand()%N1.Nationality[natRand].breakfast.size();
+            int recipeRandLunch=rand()%N1.Nationality[natRand].lunch.size();
+            int recipeRandDinner=rand()%N1.Nationality[natRand].dinner.size();
+            int recipeRandSnack=rand()%N1.Nationality[natRand].snack.size();
+            int recipeRandDessert=rand()%N1.Nationality[natRand].dessert.size();
+            //building recipe names string for list window
+            repNames=repNames+days.at(i)+": ";
+            repNames=repNames+N1.Nationality[natRand].breakfast[recipeRandBreakfast].recipe_name+", ";
+            repNames=repNames+N1.Nationality[natRand].lunch[recipeRandLunch].recipe_name+", ";
+            repNames=repNames+N1.Nationality[natRand].dinner[recipeRandDinner].recipe_name+", ";
+            repNames=repNames+N1.Nationality[natRand].snack[recipeRandSnack].recipe_name+", ";
+            repNames=repNames+N1.Nationality[natRand].dessert[recipeRandDessert].recipe_name+"\n";
+
+
+            //get ingredients for each & build list string for list window
+            while (b < N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr.size())
+            {
+                strs.clear();
+                strs.str("");
+                strs<<N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr[b].quantity;
+                string temp = strs.str();
+                listWrite=listWrite+temp+" "+ N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr[b].unit+" "+ N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr[b].name+"\n";
+                b++;
+
+            }
+            b=0;
+            while (b < N1.Nationality[natRand].lunch[recipeRandLunch].ingr.size())
+            {
+                strs.clear();
+                strs.str("");
+                strs<<N1.Nationality[natRand].lunch[recipeRandLunch].ingr[b].quantity;
+                string temp = strs.str();
+                listWrite=listWrite+temp+" "+ N1.Nationality[natRand].lunch[recipeRandLunch].ingr[b].unit+" "+ N1.Nationality[natRand].lunch[recipeRandLunch].ingr[b].name+"\n";
+                b++;
+
+            }
+            b=0;
+            while (b < N1.Nationality[natRand].dinner[recipeRandDinner].ingr.size())
+            {
+                strs.clear();
+                strs.str("");
+                strs<<N1.Nationality[natRand].dinner[recipeRandDinner].ingr[b].quantity;
+                string temp = strs.str();
+                listWrite=listWrite+temp+" "+ N1.Nationality[natRand].dinner[recipeRandDinner].ingr[b].unit+" "+ N1.Nationality[natRand].dinner[recipeRandDinner].ingr[b].name+"\n";
+                b++;
+
+            }
+            b=0;
+            while (b < N1.Nationality[natRand].snack[recipeRandSnack].ingr.size())
+            {
+                strs.clear();
+                strs.str("");
+                strs<<N1.Nationality[natRand].snack[recipeRandSnack].ingr[b].quantity;
+                string temp = strs.str();
+                listWrite=listWrite+temp+" "+ N1.Nationality[natRand].snack[recipeRandSnack].ingr[b].unit+" "+ N1.Nationality[natRand].snack[recipeRandSnack].ingr[b].name+"\n";
+                b++;
+
+            }
+            b=0;
+            while (b < N1.Nationality[natRand].dessert[recipeRandDessert].ingr.size())
+            {
+                strs.clear();
+                strs.str("");
+                strs<<N1.Nationality[natRand].dessert[recipeRandDessert].ingr[b].quantity;
+                string temp = strs.str();
+                listWrite=listWrite+temp+" "+ N1.Nationality[natRand].dessert[recipeRandDessert].ingr[b].unit+" "+ N1.Nationality[natRand].dessert[recipeRandDessert].ingr[b].name+"\n";
+                b++;
+
+            }
             strs.clear();
             strs.str("");
-            strs<<N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr[b].quantity;
-            string temp = strs.str();
-            listWrite=listWrite+temp+" "+ N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr[b].unit+" "+ N1.Nationality[natRand].breakfast[recipeRandBreakfast].ingr[b].name+"\n";
-            b++;
-
+            i++;
         }
-        b=0;
-        while (b < N1.Nationality[natRand].lunch[recipeRandLunch].ingr.size())
-        {
-            strs.clear();
-            strs.str("");
-            strs<<N1.Nationality[natRand].lunch[recipeRandLunch].ingr[b].quantity;
-            string temp = strs.str();
-            listWrite=listWrite+temp+" "+ N1.Nationality[natRand].lunch[recipeRandLunch].ingr[b].unit+" "+ N1.Nationality[natRand].lunch[recipeRandLunch].ingr[b].name+"\n";
-            b++;
 
-        }
-        b=0;
-        while (b < N1.Nationality[natRand].dinner[recipeRandDinner].ingr.size())
-        {
-            strs.clear();
-            strs.str("");
-            strs<<N1.Nationality[natRand].dinner[recipeRandDinner].ingr[b].quantity;
-            string temp = strs.str();
-            listWrite=listWrite+temp+" "+ N1.Nationality[natRand].dinner[recipeRandDinner].ingr[b].unit+" "+ N1.Nationality[natRand].dinner[recipeRandDinner].ingr[b].name+"\n";
-            b++;
-
-        }
-        b=0;
-        while (b < N1.Nationality[natRand].snack[recipeRandSnack].ingr.size())
-        {
-            strs.clear();
-            strs.str("");
-            strs<<N1.Nationality[natRand].snack[recipeRandSnack].ingr[b].quantity;
-            string temp = strs.str();
-            listWrite=listWrite+temp+" "+ N1.Nationality[natRand].snack[recipeRandSnack].ingr[b].unit+" "+ N1.Nationality[natRand].snack[recipeRandSnack].ingr[b].name+"\n";
-            b++;
-
-        }
-        b=0;
-        while (b < N1.Nationality[natRand].dessert[recipeRandDessert].ingr.size())
-        {
-            strs.clear();
-            strs.str("");
-            strs<<N1.Nationality[natRand].dessert[recipeRandDessert].ingr[b].quantity;
-            string temp = strs.str();
-            listWrite=listWrite+temp+" "+ N1.Nationality[natRand].dessert[recipeRandDessert].ingr[b].unit+" "+ N1.Nationality[natRand].dessert[recipeRandDessert].ingr[b].name+"\n";
-            b++;
-
-        }
-        strs.clear();
-        strs.str("");
         List_window(repNames,listWrite,1);
 	}
 	else
