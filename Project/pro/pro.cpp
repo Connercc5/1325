@@ -675,8 +675,8 @@ void Modify_window::Nationality(File N1) {
       Gtk::MessageDialog dialog (*this, "Wrong input, try again", false, Gtk::MESSAGE_INFO);
       dialog.run();
       //just added this
-	Menuwindow w;
-	Gtk::Main::run(w);
+	//Menuwindow w;
+	//Gtk::Main::run(w);
    }
 
 
