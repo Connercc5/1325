@@ -11,11 +11,8 @@ class Mealplan
 {
 	public:
 	vector <Days> daysList;
-	Mealplan();//if they entered yes or no	
-	void combine_ingredents();
+	Mealplan();
 	void add_mealplan();
-	void modify_mealplan();
-	void delete_mealplan();
 
 
 };

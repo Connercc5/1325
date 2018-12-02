@@ -1,6 +1,7 @@
 #include<algorithm>
 #include<stdlib.h>
-//#include"ingredient.h"
+#include<iomanip>
+#include<sstream>
 #include"recipe.h"
 #include"mealplan.h"
 #include"days.h"
@@ -14,7 +15,6 @@ Recipe::Recipe(string recipe_name, vector <ingredient> ingr, int num_of_ingredie
 
 Recipe::Recipe(){}
 //I AM USING THIS CONSTRUCTOR TO CREATE THE TEXT FOR THE LABELS ON THE SHOPPING LIST WINDOW
-//ShoppingList::ShoppingList(vector <Recipe> Chosen_reps,Mealplan m)
 ShoppingList::ShoppingList(vector <Recipe> Chosen_reps)
 {
 	vector<ingredient> tempList;
@@ -37,7 +37,7 @@ ShoppingList::ShoppingList(vector <Recipe> Chosen_reps)
 		
 	int x=0;
 	u=0;	
-
+	//sorting all the choosen recipes to the days  and meal types they where chosen for 
 	while (h<=Chosen_reps.size())
 	{
 		if(k==0)
@@ -103,7 +103,6 @@ u=0;
 		int ingre=0;
 		while (ingre <Chosen_reps[h].ingr.size())
 		{
-		//IM PRETTY SURE THAT THE BUG IN THE SHOPPING WINDOW INGREDIENT COMBINATION IS HERE	
 			if(ingre==0&& h==0)
 			{	
 				I=Chosen_reps[h].ingr[ingre];
@@ -137,9 +136,13 @@ u=0;
 		h++;
 	}
 	h=0;
+	//format ingredient List label
 	while (h<tempList.size())
 	{
-		List+=to_string(tempList[h].quantity);
+		
+		stringstream s;
+		s <<fixed<<setprecision(2)<<tempList[h].quantity;
+		List+=s.str();
 		List+=" ";
 		if(tempList[h].unit.compare("NONE")!=0)
 		{

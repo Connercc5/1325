@@ -12,12 +12,9 @@ Mealplan::Mealplan()
 }
 
 
-void Mealplan::combine_ingredents()
-{
 
 
 
-}
 void Mealplan::add_mealplan()
 {
 	string name;
@@ -43,17 +40,9 @@ void Mealplan::add_mealplan()
 
 
 }
-void Mealplan::modify_mealplan()
-{
 
 
 
 
-}
-void Mealplan::delete_mealplan()
-{
 
 
-
-
-}

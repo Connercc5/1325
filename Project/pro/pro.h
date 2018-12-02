@@ -15,7 +15,7 @@ using namespace std;
 
 
 
-
+//used in option 2
 class List_window:public Gtk::Window
 {
 	public:
@@ -39,7 +39,8 @@ class List_window:public Gtk::Window
 
 
 class Menuwindow : public Gtk::Window
-{ //START:FUNCTIONS THAT ARE USED FOR FILE INTERACTIONS
+{ 
+	//START:FUNCTIONS THAT ARE USED FOR ALLFILE.TXT INTERACTION
 
 	static void File_write(File N1);
 	static void get_blank(char*token);
@@ -47,10 +48,10 @@ class Menuwindow : public Gtk::Window
 	static File File_read(File N1);
 	static File N1;
 
-	//END:FUNCTIONS THAT ARE USED FOR FILE INTERACTIONS*/
+	//END:FUNCTIONS THAT ARE USED FOR ALLFILE.TXT INTERACTION
 
 public:
-	void get_w(File N1);
+	void get_writeFileFunction(File N1);
 	Menuwindow();
 	virtual ~Menuwindow();
 protected:
@@ -67,7 +68,7 @@ protected:
 	Gtk::Box box;
 
 };
-
+//used in option 2
 class EnterRecipe_window :public Gtk::Window//ER
 {
 public:
@@ -87,6 +88,7 @@ protected:
 
 
 };
+//used in option 2
 class Modify2_window : public Gtk::Window {//Used for create shopping option
 
 	static int y;
@@ -111,7 +113,7 @@ class Modify2_window : public Gtk::Window {//Used for create shopping option
 	void enter_clicked(string type);
 
 	void warning();//entered something that was not an option
-	 Gtk::Label label;
+	Gtk::Label label;
         Gtk::Label labels;
         Gtk::Label time_label;
         Gtk::Button cancel;
@@ -157,13 +159,6 @@ protected:
 	Gtk::Button back_button;
 	Gtk::Box box;
 	friend class Plan;
-};
-
-
-class Recipe_Info {
-public:
-	string food_type, recipe_name, recipe;
-	Recipe_Info(string food_type_p, string recipe_name_p, string recipe_p);
 };
 
 
