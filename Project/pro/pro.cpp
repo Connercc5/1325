@@ -1164,8 +1164,9 @@ void Add_window::Done_clicked()
 
 }
    Recipe R (rep_name,tempI,numI);
+cout<<meal_type<<endl;
    this->R =R;
-	 tempI.clear();
+
    if(meal_type.compare("Breakfast")==0)
    {	N1.Nationality[hold_index].breakfast.push_back(R);
    	N1.Nationality[hold_index].Brep_num++;
@@ -1177,7 +1178,7 @@ void Add_window::Done_clicked()
    }
    else if(meal_type.compare("Dinner")==0)
    {
-	   N1.Nationality[hold_index].lunch.push_back(R);
+	   N1.Nationality[hold_index].dinner.push_back(R);
    	   N1.Nationality[hold_index].Drep_num++;
 
    }
@@ -1201,6 +1202,7 @@ void Add_window::Done_clicked()
 	rep_name = "";
     ingredients ="";
     counter = 0;
+	 tempI.clear();
     Menuwindow m;
     m.get_writeFileFunction(N1);
     dialog.hide();
