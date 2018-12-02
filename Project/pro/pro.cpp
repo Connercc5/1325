@@ -1116,10 +1116,22 @@ static int c = 0 ;
 //Done function 
 void Add_window::Done_clicked()
 {
- 
-    string amount_input = amount_entry.get_text();
+   string amount_input = amount_entry.get_text();
     string unit_input = unit_entry.get_text();
     string ingredient_input = ingredient_name_entry.get_text();
+
+	if(numI ==0)
+{
+	string recipe_name = recipe_name_entry.get_text();
+	numI++;
+	rep_name=recipe_name;
+	 int goo=amount_input.length();
+        char amm[goo];
+        strcpy(amm,amount_input.c_str());
+  double amount = atof(amm);
+  	tempI.push_back(ingredient(amount,unit_input,ingredient_input));
+
+}	
    Recipe R (rep_name,tempI,numI); 
    this->R =R;
 	 tempI.clear(); 
