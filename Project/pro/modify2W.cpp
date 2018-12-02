@@ -40,8 +40,8 @@ Modify2_window::Modify2_window(File N1, int day, int time) :box(Gtk::ORIENTATION
         label.set_text(m.daysList[day].name);
 
         nationality_entry.set_max_length(50);
-        nationality_entry.set_text("Enter nationality");
-        //nationality_entry.set_text("Mexican");//just using this to test program
+        //nationality_entry.set_text("Enter nationality");
+        nationality_entry.set_text("Mexican");//just using this to test program
         nationality_entry.select_region(0, nationality_entry.get_text_length());
         box.pack_start(nationality_entry);
         time_label.set_text(tim[time]+" Recipe");

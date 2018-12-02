@@ -61,7 +61,6 @@ ShoppingList::ShoppingList(vector <Recipe> Chosen_reps)
 				m.daysList[u].dinner=d;
 				m.daysList[u].snack=s;
 				m.daysList[u].dessert=e;
-				cout<<m.daysList.size()<<endl;
 				x=-1;
 				if(h==Chosen_reps.size())
 					k=10;

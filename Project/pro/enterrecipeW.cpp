@@ -98,7 +98,8 @@ EnterRecipe_window::EnterRecipe_window(Mealplan m, File N1, string NationalityNa
 
 
         recipe_name_label.set_text(recipe_names);
-        entry.set_text("Enter Recipe Name:");//this is just here so i can test the code
+        entry.set_text("Enter Recipe Name:");
+        entry.set_text("Flan");//this is just here so i can test the code
         box.pack_start(recipe_name_label);
         box.pack_start(entry);
         box.pack_start(enter);
