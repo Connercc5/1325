@@ -1031,6 +1031,8 @@ Add_window::~Add_window()
 
 
 static int counter = 0;
+
+//when user click the add button 
 Add_window::Add_window( File N1, string nationality_p, string meal_type_p) :box(Gtk::ORIENTATION_VERTICAL), Add_button("Add"),Cancel_button("Cancel"), Done_button ("Done")
 {
 
@@ -1040,6 +1042,8 @@ Add_window::Add_window( File N1, string nationality_p, string meal_type_p) :box(
 	set_size_request(300, 300);
 
 	add(box);
+	
+	//this appears only once to get the recipe name... but I'm struggling to transfer the input to the Done_clicked function 
 	if (counter == 0) {
 	recipe_name_label.set_text("Enter recipe name:");
 	box.pack_start(recipe_name_label);
@@ -1095,6 +1099,8 @@ void Add_window::Cancel_clicked()
 static string ingredients;
 static int c = 0 ; 
 
+
+//Done function 
 void Add_window::Done_clicked()
 {
  
@@ -1103,7 +1109,7 @@ void Add_window::Done_clicked()
     string recipe_name = recipe_name_entry.get_text();
     string ingredient_input = ingredient_name_entry.get_text();
 
-    ingredients  += amount_input +" " + unit_input + " " + ingredient_input  +","; 
+    ingredients  += amount_input +" " + unit_input + " " + ingredient_input  +",";  // add the ingredient in the recipe 
     cout << recipe_name<< endl;
     cout << ingredients.substr(0 , ingredients.length() -1) << endl;
     hide ();
@@ -1127,10 +1133,9 @@ void Add_window::Add_clicked(Glib::ustring nationality_p, Glib::ustring meal_typ
   string amount_input = amount_entry.get_text();
   string unit_input = unit_entry.get_text();
   string ingredient_input = ingredient_name_entry.get_text();
-  ingredients  += amount_input +" " + unit_input + " " + ingredient_input  +","; 
+  ingredients  += amount_input +" " + unit_input + " " + ingredient_input  +","; // adding recipe ingredients 
   //  cout << ingredients << endl;
   hide();
-  counter++;
   Add_window a( N1,  nationality_p, meal_type_p);
   Gtk::Main::run(a);
   
