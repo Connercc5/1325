@@ -1179,9 +1179,9 @@ void Add_window::Done_clicked()
 }
 
 void Add_window::Add_clicked(Glib::ustring nationality_p, Glib::ustring meal_type_p)
-{  string recipe_name = recipe_name_entry.get_text();
+{
   if(numI==0)
-	  this->rep_name=recipe_name;
+	  this-> rep_name = recipe_name_entry.get_text();
   string amount_input = amount_entry.get_text();
   string unit_input = unit_entry.get_text();
   string ingredient_input = ingredient_name_entry.get_text();
@@ -1192,11 +1192,12 @@ void Add_window::Add_clicked(Glib::ustring nationality_p, Glib::ustring meal_typ
   	tempI.push_back(ingredient(amount,unit_input,ingredient_input));
 
   ingredients  += amount_input +" " + unit_input + " " + ingredient_input  +","; // adding recipe ingredients 
-  //  cout << ingredients << endl;
+    cout << rep_name << endl;
+ numI++; 
   hide();
   Add_window a( N1,  hold_index, meal_type_p);
   Gtk::Main::run(a);
-  
+
 }
 
 
