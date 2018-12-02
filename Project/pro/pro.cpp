@@ -559,7 +559,7 @@ void Menuwindow::case2_clicked()
         }
         strs.clear();
         strs.str("");
-        List_window(repNames,listWrite,1);
+        //List_window(repNames,listWrite,1);
 	}
 	else
 	{
