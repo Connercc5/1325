@@ -156,12 +156,16 @@ protected:
 class Add_window:public Gtk::Window
 {
 public: 
-	Add_window (File N1, string nationality_p, string meal_type_p);
+	Add_window (File N1,int hold_index, string meal_type_p);
 	virtual ~ Add_window (); 
 	string recipe; 
+	static string rep_name;
 	int hold_index; 
-	File N1; 
-
+	File N1;
+       	string meal_type;
+	static int numI;//num of ingredients added	
+	static vector <ingredient> tempI;
+	static Recipe R;
 protected: 
 	
 	Gtk::Label recipe_name_label; 
